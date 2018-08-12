@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/home"
+        android:title="Home" />
+
+    <item
+        android:id="@+id/nav_cash"
+        android:icon="@drawable/ic_cash"
+        android:title="Cashout" />
+
+
+    <item
+        android:id="@+id/nav_ban"
+        android:icon="@drawable/ic_ad"
+        android:title="Banners" />
+
+    <item
+        android:id="@+id/nav_history"
+        android:icon="@drawable/his"
+        android:title="History" />
+    <item
+        android:id="@+id/nav_refer"
+        android:icon="@drawable/share"
+        android:title="Refer" />
+
+
+</menu>

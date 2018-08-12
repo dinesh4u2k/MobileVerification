@@ -1,12 +1,18 @@
 package com.example.kavi.mobileverification;
 
+import android.*;
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -20,6 +26,24 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        if (ContextCompat.checkSelfPermission(Login.this,
+                android.Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(Login.this,
+                    android.Manifest.permission.READ_PHONE_STATE)){
+                ActivityCompat.requestPermissions(Login.this, new String[]{
+                        android.Manifest.permission.READ_PHONE_STATE}, 1);
+
+            } else {
+
+                ActivityCompat.requestPermissions(Login.this, new String[]{
+                        android.Manifest.permission.READ_PHONE_STATE}, 1);
+
+            }
+        } else {
+
+        }
+
 
         spinner = (Spinner) findViewById(R.id.spinnercountries);
         editText = (EditText) findViewById(R.id.no);
@@ -50,6 +74,23 @@ public class Login extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                if (grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (ContextCompat.checkSelfPermission(Login.this,
+                            Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+                        Toast.makeText(this, "permission Granted", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this, "No permission Granted", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+        }
     }
 
     @Override

@@ -1,3 +1,16 @@
 <resources>
-    <string name="app_name">MobileVerification</string>
+    <string name="app_name">Adkoin</string>
+
+
+    <string name="title_home">Cashout</string>
+    <string name="tite_bal">Balance</string>
+    <string name="ad">Ad</string>
+    <string name="more">More</string>
+    <string name="quote">Earn All Communication Coins!!</string>
+    <string name="c_name">SISROC</string>
+    <string name="title">DigiCash</string>
+    <string name="policy">By creating an account you agree to the coinbase Terms of Service and Privacy Policy</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

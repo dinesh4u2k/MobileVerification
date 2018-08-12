@@ -3,4 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="basic_blue">#4FC3F7</color>
+    <color name="bg_blue">#5C6BC0</color>
+    <color name="bg">#EEEEEE</color>
+    <color name="bt_nv_color">#000000</color>
+
 </resources>

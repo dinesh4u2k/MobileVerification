@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Cashout">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="17dp"
+            android:background="@drawable/app_ic" />
+
+        <TextView
+            android:id="@+id/c_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/logo"
+            android:layout_toEndOf="@+id/logo"
+            android:text="@string/title"
+            android:textColor="@color/bt_nv_color"
+            android:textSize="25dp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/cashout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/logo"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="14dp"
+            android:text="Cash Out"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/cash_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cashout"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/ic_cash" />
+
+        <TextView
+            android:id="@+id/ava_cash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/cashout"
+            android:layout_below="@+id/cash_img"
+            android:layout_marginTop="33dp"
+            android:text="Available Cash : "
+            android:textSize="25dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/cash_amo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/ava_cash"
+            android:layout_alignBottom="@+id/ava_cash"
+            android:layout_toEndOf="@+id/ava_cash"
+            android:text=" ₹ 100"
+            android:textSize="25dp"
+            android:textStyle="bold" />
+
+        <Button
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cash_amo"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/button"
+            android:text="Transfer to Wallet" />
+    </RelativeLayout>
+
+
+</FrameLayout>

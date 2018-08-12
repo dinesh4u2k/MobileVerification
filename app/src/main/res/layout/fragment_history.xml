@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Cashout">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="17dp"
+            android:background="@drawable/app_ic" />
+
+        <TextView
+            android:id="@+id/c_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/logo"
+            android:layout_toEndOf="@+id/logo"
+            android:text="@string/title"
+            android:textColor="@color/bt_nv_color"
+            android:textSize="25dp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/history"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/logo"
+            android:layout_centerHorizontal="true"
+            android:text="History"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+
+
+
+
+        <LinearLayout
+
+            android:id="@+id/lLayout1"
+            android:layout_marginTop="100dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/border3"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="S.no"
+                android:textStyle="bold"
+                android:textSize="14dp" />
+
+            <TextView
+                android:layout_width = "0dp"
+                android:layout_height = "wrap_content"
+                android:layout_weight = "1.5"
+                android:gravity = "center"
+                android:padding = "5dp"
+                android:text = "Amount"
+                android:textStyle="bold"
+                android:background="@drawable/border3"/>
+
+            <TextView
+                android:layout_width = "0dp"
+                android:layout_height = "wrap_content"
+                android:layout_weight = "1.4"
+                android:gravity = "center"
+                android:padding = "5dp"
+                android:text = "Date"
+                android:textStyle="bold"
+                android:background="@drawable/border3"/>
+
+            <TextView
+                android:layout_width = "0dp"
+                android:layout_height = "wrap_content"
+                android:layout_weight = "1"
+                android:gravity = "center"
+                android:padding = "5dp"
+                android:text = "Status"
+                android:textStyle="bold"
+                android:background="@drawable/border3" />
+        </LinearLayout>
+
+
+
+        <ListView
+            android:layout_below="@id/lLayout1"
+            android:id = "@+id/listview"
+            android:layout_width = "match_parent"
+            android:layout_height = "wrap_content"
+            android:divider = "@null"/>
+    </RelativeLayout>
+
+</FrameLayout>
