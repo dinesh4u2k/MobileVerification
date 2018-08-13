@@ -28,7 +28,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true" />
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true" />
 
 
         <android.support.design.widget.BottomNavigationView
@@ -43,7 +44,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            design:menu="@menu/menu_nav" />
+            design:menu="@menu/menu_nav"
+            android:layout_alignParentLeft="true" />
 
 
         <Button
@@ -57,7 +59,9 @@
             android:background="@color/colorPrimaryDark"
             android:text="Logout"
             android:textAllCaps="false"
-            android:textColor="#cdd8f1" />
+            android:textColor="#cdd8f1"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="21dp" />
 
 
     </RelativeLayout>

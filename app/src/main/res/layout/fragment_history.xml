@@ -19,7 +19,8 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginTop="17dp"
-            android:background="@drawable/app_ic" />
+            android:background="@drawable/app_ic"
+            android:layout_alignParentLeft="true" />
 
         <TextView
             android:id="@+id/c_name"
@@ -30,7 +31,8 @@
             android:text="@string/title"
             android:textColor="@color/bt_nv_color"
             android:textSize="25dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_toRightOf="@+id/logo" />
 
 
         <TextView

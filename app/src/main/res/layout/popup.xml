@@ -23,7 +23,8 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:src="@drawable/close"
-        android:text="X" />
+        android:text="X"
+        android:layout_alignParentRight="true" />
 
 
 </RelativeLayout>
