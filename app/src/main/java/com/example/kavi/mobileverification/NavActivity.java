@@ -1,25 +1,43 @@
 package com.example.kavi.mobileverification;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.apollographql.apollo.ApolloCall;
+import com.apollographql.apollo.ApolloClient;
+import com.apollographql.apollo.api.Response;
+import com.apollographql.apollo.api.cache.http.HttpCachePolicy;
+import com.apollographql.apollo.cache.http.ApolloHttpCache;
+import com.apollographql.apollo.cache.http.DiskLruHttpCacheStore;
+import com.apollographql.apollo.exception.ApolloException;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.io.File;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+
+import okhttp3.OkHttpClient;
 
 public class NavActivity extends AppCompatActivity
         implements Home.OnFragmentInteractionListener, Refer.OnFragmentInteractionListener, History.OnFragmentInteractionListener {
 
     private Button logoutbtn;
-
+    public ApolloClient apolloClient;
 
     private BottomNavigationView mMainNav;
     private FrameLayout mMainFrame;
@@ -34,11 +52,41 @@ public class NavActivity extends AppCompatActivity
 
     boolean mpressedonce = false;
 
+    public int Listsize = 0;
+
+  //  String pmobileno,puserid;
+
+    Integer pwallet;
+
+  // final String phonenumber2 ="89898989892";
+
+    final Integer wallet =0;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav);
+
+        SharedPreferences sp = getSharedPreferences("Login", Context.MODE_PRIVATE);
+
+
+
+        final String phonenumber1 = sp.getString("mobile",null);
+
+        final String username = sp.getString("username",null);
+
+
+
+
+
+        callQuery(phonenumber1,username);
+
+//        postMutation(wallet,phonenumber2,username);
+
+
 
         logoutbtn = (Button) findViewById(R.id.logout);
 
@@ -116,6 +164,157 @@ public class NavActivity extends AppCompatActivity
 
     }
 
+
+    void callQuery(final String mobno,final String user) {
+
+//        final String phonenumber1 = getIntent().getStringExtra("phonenumber1");
+//
+//        final String username = getIntent().getStringExtra("username");
+
+        File file = new File(this.getCacheDir().toURI());
+        //Size in bytes of the cache
+        int size = 1024*1024;
+
+        //Create the http response cache store
+        DiskLruHttpCacheStore cacheStore = new DiskLruHttpCacheStore(file, size);
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .build();
+
+        apolloClient = ApolloClient.builder()
+                .serverUrl("https://digicashserver.herokuapp.com/graphql")
+                .httpCache(new ApolloHttpCache(cacheStore))
+                .okHttpClient(okHttpClient)
+                .build();
+
+
+
+//        callQuery();
+
+        // setUpClient("https://digicashserver.herokuapp.com/graphql");
+
+//        PersondetailsQuery persondetailsQuery = PersondetailsQuery.builder()
+//                .build();
+
+
+        apolloClient
+                .query(PersondetailsQuery.builder().mobileno(mobno).build())
+                .httpCachePolicy(HttpCachePolicy.NETWORK_ONLY)
+                .enqueue(new ApolloCall.Callback<PersondetailsQuery.Data>() {
+                    @Override
+                    public void onResponse(@Nonnull Response<PersondetailsQuery.Data> response) {
+
+
+                        PersondetailsQuery.Data data = response.data();
+
+                        if(data!=null){
+                            Log.d("msg","kkkkkkkkkkkkkkasdddddddddddddddddddddddddddddd");
+                        }
+
+                        try {
+                            pwallet = Integer.parseInt(data.person().get(0).wallet.toString());
+
+                            Log.d("datas",Integer.toString(pwallet));
+
+                            SharedPreferences sp = getSharedPreferences("Login", Context.MODE_PRIVATE);
+
+                            final SharedPreferences.Editor editor = sp.edit();
+
+                            editor.putString("mobile",mobno);
+                            editor.apply();
+
+//                            Intent intent = new Intent(NavActivity.this, Cashout.class);
+//                            intent.putExtra("number",mobno);
+//                            startActivity(intent);
+
+//                            Bundle bundle = new Bundle();
+//                            bundle.putInt("balance", pwallet);
+//                            bundle.putString("balance1",String.valueOf(pwallet));
+//                            Cashout fragobj = new Cashout();
+//                            fragobj.setArguments(bundle);
+
+                        }catch (Exception e){
+                            Log.d("catch", "errrrrrrrrrrrrrrrrrrrrrrrr");
+                            postMutation(wallet,mobno,user);
+
+                            SharedPreferences sp = getSharedPreferences("Login", Context.MODE_PRIVATE);
+
+                            final SharedPreferences.Editor editor = sp.edit();
+
+                            editor.putString("mobile",mobno);
+                            editor.apply();
+
+//                            Intent intent = new Intent(NavActivity.this, NavActivity.class);
+//                            intent.putExtra("number",mobno);
+//                            startActivity(intent);
+
+                       // Log.d("pp",mobno +user+wallet);
+
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onFailure(@Nonnull ApolloException e) {
+
+                        Log.e("Fail", "onFailure: ",e );
+
+                    }
+                });
+
+
+
+
+    }
+
+
+    void postMutation(final int pwallet2, final String pmobileno2, final String pusername2){
+        File file = new File(this.getCacheDir().toURI());
+        //Size in bytes of the cache
+        int size = 1024*1024;
+
+        //Create the http response cache store
+        DiskLruHttpCacheStore cacheStore = new DiskLruHttpCacheStore(file, size);
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .build();
+
+        apolloClient = ApolloClient.builder()
+                .serverUrl("https://digicashserver.herokuapp.com/graphql")
+                .httpCache(new ApolloHttpCache(cacheStore))
+                .okHttpClient(okHttpClient)
+                .build();
+        AddPersonMutation addPersonMutation = AddPersonMutation.builder()
+                .username(pusername2)
+                .mobileno(pmobileno2)
+                .wallet(pwallet2)
+                .build();
+        ApolloCall<AddPersonMutation.Data> call = apolloClient.mutate(addPersonMutation);
+        call.enqueue(new ApolloCall.Callback<AddPersonMutation.Data>() {
+            @Override
+            public void onResponse(@Nonnull Response<AddPersonMutation.Data> response) {
+                AddPersonMutation.Data res = response.data();
+
+                NavActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplication(), "User registered Successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(NavActivity.this, pmobileno2+pwallet2+pusername2, Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+            }
+            @Override
+            public void onFailure(@Nonnull ApolloException e) {
+                Log.e("Fail", "onFailure: ",e );
+            }
+        });
+    }
+
+
+
+
     private void setFragment(android.support.v4.app.Fragment fragment) {
 
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -130,6 +329,7 @@ public class NavActivity extends AppCompatActivity
         if (mpressedonce) {
             super.onBackPressed();
             finishAffinity();
+//            ActivityCompat.finishAffinity(this);
 
         }
         this.mpressedonce = true;

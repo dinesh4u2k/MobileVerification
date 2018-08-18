@@ -73,10 +73,10 @@
             android:layout_alignBaseline="@+id/ava_cash"
             android:layout_alignBottom="@+id/ava_cash"
             android:layout_toEndOf="@+id/ava_cash"
-            android:text=" ₹ 100"
+            android:layout_toRightOf="@+id/ava_cash"
+            android:text=" ₹ 110"
             android:textSize="25dp"
-            android:textStyle="bold"
-            android:layout_toRightOf="@+id/ava_cash" />
+            android:textStyle="bold" />
 
         <Button
             android:layout_width="180dp"
