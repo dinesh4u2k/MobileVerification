@@ -36,12 +36,12 @@ public class PhoneStateReceiver extends BroadcastReceiver {
             },1000);
 
         }
-        if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)){
+      /*  if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)){
             finishAffinity(CustomPhoneStateListener.class);
-        }
+        }*/
     }
 
-    private void finishAffinity(Class<CustomPhoneStateListener> customPhoneStateListenerClass) {
+    /*private void finishAffinity(Class<CustomPhoneStateListener> customPhoneStateListenerClass) {
         finishAffinity(CustomPhoneStateListener.class);
-    }
+    }*/
 }

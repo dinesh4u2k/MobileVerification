@@ -6,61 +6,114 @@
     android:layout_height="match_parent"
     tools:context=".Login">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textSize="40dp"
+        android:gravity="center"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/basic_blue"
+        android:textStyle="bold"
+        />
 
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-
-        <!--android:layout_alignParentStart="true"-->
-        <!--android:layout_alignParentTop="true"-->
-        <!--android:layout_marginTop="220dp"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:id="@+id/linearLayout"-->
-        <!--android:layout_alignParentLeft="true">-->
+    <ImageView
+        android:layout_width="140dp"
+        android:layout_height="111dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="94dp"
+        android:src="@drawable/icon" />
 
 
-        <!--<com.hbb20.CountryCodePicker
-            android:id="@+id/ccp"
-            android:layout_width="117dp"
-            android:layout_height="match_parent"
-            android:gravity="left"
-            app:countryPreference="US,IN,NZ"
-            app:defaultCode="91" />-->
 
-    <Spinner
-        android:id="@+id/spinnercountries"
-        android:layout_width="86dp"
-        android:layout_height="30dp"
-        android:layout_alignBottom="@+id/no"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="18dp"
-        android:textAlignment="center">
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
 
-    </Spinner>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="223dp">
 
 
-    <EditText
-        android:id="@+id/no"
-        android:layout_width="236dp"
+            <EditText
+                android:id="@+id/username"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="52dp"
+                android:layout_marginTop="197dp"
+                android:hint="Username" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="71dp"
+            android:layout_marginBottom="205dp"
+
+            android:layout_marginTop="20dp">
+
+            <Spinner
+                android:id="@+id/spinnercountries"
+                android:layout_width="100dp"
+                android:layout_height="45dp"
+                android:layout_alignBottom="@+id/no"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="-50dp"
+                android:dropDownWidth="80dp"
+                android:spinnerMode="dropdown"
+                android:textAlignment="center">
+
+            </Spinner>
+
+
+            <EditText
+                android:id="@+id/no"
+                android:layout_width="236dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginLeft="130dp"
+                android:digits="0123456789"
+                android:ems="10"
+                android:imeOptions="actionDone"
+                android:hint="Enter Mobile Number"
+                android:inputType="phone" />
+
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="348dp"
         android:layout_height="wrap_content"
         android:layout_above="@+id/buttonContinue"
-        android:layout_marginBottom="165dp"
-        android:layout_toEndOf="@+id/spinnercountries"
-        android:digits="0123456789"
-        android:ems="10"
-        android:hint="Enter Mobile Number"
-        android:inputType="phone" />
+        android:layout_alignParentEnd="true"
+        android:orientation="horizontal"
+        android:padding="10dp">
 
-    <!--</LinearLayout>-->
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <EditText
-        android:id="@+id/username"
-        android:layout_width="256dp"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/buttonContinue"
-        android:layout_alignStart="@+id/no"
-        android:layout_marginBottom="68dp"
-        android:text="TextView" />
+        <TextView
+            android:layout_width="287dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+
+            android:text="@string/policy" />
+
+    </LinearLayout>
 
 
     <Button
@@ -69,13 +122,35 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="105dp"
-        android:background="@color/colorPrimaryDark"
-        android:text="Continue"
+        android:layout_marginBottom="76dp"
+        android:background="@color/bg"
+        android:text="Send Otp"
         android:textAllCaps="false"
         android:textColor="#cdd8f1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_gravity="center"
+        android:text="@string/quote"
+        android:textColor="@color/basic_blue"
+        android:textSize="18dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="center"
+        android:text="@string/c_name"
+        android:textColor="@color/basic_blue"
+        android:textSize="18dp" />
 
 
 
 
 </RelativeLayout>
+

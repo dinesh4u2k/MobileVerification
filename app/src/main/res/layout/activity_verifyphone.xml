@@ -5,17 +5,56 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".VerifyPhoneActivity">
 
+
+    <LinearLayout
+        android:layout_width="206dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="60dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/icon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/app_name"
+            android:textColor="@color/basic_blue"
+            android:textSize="40dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
-        android:text="Wait for the code I sent You"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
-        android:textColor="@color/colorPrimary" />
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/phnnumber"
+        android:layout_marginStart="20dp"
+        android:text="Enter the OTP send to"
+        android:textSize="18sp" />
+
+
+    <TextView
+        android:id="@+id/phnnumber"
+        android:layout_width="159dp"
+        android:layout_height="41dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="7dp"
+        android:layout_marginTop="100dp"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+
 
     <ProgressBar
+        android:layout_marginTop="20dp"
         android:id="@+id/progressbar"
         android:layout_below="@id/textView"
         android:layout_centerHorizontal="true"
@@ -27,22 +66,50 @@
         android:id="@+id/editTextCode"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/progressbar"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="215dp"
         android:digits="0123456789"
         android:drawablePadding="10dp"
         android:hint="enter verification code"
         android:inputType="phone"
         android:maxLength="10" />
 
+    <LinearLayout
+        android:layout_width="359dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/change_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Change Number"
+            android:textColor="@color/basic_blue"
+
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/resend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="130dp"
+            android:text="Resend OTP"
+            android:textColor="@color/basic_blue"
+            android:textSize="15dp" />
+
+    </LinearLayout>
+
     <Button
         android:id="@+id/buttonSignIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editTextCode"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
+        android:layout_marginBottom="159dp"
         android:background="@color/colorPrimaryDark"
         android:text="Sign In"
         android:textAllCaps="false"
