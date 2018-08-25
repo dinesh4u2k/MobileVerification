@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,7 +46,11 @@ public class Cashout extends Fragment {
 
 
 
-    Integer pwallet;
+   public Integer pwallet;
+
+   public Integer sample;
+
+    Button b2 ;
 
     FragmentActivity activity = getActivity();
 
@@ -68,7 +73,14 @@ public class Cashout extends Fragment {
 
          amount = rootView.findViewById(R.id.cash_amo);
 
+
+
+
+
          //amount.setText(pwallet);
+
+
+
 
 
 
@@ -101,13 +113,25 @@ public class Cashout extends Fragment {
                         PersondetailsQuery.Data data = response.data();
 
                         if(data!=null){
-                            Log.d("msg","kkkkkkkkkkkkkkasdddddddddddddddddddddddddddddd");
+                            Log.d("msg","cash out");
                         }
 
-
+                            sample = 8;
                             pwallet = Integer.parseInt(data.person().get(0).wallet.toString());
 
                             Log.d("datas",Integer.toString(pwallet));
+
+//                        b2.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//
+//                                //Toast.makeText(getActivity(), Integer.toString(pwallet), Toast.LENGTH_LONG).show();
+//
+//                                amount.setText(Integer.toString(pwallet));
+//                            }
+//                        });
+
+
 
                         final boolean keepRunning1 = true;
                         Thread thread_two = new Thread(){
@@ -136,7 +160,7 @@ public class Cashout extends Fragment {
 //                                            TextView date = (TextView) getView().findViewById(R.id.cash_amo);
 //                                            if (date!=null) {
 //                                                Toast.makeText(getActivity(), pwallet, Toast.LENGTH_SHORT).show();
-                                               //amount.setText(pwallet);
+                                            amount.setText(Integer.toString(pwallet));
 
 //                                            }
                                         }
