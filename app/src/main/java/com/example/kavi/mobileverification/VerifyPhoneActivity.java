@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apollographql.apollo.ApolloCall;
@@ -47,6 +48,7 @@ public class VerifyPhoneActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private ProgressBar progressBar;
     private EditText editText;
+    private TextView phnnumber, changeno;
 
     public int Listsize = 0;
 
@@ -67,7 +69,22 @@ public class VerifyPhoneActivity extends AppCompatActivity {
 
         editText = (EditText) findViewById(R.id.editTextCode);
 
+        phnnumber = (TextView) findViewById(R.id.phnnumber);
+
+        changeno = (TextView) findViewById(R.id.change_no);
+
+        changeno.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(VerifyPhoneActivity.this,Login.class);
+                startActivity(intent);
+            }
+        });
+
         String phonenumber = getIntent().getStringExtra("phonenumber");
+
+        phnnumber.setText(phonenumber);
+
 
 
 //        Log.d("info", phonenumber1 + " " + username);

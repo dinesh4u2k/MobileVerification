@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,13 +40,17 @@ import static android.content.Context.MODE_PRIVATE;
  */
 public class Cashout extends Fragment {
 
-  // private TextView amount;
+   private TextView amount;
 
     public ApolloClient apolloClient;
 
 
 
-    Integer pwallet;
+   public Integer pwallet;
+
+   public Integer sample;
+
+    Button b2 ;
 
     FragmentActivity activity = getActivity();
 
@@ -66,7 +71,16 @@ public class Cashout extends Fragment {
 
         View rootView=inflater.inflate(R.layout.fragment_cashout, container, false);
 
-        // amount = rootView.findViewById(R.id.cash_amo);
+         amount = rootView.findViewById(R.id.cash_amo);
+
+
+
+
+
+         //amount.setText(pwallet);
+
+
+
 
 
 
@@ -90,7 +104,7 @@ public class Cashout extends Fragment {
 
         apolloClient
                 .query(PersondetailsQuery.builder().mobileno(mobile).build())
-                .httpCachePolicy(HttpCachePolicy.NETWORK_ONLY)
+                .httpCachePolicy(HttpCachePolicy.CACHE_FIRST)
                 .enqueue(new ApolloCall.Callback<PersondetailsQuery.Data>() {
                     @Override
                     public void onResponse(@Nonnull Response<PersondetailsQuery.Data> response) {
@@ -99,13 +113,25 @@ public class Cashout extends Fragment {
                         PersondetailsQuery.Data data = response.data();
 
                         if(data!=null){
-                            Log.d("msg","kkkkkkkkkkkkkkasdddddddddddddddddddddddddddddd");
+                            Log.d("msg","cash out");
                         }
 
-
+                            sample = 8;
                             pwallet = Integer.parseInt(data.person().get(0).wallet.toString());
 
                             Log.d("datas",Integer.toString(pwallet));
+
+//                        b2.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//
+//                                //Toast.makeText(getActivity(), Integer.toString(pwallet), Toast.LENGTH_LONG).show();
+//
+//                                amount.setText(Integer.toString(pwallet));
+//                            }
+//                        });
+
+
 
                         final boolean keepRunning1 = true;
                         Thread thread_two = new Thread(){
@@ -130,10 +156,12 @@ public class Cashout extends Fragment {
                                     getActivity().runOnUiThread(new Runnable(){
                                         @Override
                                         public void run(){
-                                           Toast.makeText(getActivity(), pwallet, Toast.LENGTH_SHORT).show();
+                                           //Toast.makeText(getActivity(), "HelloWorld", Toast.LENGTH_SHORT).show();
 //                                            TextView date = (TextView) getView().findViewById(R.id.cash_amo);
 //                                            if (date!=null) {
 //                                                Toast.makeText(getActivity(), pwallet, Toast.LENGTH_SHORT).show();
+                                            amount.setText(Integer.toString(pwallet));
+
 //                                            }
                                         }
                                     });
@@ -191,10 +219,10 @@ public class Cashout extends Fragment {
                 });
 
 
-
-
-
         return rootView;
+
+
+
 
 
 
@@ -205,5 +233,7 @@ public class Cashout extends Fragment {
 
         return null;
     }
+
+
 
 }

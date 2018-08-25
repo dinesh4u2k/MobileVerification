@@ -2,6 +2,7 @@ package com.example.kavi.mobileverification;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -42,11 +43,10 @@ public class CustomPhoneStateListener extends Activity {
 
     @Override
     public void onBackPressed() {
-        Toast.makeText(this,"Click Close button to get money",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Click Close button to get money", Toast.LENGTH_SHORT).show();
         //super.onBackPressed();
 
     }
-
 
 
     @Override
@@ -55,8 +55,6 @@ public class CustomPhoneStateListener extends Activity {
 
         Button close;
         ImageView banner;
-
-
 
 
         int images[] = {
@@ -74,7 +72,7 @@ public class CustomPhoneStateListener extends Activity {
         };
 
         Random rand = new Random();
-        int  n = rand.nextInt(5);
+        int n = rand.nextInt(5);
 
         //try {
 //            requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -100,7 +98,6 @@ public class CustomPhoneStateListener extends Activity {
 //            text.setText("Incoming call from " + number);
 
 
-
         banner = findViewById(R.id.banner);
 
         Picasso.with(this)
@@ -117,11 +114,11 @@ public class CustomPhoneStateListener extends Activity {
 
         //getWindow().getWindowManager().getDefaultDisplay();
 
-        getWindow().setLayout((int)(width*.9),(int)(height*.4));
+        getWindow().setLayout((int) (width * .9), (int) (height * .4));
         //  getWindow().setBackgroundDrawable(null);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON|
-                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD|
-                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED|
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
 
                 WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
@@ -141,16 +138,18 @@ public class CustomPhoneStateListener extends Activity {
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences sp = getSharedPreferences("Login", Context.MODE_PRIVATE);
+//                SharedPreferences sp = getSharedPreferences("Login", Context.MODE_PRIVATE);
+//
+//                mobileno = sp.getString("mobile", null);
 
-                mobileno = sp.getString("mobile",null);
-
-                callQuery(mobileno);
+               // callQuery(mobileno);
 
 
-                postMutation(mobileno,money);
+                //postMutation(mobileno,money);
 
-               finishAffinity();
+                startService(new Intent(getApplication(), Myservice.class));
+
+                finishAffinity();
 
 //               money = sp.getInt("money",0);
 //
@@ -164,14 +163,6 @@ public class CustomPhoneStateListener extends Activity {
         });
 
 
-
-
-
-
-
-
-
-
         // }
 //        catch (Exception e) {
 //            Log.d("Exception", e.toString());
@@ -181,154 +172,145 @@ public class CustomPhoneStateListener extends Activity {
 
     }
 
-    void callQuery(final String mobno) {
+  //  void callQuery(final String mobno) {
 
 //        final String phonenumber1 = getIntent().getStringExtra("phonenumber1");
 //
 //        final String username = getIntent().getStringExtra("username");
 
-        File file = new File(this.getCacheDir().toURI());
-        //Size in bytes of the cache
-        int size = 1024*1024;
-
-        //Create the http response cache store
-        DiskLruHttpCacheStore cacheStore = new DiskLruHttpCacheStore(file, size);
-
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .build();
-
-        apolloClient = ApolloClient.builder()
-                .serverUrl("https://digicashserver.herokuapp.com/graphql")
-                .httpCache(new ApolloHttpCache(cacheStore))
-                .okHttpClient(okHttpClient)
-                .build();
-
-
-
-//        callQuery();
-
-        // setUpClient("https://digicashserver.herokuapp.com/graphql");
-
-//        PersondetailsQuery persondetailsQuery = PersondetailsQuery.builder()
+//        File file = new File(this.getCacheDir().toURI());
+//        //Size in bytes of the cache
+//        int size = 1024 * 1024;
+//
+//        //Create the http response cache store
+//        DiskLruHttpCacheStore cacheStore = new DiskLruHttpCacheStore(file, size);
+//
+//        OkHttpClient okHttpClient = new OkHttpClient.Builder()
 //                .build();
-
-
-        apolloClient
-                .query(PersondetailsQuery.builder().mobileno(mobno).build())
-                .httpCachePolicy(HttpCachePolicy.NETWORK_ONLY)
-                .enqueue(new ApolloCall.Callback<PersondetailsQuery.Data>() {
-                    @Override
-                    public void onResponse(@Nonnull Response<PersondetailsQuery.Data> response) {
-
-
-                        PersondetailsQuery.Data data = response.data();
-
-                        if(data!=null){
-                            Log.d("msg","kkkkkkkkkkkkkkasdddddddddddddddddddddddddddddd");
-                        }
-
-                        try {
-                            moneyp = Integer.parseInt(data.person().get(0).wallet.toString());
-
-                            Log.d("datas",Integer.toString(moneyp));
-
-                            money = moneyp +1;
-
-//                            SharedPreferences sp = getSharedPreferences("Login", Context.MODE_PRIVATE);
 //
-//                            final SharedPreferences.Editor editor = sp.edit();
+//        apolloClient = ApolloClient.builder()
+//                .serverUrl("https://digicashserver.herokuapp.com/graphql")
+//                .httpCache(new ApolloHttpCache(cacheStore))
+//                .okHttpClient(okHttpClient)
+//                .build();
 //
-//                            editor.putString("mobile",mobno);
-//                            editor.apply();
-
-//                            Intent intent = new Intent(NavActivity.this, Cashout.class);
-//                            intent.putExtra("number",mobno);
-//                            startActivity(intent);
-
-//                            Bundle bundle = new Bundle();
-//                            bundle.putInt("balance", pwallet);
-//                            bundle.putString("balance1",String.valueOf(pwallet));
-//                            Cashout fragobj = new Cashout();
-//                            fragobj.setArguments(bundle);
-
-                        }catch (Exception e){
-                            Log.d("catch", "errrrrrrrrrrrrrrrrrrrrrrrr");
-//                            postMutation(wallet,mobno,user);
-
-//                            SharedPreferences sp = getSharedPreferences("Login", Context.MODE_PRIVATE);
 //
-//                            final SharedPreferences.Editor editor = sp.edit();
+////        callQuery();
 //
-//                            editor.putString("mobile",mobno);
-//                            editor.apply();
-
-//                            Intent intent = new Intent(NavActivity.this, NavActivity.class);
-//                            intent.putExtra("number",mobno);
-//                            startActivity(intent);
-
-                            // Log.d("pp",mobno +user+wallet);
-
-                        }
-
-
-                    }
-
-                    @Override
-                    public void onFailure(@Nonnull ApolloException e) {
-
-                        Log.e("Fail", "onFailure: ",e );
-
-                    }
-                });
-
-
-
-
-    }
-
-    void postMutation(final String mobileno,final Integer money){
-        File file = new File(this.getCacheDir().toURI());
-        //Size in bytes of the cache
-        int size = 1024*1024;
-
-        //Create the http response cache store
-        DiskLruHttpCacheStore cacheStore = new DiskLruHttpCacheStore(file, size);
-
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .build();
-
-        apolloClient = ApolloClient.builder()
-                .serverUrl("https://digicashserver.herokuapp.com/graphql")
-                .httpCache(new ApolloHttpCache(cacheStore))
-                .okHttpClient(okHttpClient)
-                .build();
-        UpdateMutation updateMutation = UpdateMutation.builder()
-
-                .mobileno(mobileno)
-                .wallet(money)
-                .build();
-        ApolloCall<UpdateMutation.Data> call = apolloClient.mutate(updateMutation);
-        call.enqueue(new ApolloCall.Callback<UpdateMutation.Data>() {
-            @Override
-            public void onResponse(@Nonnull Response<UpdateMutation.Data> response) {
-                UpdateMutation.Data res = response.data();
-
-                CustomPhoneStateListener.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                      //  Toast.makeText(getApplication(), "User registered Successfully", Toast.LENGTH_SHORT).show();
-                        Toast.makeText(CustomPhoneStateListener.this, money, Toast.LENGTH_LONG).show();
-
-                    }
-                });
-            }
-            @Override
-            public void onFailure(@Nonnull ApolloException e) {
-                Log.e("Fail", "onFailure: ",e );
-            }
-        });
-    }
-
+//        // setUpClient("https://digicashserver.herokuapp.com/graphql");
+//
+////        PersondetailsQuery persondetailsQuery = PersondetailsQuery.builder()
+////                .build();
+//
+//
+//        apolloClient
+//                .query(PersondetailsQuery.builder().mobileno(mobno).build())
+//                .httpCachePolicy(HttpCachePolicy.NETWORK_ONLY)
+//                .enqueue(new ApolloCall.Callback<PersondetailsQuery.Data>() {
+//                    @Override
+//                    public void onResponse(@Nonnull Response<PersondetailsQuery.Data> response) {
+//
+//
+//                        PersondetailsQuery.Data data = response.data();
+//
+//                        if (data != null) {
+//                            Log.d("msg", "kkkkkkkkkkkkkkasdddddddddddddddddddddddddddddd");
+//                        }
+//
+//                        try {
+//                            moneyp = Integer.parseInt(data.person().get(0).wallet.toString());
+//
+//                            Log.d("datas", Integer.toString(moneyp));
+//
+//                            money = moneyp + 1;
+//
+//                            Log.d("number", mobileno);
+//
+//                            Log.d("wallet", Integer.toString(money));
+//
+//
+////                            SharedPreferences sp = getSharedPreferences("Login", Context.MODE_PRIVATE);
+////
+////                            final SharedPreferences.Editor editor = sp.edit();
+////
+////                            editor.putString("mobile",mobno);
+////                            editor.apply();
+//
+////                            Intent intent = new Intent(NavActivity.this, Cashout.class);
+////                            intent.putExtra("number",mobno);
+////                            startActivity(intent);
+//
+////                            Bundle bundle = new Bundle();
+////                            bundle.putInt("balance", pwallet);
+////                            bundle.putString("balance1",String.valueOf(pwallet));
+////                            Cashout fragobj = new Cashout();
+////                            fragobj.setArguments(bundle);
+//
+//                        } catch (Exception e) {
+//                            Log.d("catch", "errrrrrrrrrrrrrrrrrrrrrrrr");
+////                            postMutation(wallet,mobno,user);
+//
+////                            SharedPreferences sp = getSharedPreferences("Login", Context.MODE_PRIVATE);
+////
+////                            final SharedPreferences.Editor editor = sp.edit();
+////
+////                            editor.putString("mobile",mobno);
+////                            editor.apply();
+//
+////                            Intent intent = new Intent(NavActivity.this, NavActivity.class);
+////                            intent.putExtra("number",mobno);
+////                            startActivity(intent);
+//
+//                            // Log.d("pp",mobno +user+wallet);
+//
+//                        }
+//
+//
+//                    }
+//
+//                    @Override
+//                    public void onFailure(@Nonnull ApolloException e) {
+//
+//                        Log.e("Fail", "onFailure: ", e);
+//
+//                    }
+//                });
+//
+//
+//        UpdateMutation updateMutation = UpdateMutation.builder()
+//
+//                .mobileno(mobno)
+//                .wallet(money)
+//                .build();
+//        ApolloCall<UpdateMutation.Data> call = apolloClient.mutate(updateMutation);
+//        call.enqueue(new ApolloCall.Callback<UpdateMutation.Data>() {
+//            @Override
+//            public void onResponse(@Nonnull Response<UpdateMutation.Data> response) {
+//                UpdateMutation.Data res = response.data();
+//
+//                CustomPhoneStateListener.this.runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        //  Toast.makeText(getApplication(), "User registered Successfully", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(CustomPhoneStateListener.this, money, Toast.LENGTH_LONG).show();
+//
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void onFailure(@Nonnull ApolloException e) {
+//                Log.e("Fail", "onFailure: ", e);
+//            }
+//        });
+//    }
 
 }
+
+
+
+
+
+
+
 
