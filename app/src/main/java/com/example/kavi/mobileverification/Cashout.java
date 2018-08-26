@@ -32,7 +32,7 @@ import javax.annotation.Nonnull;
 
 import okhttp3.OkHttpClient;
 
-import static android.content.Context.MODE_PRIVATE;
+
 
 
 /**
@@ -44,15 +44,8 @@ public class Cashout extends Fragment {
 
     public ApolloClient apolloClient;
 
-
-
    public Integer pwallet;
 
-   public Integer sample;
-
-    Button b2 ;
-
-    FragmentActivity activity = getActivity();
 
     public Cashout() {
         // Required empty public constructor
@@ -72,17 +65,6 @@ public class Cashout extends Fragment {
         View rootView=inflater.inflate(R.layout.fragment_cashout, container, false);
 
          amount = rootView.findViewById(R.id.cash_amo);
-
-
-
-
-
-         //amount.setText(pwallet);
-
-
-
-
-
 
 
         File file = new File(getActivity().getCacheDir().toURI());
@@ -116,99 +98,45 @@ public class Cashout extends Fragment {
                             Log.d("msg","cash out");
                         }
 
-                            sample = 8;
+
                             pwallet = Integer.parseInt(data.person().get(0).wallet.toString());
 
                             Log.d("datas",Integer.toString(pwallet));
 
-//                        b2.setOnClickListener(new View.OnClickListener() {
+//
+//                        final boolean keepRunning1 = true;
+//                        Thread thread_two = new Thread(){
+//
 //                            @Override
-//                            public void onClick(View view) {
+//                            public void run(){
 //
-//                                //Toast.makeText(getActivity(), Integer.toString(pwallet), Toast.LENGTH_LONG).show();
+//                                while(keepRunning1){
 //
-//                                amount.setText(Integer.toString(pwallet));
-//                            }
-//                        });
-
-
-
-                        final boolean keepRunning1 = true;
-                        Thread thread_two = new Thread(){
-
-                            @Override
-                            public void run(){
-
-                                while(keepRunning1){
-
-                                    // Make the thread wait half a second. If you want...
-                                    try {
-                                        Thread.sleep(500);
-                                    } catch (InterruptedException e) {
-                                        Toast.makeText(getActivity().getApplicationContext(), "Default Signature                         Fail", Toast.LENGTH_LONG).show();
-                                        e.printStackTrace();
-                                    }
-
-                                    // here you check the value of getActivity() and break up if needed
-                                    if(getActivity() == null)
-                                        return;
+//                                    // Make the thread wait half a second. If you want...
+//                                    try {
+//                                        Thread.sleep(500);
+//                                    } catch (InterruptedException e) {
+//                                        Toast.makeText(getActivity().getApplicationContext(), "Default Signature                         Fail", Toast.LENGTH_LONG).show();
+//                                        e.printStackTrace();
+//                                    }
+//
+//                                    // here you check the value of getActivity() and break up if needed
+//                                    if(getActivity() == null)
+//                                        return;
 
                                     getActivity().runOnUiThread(new Runnable(){
                                         @Override
                                         public void run(){
-                                           //Toast.makeText(getActivity(), "HelloWorld", Toast.LENGTH_SHORT).show();
-//                                            TextView date = (TextView) getView().findViewById(R.id.cash_amo);
-//                                            if (date!=null) {
-//                                                Toast.makeText(getActivity(), pwallet, Toast.LENGTH_SHORT).show();
-                                            amount.setText(Integer.toString(pwallet));
 
-//                                            }
+                                            amount.setText(String.valueOf(pwallet));
+
                                         }
                                     });
                                 }
-                            }
-                        };thread_two.start();
-
-//                            if (getActivity() == null){
-//                                Log.d("er","erorrorororororoororr");
-//                                return;
 //                            }
+//                        };thread_two.start();
 //
-//
-//                            getActivity().runOnUiThread(new Runnable() {
-//                                @Override
-//                                public void run() {
-////                                    Toast.makeText(activity, "helloo", Toast.LENGTH_LONG).show();
-// //                                   Toast.makeText(getActivity(), pwallet, Toast.LENGTH_SHORT).show();
-////                                    amount.setText(pwallet);
-//                                }
-//                            });
-
-//                        Thread timer = new Thread() {
-//                            @Override
-//                            public void run() {
-////do something
-//                                if (activity != null) {
-//                                    activity.runOnUiThread(new Runnable() {
-//                                        @Override
-//                                        public void run() {
-//                                            Toast.makeText(getActivity(),
-//                                                    pwallet, Toast.LENGTH_SHORT).show();
-//                                        }
-//                                    });
-//                                }
-//                                }
-//                            }
-//
-//                            ;
-//                        timer.start();
-
-
-
-
-
-
-                    }
+//                    }
 
                     @Override
                     public void onFailure(@Nonnull ApolloException e) {
@@ -221,18 +149,9 @@ public class Cashout extends Fragment {
 
         return rootView;
 
-
-
-
-
-
-
     }
 
-    private SharedPreferences getPreferences(int modePrivate) {
 
-        return null;
-    }
 
 
 

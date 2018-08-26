@@ -23,10 +23,6 @@ import javax.annotation.Nonnull;
 
 import okhttp3.OkHttpClient;
 
-/**
- * Created by kavi on 24/8/18.
- */
-
 public class Myservice extends Service {
 
     public String mobileno;
@@ -42,16 +38,15 @@ public class Myservice extends Service {
         return null;
     }
 
+
+
     @Override
     public void onCreate() {
-//        Toast.makeText(this, “Congrats! MyService Created”, Toast.LENGTH_LONG).show();
-//        Log.d(TAG, “onCreate”);
+
 
         SharedPreferences sp = getSharedPreferences("Login", Context.MODE_PRIVATE);
 
         mobileno = sp.getString("mobile", null);
-
-
 
         File file = new File(this.getCacheDir().toURI());
         //Size in bytes of the cache
@@ -69,18 +64,9 @@ public class Myservice extends Service {
                 .okHttpClient(okHttpClient)
                 .build();
 
-
-//        callQuery();
-
-        // setUpClient("https://digicashserver.herokuapp.com/graphql");
-
-//        PersondetailsQuery persondetailsQuery = PersondetailsQuery.builder()
-//                .build();
-
-
         apolloClient
                 .query(PersondetailsQuery.builder().mobileno(mobileno).build())
-                .httpCachePolicy(HttpCachePolicy.NETWORK_ONLY)
+                .httpCachePolicy(HttpCachePolicy.CACHE_FIRST)
                 .enqueue(new ApolloCall.Callback<PersondetailsQuery.Data>() {
                     @Override
                     public void onResponse(@Nonnull Response<PersondetailsQuery.Data> response) {
@@ -97,7 +83,7 @@ public class Myservice extends Service {
 
                             Log.d("datas", Integer.toString(moneyp));
 
-                            money = moneyp + 1;
+                            money=moneyp + 1;
 
                             Log.d("number", mobileno);
 
@@ -113,17 +99,7 @@ public class Myservice extends Service {
                                 @Override
                                 public void onResponse(@Nonnull Response<UpdateMutation.Data> response) {
                                     UpdateMutation.Data res = response.data();
-
-//                CustomPhoneStateListener.this.runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        //  Toast.makeText(getApplication(), "User registered Successfully", Toast.LENGTH_SHORT).show();
-//                        Toast.makeText(CustomPhoneStateListener.this, money, Toast.LENGTH_LONG).show();
-//
-//                    }
-//                });
-
-                                    Log.d("done","donedonedone");
+                          Log.d("done","donedonedone");
                                 }
 
                                 @Override
@@ -133,39 +109,10 @@ public class Myservice extends Service {
                             });
 
 
-//                            SharedPreferences sp = getSharedPreferences("Login", Context.MODE_PRIVATE);
-//
-//                            final SharedPreferences.Editor editor = sp.edit();
-//
-//                            editor.putString("mobile",mobno);
-//                            editor.apply();
-
-//                            Intent intent = new Intent(NavActivity.this, Cashout.class);
-//                            intent.putExtra("number",mobno);
-//                            startActivity(intent);
-
-//                            Bundle bundle = new Bundle();
-//                            bundle.putInt("balance", pwallet);
-//                            bundle.putString("balance1",String.valueOf(pwallet));
-//                            Cashout fragobj = new Cashout();
-//                            fragobj.setArguments(bundle);
 
                         } catch (Exception e) {
                             Log.d("catch", "errrrrrrrrrrrrrrrrrrrrrrrr");
-//                            postMutation(wallet,mobno,user);
 
-//                            SharedPreferences sp = getSharedPreferences("Login", Context.MODE_PRIVATE);
-//
-//                            final SharedPreferences.Editor editor = sp.edit();
-//
-//                            editor.putString("mobile",mobno);
-//                            editor.apply();
-
-//                            Intent intent = new Intent(NavActivity.this, NavActivity.class);
-//                            intent.putExtra("number",mobno);
-//                            startActivity(intent);
-
-                            // Log.d("pp",mobno +user+wallet);
 
                         }
 

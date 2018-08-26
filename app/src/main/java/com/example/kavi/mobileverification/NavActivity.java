@@ -43,22 +43,18 @@ public class NavActivity extends AppCompatActivity
     private FrameLayout mMainFrame;
 
     private Cashout cashfragment;
-    //private Balance balfragment;
+
     private Banners banfragment;
-    // private Bottomsheet bottomsheet;
+
     private Refer refer;
     private History history;
     private Home home;
 
     boolean mpressedonce = false;
 
-    public int Listsize = 0;
-
-  //  String pmobileno,puserid;
 
     Integer pwallet;
 
-  // final String phonenumber2 ="89898989892";
 
     final Integer wallet =0;
 
@@ -83,9 +79,6 @@ public class NavActivity extends AppCompatActivity
 
 
         callQuery(phonenumber1,username);
-
-//        postMutation(wallet,phonenumber2,username);
-
 
 
         logoutbtn = (Button) findViewById(R.id.logout);
@@ -144,9 +137,6 @@ public class NavActivity extends AppCompatActivity
                         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
                         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
                         startActivity(Intent.createChooser(sharingIntent, "Share via"));
-                        //Toast.makeText(getApplicationContext(),"More Clicked",Toast.LENGTH_LONG).show();
-                        // AccountKit.logOut();
-                        //finish();
 
                         return true;
                     case R.id.nav_history:
@@ -167,9 +157,6 @@ public class NavActivity extends AppCompatActivity
 
     void callQuery(final String mobno,final String user) {
 
-//        final String phonenumber1 = getIntent().getStringExtra("phonenumber1");
-//
-//        final String username = getIntent().getStringExtra("username");
 
         File file = new File(this.getCacheDir().toURI());
         //Size in bytes of the cache
@@ -186,15 +173,6 @@ public class NavActivity extends AppCompatActivity
                 .httpCache(new ApolloHttpCache(cacheStore))
                 .okHttpClient(okHttpClient)
                 .build();
-
-
-
-//        callQuery();
-
-        // setUpClient("https://digicashserver.herokuapp.com/graphql");
-
-//        PersondetailsQuery persondetailsQuery = PersondetailsQuery.builder()
-//                .build();
 
 
         apolloClient
@@ -223,15 +201,6 @@ public class NavActivity extends AppCompatActivity
                             editor.putString("mobile",mobno);
                             editor.apply();
 
-//                            Intent intent = new Intent(NavActivity.this, Cashout.class);
-//                            intent.putExtra("number",mobno);
-//                            startActivity(intent);
-
-//                            Bundle bundle = new Bundle();
-//                            bundle.putInt("balance", pwallet);
-//                            bundle.putString("balance1",String.valueOf(pwallet));
-//                            Cashout fragobj = new Cashout();
-//                            fragobj.setArguments(bundle);
 
                         }catch (Exception e){
                             Log.d("catch", "errrrrrrrrrrrrrrrrrrrrrrrr");
@@ -244,11 +213,6 @@ public class NavActivity extends AppCompatActivity
                             editor.putString("mobile",mobno);
                             editor.apply();
 
-//                            Intent intent = new Intent(NavActivity.this, NavActivity.class);
-//                            intent.putExtra("number",mobno);
-//                            startActivity(intent);
-
-                       // Log.d("pp",mobno +user+wallet);
 
                         }
 
@@ -329,7 +293,6 @@ public class NavActivity extends AppCompatActivity
         if (mpressedonce) {
             super.onBackPressed();
             finishAffinity();
-//            ActivityCompat.finishAffinity(this);
 
         }
         this.mpressedonce = true;

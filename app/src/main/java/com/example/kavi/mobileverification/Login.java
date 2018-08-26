@@ -34,14 +34,12 @@ import javax.annotation.Nonnull;
 import okhttp3.OkHttpClient;
 
 public class Login extends AppCompatActivity {
-    public ApolloClient apolloClient;
+
     Spinner spinner;
 
     EditText editText;
 
     TextView username;
-
-    Integer pwallet;
 
     String Phonenumber1;
 
@@ -140,8 +138,7 @@ public class Login extends AppCompatActivity {
         super.onStart();
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null){
-//            final String Phonenumber1 =  number;
-            //callQuery(Phonenumber1,un);
+;
 
             Intent intent = new Intent(this,NavActivity.class);
 
@@ -151,82 +148,4 @@ public class Login extends AppCompatActivity {
         }
     }
 
-
-//    void callQuery(final String mobno,final String user) {
-//
-////        final String phonenumber1 = getIntent().getStringExtra("phonenumber1");
-////
-////        final String username = getIntent().getStringExtra("username");
-//
-//        File file = new File(this.getCacheDir().toURI());
-//        //Size in bytes of the cache
-//        int size = 1024*1024;
-//
-//        //Create the http response cache store
-//        DiskLruHttpCacheStore cacheStore = new DiskLruHttpCacheStore(file, size);
-//
-//        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-//                .build();
-//
-//        apolloClient = ApolloClient.builder()
-//                .serverUrl("https://digicashserver.herokuapp.com/graphql")
-//                .httpCache(new ApolloHttpCache(cacheStore))
-//                .okHttpClient(okHttpClient)
-//                .build();
-//
-//
-//
-////        callQuery();
-//
-//        // setUpClient("https://digicashserver.herokuapp.com/graphql");
-//
-////        PersondetailsQuery persondetailsQuery = PersondetailsQuery.builder()
-////                .build();
-//
-//
-//        apolloClient
-//                .query(PersondetailsQuery.builder().mobileno(mobno).build())
-//                .httpCachePolicy(HttpCachePolicy.NETWORK_ONLY)
-//                .enqueue(new ApolloCall.Callback<PersondetailsQuery.Data>() {
-//                    @Override
-//                    public void onResponse(@Nonnull Response<PersondetailsQuery.Data> response) {
-//
-//
-//                        PersondetailsQuery.Data data = response.data();
-//
-//                        if(data!=null){
-//                            Log.d("msg","kkkkkkkkkkkkkkasdddddddddddddddddddddddddddddd");
-//                        }
-//
-//                        try {
-//                            pwallet = Integer.parseInt(data.person().get(0).wallet.toString());
-//
-//                            Log.d("datas",Integer.toString(pwallet));
-//
-//
-//
-//                        }catch (Exception e){
-//                            Log.d("catch", "errrrrrrrrrrrrrrrrrrrrrrrr");
-////                            postMutation(wallet,mobno,user);
-//
-//                            // Log.d("pp",mobno +user+wallet);
-//
-//                        }
-//
-//
-//                    }
-//
-//                    @Override
-//                    public void onFailure(@Nonnull ApolloException e) {
-//
-//                        Log.e("Fail", "onFailure: ",e );
-//
-//                    }
-//                });
-//
-//
-//
-//
-//    }
-    //testing
 }
