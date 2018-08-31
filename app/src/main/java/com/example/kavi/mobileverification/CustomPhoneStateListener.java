@@ -132,7 +132,7 @@ public class CustomPhoneStateListener extends Activity {
             public void onClick(View v) {
 
 
-                startService(new Intent(getApplication(), Myservice.class));
+               // startService(new Intent(getApplication(), Myservice.class));
 
                 finishAffinity();
 

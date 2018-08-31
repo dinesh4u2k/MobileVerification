@@ -42,7 +42,7 @@ import java.util.concurrent.TimeUnit;
 
 
 public class VerifyPhoneActivity extends AppCompatActivity {
-    public ApolloClient apolloClient;
+
 
     private String verificationId;
     private FirebaseAuth mAuth;
@@ -50,11 +50,6 @@ public class VerifyPhoneActivity extends AppCompatActivity {
     private EditText editText;
     private TextView phnnumber, changeno;
 
-    public int Listsize = 0;
-
-    String pmobileno,puserid;
-
-    Integer pwallet;
 
 
 

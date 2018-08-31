@@ -7,9 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.app.Activity;
-import android.support.v4.app.FragmentActivity;
-import android.text.format.DateUtils;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +42,7 @@ public class Cashout extends Fragment {
 
     public ApolloClient apolloClient;
 
-   public Integer pwallet;
+   public String pwallet;
 
 
     public Cashout() {
@@ -99,36 +97,18 @@ public class Cashout extends Fragment {
                         }
 
 
-                            pwallet = Integer.parseInt(data.person().get(0).wallet.toString());
+                        if (data.person != null && (data != null ? data.person.get(0).wallet : null) != null) {
+                            pwallet = data.person.get(0).wallet.toString();
+                        }
 
-                            Log.d("datas",Integer.toString(pwallet));
+                        Log.d("datas",pwallet);
 
-//
-//                        final boolean keepRunning1 = true;
-//                        Thread thread_two = new Thread(){
-//
-//                            @Override
-//                            public void run(){
-//
-//                                while(keepRunning1){
-//
-//                                    // Make the thread wait half a second. If you want...
-//                                    try {
-//                                        Thread.sleep(500);
-//                                    } catch (InterruptedException e) {
-//                                        Toast.makeText(getActivity().getApplicationContext(), "Default Signature                         Fail", Toast.LENGTH_LONG).show();
-//                                        e.printStackTrace();
-//                                    }
-//
-//                                    // here you check the value of getActivity() and break up if needed
-//                                    if(getActivity() == null)
-//                                        return;
 
                                     getActivity().runOnUiThread(new Runnable(){
                                         @Override
                                         public void run(){
 
-                                            amount.setText(String.valueOf(pwallet));
+                                            amount.setText(pwallet);
 
                                         }
                                     });

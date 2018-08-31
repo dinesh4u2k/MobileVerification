@@ -36,6 +36,14 @@ public class PhoneStateReceiver extends BroadcastReceiver {
             },1000);
 
         }
+
+        if (state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)){
+            Log.d("attend","basjdnasjfasjfhasfjlasfklafklajfklajfklajfklasjf");
+
+
+
+            context.startService(new Intent(context, Myservice.class));
+        }
       /*  if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)){
             finishAffinity(CustomPhoneStateListener.class);
         }*/
