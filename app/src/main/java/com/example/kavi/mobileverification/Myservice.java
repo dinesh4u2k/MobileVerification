@@ -54,12 +54,14 @@ public class Myservice extends Service {
             public void run() {
                 syncData();
                 // Repeat this runnable code block again every ... min
-                mHandler.postDelayed(runnableService, DEFAULT_SYNC_INTERVAL);
+//                mHandler.postDelayed(runnableService, DEFAULT_SYNC_INTERVAL);
             }
         };
 
         @Override
         public int onStartCommand(Intent intent, int flags, int startId) {
+
+            onTaskRemoved(intent);
             // Create the Handler object
             mHandler = new Handler();
             // Execute a runnable task as soon as possible
@@ -67,6 +69,15 @@ public class Myservice extends Service {
 
             return START_STICKY;
         }
+
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+
+        Intent ms = new Intent(getApplicationContext(),this.getClass());
+        ms.setPackage(getPackageName());
+        startService(ms);
+        super.onTaskRemoved(rootIntent);
+    }
 
         private synchronized void syncData() {
             // call your rest service here
@@ -92,7 +103,7 @@ public class Myservice extends Service {
 
         apolloClient
                 .query(PersondetailsQuery.builder().mobileno(mobileno).build())
-                .httpCachePolicy(HttpCachePolicy.CACHE_FIRST)
+                .httpCachePolicy(HttpCachePolicy.NETWORK_FIRST)
                 .enqueue(new ApolloCall.Callback<PersondetailsQuery.Data>() {
                     @Override
                     public void onResponse(@Nonnull Response<PersondetailsQuery.Data> response) {
@@ -125,7 +136,7 @@ public class Myservice extends Service {
                                 @Override
                                 public void onResponse(@Nonnull Response<UpdateMutation.Data> response) {
                                     UpdateMutation.Data res = response.data();
-                          Log.d("done","donedonedone");
+                          Log.d("done",String.valueOf(res));
 
                                 }
 
@@ -157,95 +168,6 @@ public class Myservice extends Service {
 
 
         }
-
-
-//    @Override
-//    public void onCreate() {
-//
-//
-//        SharedPreferences sp = getSharedPreferences("Login", Context.MODE_PRIVATE);
-//
-//        mobileno = sp.getString("mobile", null);
-//
-//        File file = new File(this.getCacheDir().toURI());
-//        //Size in bytes of the cache
-//        int size = 1024 * 1024;
-//
-//        //Create the http response cache store
-//        DiskLruHttpCacheStore cacheStore = new DiskLruHttpCacheStore(file, size);
-//
-//        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-//                .build();
-//
-//        apolloClient = ApolloClient.builder()
-//                .serverUrl("https://digicashserver.herokuapp.com/graphql")
-//                .httpCache(new ApolloHttpCache(cacheStore))
-//                .okHttpClient(okHttpClient)
-//                .build();
-//
-//        apolloClient
-//                .query(PersondetailsQuery.builder().mobileno(mobileno).build())
-//                .httpCachePolicy(HttpCachePolicy.CACHE_FIRST)
-//                .enqueue(new ApolloCall.Callback<PersondetailsQuery.Data>() {
-//                    @Override
-//                    public void onResponse(@Nonnull Response<PersondetailsQuery.Data> response) {
-//
-//
-//                        PersondetailsQuery.Data data = response.data();
-//
-//                        if (data != null) {
-//                            Log.d("msg", "serviceeeeeeeeeeeeeeeeeeeeeee");
-//                        }
-//
-//                        try {
-//                            moneyp = Integer.parseInt(data.person().get(0).wallet.toString());
-//
-//                            Log.d("datas", Integer.toString(moneyp));
-//
-//                            money=moneyp + 1;
-//
-//                            Log.d("number", mobileno);
-//
-//                            Log.d("wallet", Integer.toString(money));
-//
-//                            UpdateMutation updateMutation = UpdateMutation.builder()
-//
-//                                    .mobileno(mobileno)
-//                                    .wallet(money)
-//                                    .build();
-//                            ApolloCall<UpdateMutation.Data> call = apolloClient.mutate(updateMutation);
-//                            call.enqueue(new ApolloCall.Callback<UpdateMutation.Data>() {
-//                                @Override
-//                                public void onResponse(@Nonnull Response<UpdateMutation.Data> response) {
-//                                    UpdateMutation.Data res = response.data();
-//                          Log.d("done","donedonedone");
-//                                }
-//
-//                                @Override
-//                                public void onFailure(@Nonnull ApolloException e) {
-//                                    Log.e("Fail", "onFailure: ", e);
-//                                }
-//                            });
-//
-//
-//
-//                        } catch (Exception e) {
-//                            Log.d("catch", "errrrrrrrrrrrrrrrrrrrrrrrr");
-//
-//
-//                        }
-//
-//
-//                    }
-//
-//                    @Override
-//                    public void onFailure(@Nonnull ApolloException e) {
-//
-//                        Log.e("Fail", "onFailure: ", e);
-//
-//                    }
-//                });
-
 
 
 

@@ -107,7 +107,7 @@ public class NavActivity extends AppCompatActivity
         history = new History();
         home= new Home();
 
-        setFragment(cashfragment);
+        setFragment(home);
 
         BottomNavigationhelper.removeShiftMode(mMainNav);
 

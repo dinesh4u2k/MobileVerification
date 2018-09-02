@@ -69,6 +69,24 @@ public class Login extends AppCompatActivity {
 
         }
 
+        if (ContextCompat.checkSelfPermission(Login.this,
+                Manifest.permission.WAKE_LOCK) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(Login.this,
+                    Manifest.permission.WAKE_LOCK)){
+                ActivityCompat.requestPermissions(Login.this, new String[]{
+                        Manifest.permission.WAKE_LOCK}, 1);
+
+            } else {
+
+                ActivityCompat.requestPermissions(Login.this, new String[]{
+                        Manifest.permission.WAKE_LOCK}, 1);
+
+            }
+        } else {
+
+        }
+
+
         username = findViewById(R.id.username);
         spinner = (Spinner) findViewById(R.id.spinnercountries);
         editText = (EditText) findViewById(R.id.no);

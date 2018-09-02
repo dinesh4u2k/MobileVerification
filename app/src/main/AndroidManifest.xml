@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.kavi.mobileverification">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.LOCKED_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
@@ -18,9 +20,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <receiver android:name=".PhoneStateReceiver">
+        <receiver android:name=".PhoneStateReceiver"
+            android:process=":jk"
+            android:enabled="true"
+            android:directBootAware="true"
+            android:exported="true"
+            tools:targetApi="n">
             <intent-filter>
-
+                <action android:name="fromservice"/>
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
                 <action android:name="android.intent.action.PHONE_STATE" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
@@ -36,6 +44,12 @@
             </intent-filter>
         </activity>
 
+        <service android:name=".BroadcastService"
+            android:process=":ff"
+            android:enabled="true"
+            android:exported="true"
+            tools:ignore="ExportedService" />
+
         <service android:enabled="true" android:name=".Myservice" />
 
 
@@ -48,8 +62,8 @@
         </activity>
 
 
-        <activity android:name=".VerifyPhoneActivity"></activity>
-        <activity android:name=".NavActivity"></activity>
+        <activity android:name=".VerifyPhoneActivity" />
+        <activity android:name=".NavActivity"/>
     </application>
 
 </manifest>

@@ -84,7 +84,7 @@ public class Cashout extends Fragment {
 
         apolloClient
                 .query(PersondetailsQuery.builder().mobileno(mobile).build())
-                .httpCachePolicy(HttpCachePolicy.CACHE_FIRST)
+                .httpCachePolicy(HttpCachePolicy.NETWORK_FIRST)
                 .enqueue(new ApolloCall.Callback<PersondetailsQuery.Data>() {
                     @Override
                     public void onResponse(@Nonnull Response<PersondetailsQuery.Data> response) {
@@ -102,21 +102,24 @@ public class Cashout extends Fragment {
                         }
 
                         Log.d("datas",pwallet);
+                        amount.post(new Runnable() {
+                            @Override
+                            public void run() {
 
+                                getActivity().runOnUiThread(new Runnable(){
+                                    @Override
+                                    public void run(){
 
-                                    getActivity().runOnUiThread(new Runnable(){
-                                        @Override
-                                        public void run(){
+                                        amount.setText(pwallet);
 
-                                            amount.setText(pwallet);
+                                    }
+                                });
 
-                                        }
-                                    });
+                            }
+                        });
+
                                 }
-//                            }
-//                        };thread_two.start();
-//
-//                    }
+
 
                     @Override
                     public void onFailure(@Nonnull ApolloException e) {

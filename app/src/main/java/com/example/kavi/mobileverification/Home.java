@@ -1,6 +1,7 @@
 package com.example.kavi.mobileverification;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -64,6 +65,8 @@ public class Home extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+        getContext().startService(new Intent(getContext(),BroadcastService.class));
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 

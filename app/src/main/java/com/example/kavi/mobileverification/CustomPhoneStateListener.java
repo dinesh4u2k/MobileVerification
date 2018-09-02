@@ -71,28 +71,12 @@ public class CustomPhoneStateListener extends Activity {
         Random rand = new Random();
         int n = rand.nextInt(5);
 
-        //try {
-//            requestWindowFeature(Window.FEATURE_NO_TITLE);
-//            this.setFinishOnTouchOutside(false);
-//            Log.d("flag2", "flag2");
 
-        // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
 
-//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-//            getWindow().addFlags(
-//                    WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
-
-//            Log.d("flagy ", "flagy");
 
         setContentView(R.layout.popup);
 
-//            Log.d("flagz ", "flagz");
-
-//            String number = getIntent().getStringExtra(
-//                    TelephonyManager.EXTRA_INCOMING_NUMBER);
-//            TextView text = (TextView) findViewById(R.id.text1);
-//            text.setText("Incoming call from " + number);
 
 
         banner = findViewById(R.id.banner);
@@ -109,14 +93,12 @@ public class CustomPhoneStateListener extends Activity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        //getWindow().getWindowManager().getDefaultDisplay();
 
         getWindow().setLayout((int) (width * .9), (int) (height * .4));
-        //  getWindow().setBackgroundDrawable(null);
+
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
                 WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
                 WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-
                 WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
         close = findViewById(R.id.close);
@@ -125,28 +107,20 @@ public class CustomPhoneStateListener extends Activity {
 
         close.setTextColor(Color.BLACK);
 
-
-
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-
+                CustomPhoneStateListener.this.finish();
                // startService(new Intent(getApplication(), Myservice.class));
 
-                finishAffinity();
+//                finishAffinity();
 
 
             }
         });
 
 
-        // }
-//        catch (Exception e) {
-//            Log.d("Exception", e.toString());
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
 
     }
 
