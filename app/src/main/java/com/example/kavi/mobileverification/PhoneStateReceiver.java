@@ -28,6 +28,9 @@ public class PhoneStateReceiver extends BroadcastReceiver {
                     i.putExtras(intent);
                     i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    i.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 
                     new android.os.Handler().postDelayed(new Runnable() {
                         @Override

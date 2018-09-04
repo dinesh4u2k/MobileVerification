@@ -17,7 +17,7 @@ public class BroadcastService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        onTaskRemoved(intent);
+//        onTaskRemoved(intent);
         new CountDownTimer(100000,4000)
         {
             @Override
@@ -34,13 +34,13 @@ public class BroadcastService extends Service {
         return START_STICKY;
     }
 
-    @Override
-    public void onTaskRemoved(Intent rootIntent) {
-
-        Intent bcs = new Intent(getApplicationContext(),this.getClass());
-        bcs.setPackage(getPackageName());
-        startService(bcs);
-        super.onTaskRemoved(rootIntent);
-    }
+//    @Override
+//    public void onTaskRemoved(Intent rootIntent) {
+//
+//        Intent bcs = new Intent(getApplicationContext(),this.getClass());
+//        bcs.setPackage(getPackageName());
+//        startService(bcs);
+//        super.onTaskRemoved(rootIntent);
+//    }
 }
 

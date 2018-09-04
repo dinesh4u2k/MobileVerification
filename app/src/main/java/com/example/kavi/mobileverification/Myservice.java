@@ -46,7 +46,7 @@ public class Myservice extends Service {
 
         private Handler mHandler;
         // default interval for syncing data
-        public static final long DEFAULT_SYNC_INTERVAL = 30 * 1000;
+//        public static final long DEFAULT_SYNC_INTERVAL = 30 * 1000;
 
         // task to be run here
         private Runnable runnableService = new Runnable() {
@@ -61,7 +61,7 @@ public class Myservice extends Service {
         @Override
         public int onStartCommand(Intent intent, int flags, int startId) {
 
-            onTaskRemoved(intent);
+//            onTaskRemoved(intent);
             // Create the Handler object
             mHandler = new Handler();
             // Execute a runnable task as soon as possible
@@ -70,14 +70,14 @@ public class Myservice extends Service {
             return START_STICKY;
         }
 
-    @Override
-    public void onTaskRemoved(Intent rootIntent) {
-
-        Intent ms = new Intent(getApplicationContext(),this.getClass());
-        ms.setPackage(getPackageName());
-        startService(ms);
-        super.onTaskRemoved(rootIntent);
-    }
+//    @Override
+//    public void onTaskRemoved(Intent rootIntent) {
+//
+//        Intent ms = new Intent(getApplicationContext(),this.getClass());
+//        ms.setPackage(getPackageName());
+//        startService(ms);
+//        super.onTaskRemoved(rootIntent);
+//    }
 
         private synchronized void syncData() {
             // call your rest service here
