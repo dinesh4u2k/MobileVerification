@@ -39,6 +39,14 @@
           }
         },
         {
+          "client_id": "240334096545-u8vuqk8srhclk3ifij93cut4e5ivvln8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kavi.mobileverification",
+            "certificate_hash": "f00d7f4fa5a957b5c4f7798fddbe22dc093e8bc6"
+          }
+        },
+        {
           "client_id": "240334096545-hgkmjmsf4nj06nj5it6blr15tr2s54ep.apps.googleusercontent.com",
           "client_type": 3
         }

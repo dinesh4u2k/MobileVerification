@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.widget.Toast;
 
 
 public class PhoneStateReceiver extends BroadcastReceiver {
@@ -24,6 +25,8 @@ public class PhoneStateReceiver extends BroadcastReceiver {
 
                     Log.d("Ringing", "Phone is ringing");
 
+                    Toast.makeText(context, "I m Ringinggggg", Toast.LENGTH_SHORT).show();
+
                     final Intent i = new Intent(context, CustomPhoneStateListener.class);
                     i.putExtras(intent);
                     i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -32,6 +35,8 @@ public class PhoneStateReceiver extends BroadcastReceiver {
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     i.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 
+
+
                     new android.os.Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -39,18 +44,28 @@ public class PhoneStateReceiver extends BroadcastReceiver {
                         }
                     }, 1000);
 
+
+
                 }
 
-                if (state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
-                    Log.d("attend", "basjdnasjfasjfhasfjlasfklafklajfklajfklajfklasjf");
+                if (!intent.getAction().equals("android.intent.action.NEW_OUTGOING_CALL")) {
 
-                    context.startService(new Intent(context, Myservice.class));
+                    if (state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
+                        Log.d("attend", "basjdnasjfasjfhasfjlasfklafklajfklajfklajfklasjf");
+
+                        context.startService(new Intent(context, Myservice.class));
+                    }
+
+                    if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
+
+                        context.stopService(new Intent(context, Myservice.class));
+
+                    }
+
+
+                }
                 }
 
-                if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)){
-                    context.stopService(new Intent(context, Myservice.class));
-                }
-            }
 
 
         } catch (NullPointerException e) {
