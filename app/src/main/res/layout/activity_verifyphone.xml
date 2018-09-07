@@ -1,28 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".VerifyPhoneActivity">
 
 
     <LinearLayout
-        android:layout_width="206dp"
+        android:layout_width="fill_parent"
+        android:layout_marginTop="20dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="60dp"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:src="@drawable/icon" />
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/icon_coin" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/app_name"
-            android:textColor="@color/basic_blue"
+            android:padding="10dp"
+            android:textColor="@color/colorPrimary"
             android:textSize="40dp"
             android:textStyle="bold" />
 
@@ -32,53 +37,46 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/phnnumber"
-        android:layout_marginStart="20dp"
         android:text="Enter the OTP send to"
-        android:textSize="18sp" />
+        android:textColor="@color/colorPrimary"
+        android:textSize="20dp" />
 
 
     <TextView
+        android:layout_marginTop="5dp"
         android:id="@+id/phnnumber"
-        android:layout_width="159dp"
-        android:layout_height="41dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="7dp"
-        android:layout_marginTop="100dp"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:layout_gravity="center"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:textColor="@color/colorPrimary"
+        />
 
 
 
     <ProgressBar
         android:layout_marginTop="20dp"
         android:id="@+id/progressbar"
-        android:layout_below="@id/textView"
-        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:visibility="gone"
         android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/editTextCode"
-        android:layout_width="200dp"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="215dp"
-        android:digits="0123456789"
-        android:drawablePadding="10dp"
-        android:hint="enter verification code"
-        android:inputType="phone"
-        android:maxLength="10" />
+        android:hint="Enter verification code"
+        android:inputType="number"
+        android:maxLength="6" />
 
     <LinearLayout
-        android:layout_width="359dp"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:orientation="horizontal"
         android:padding="10dp">
 
@@ -88,7 +86,7 @@
             android:layout_height="wrap_content"
 
             android:text="Change Number"
-            android:textColor="@color/basic_blue"
+            android:textColor="@color/colorPrimary"
 
             android:textSize="15dp" />
 
@@ -98,7 +96,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="130dp"
             android:text="Resend OTP"
-            android:textColor="@color/basic_blue"
+            android:textColor="@color/colorPrimary"
             android:textSize="15dp" />
 
     </LinearLayout>
@@ -107,13 +105,31 @@
         android:id="@+id/buttonSignIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="159dp"
-        android:background="@color/colorPrimaryDark"
+        android:background="@drawable/shape"
+        android:layout_marginTop="20dp"
+        android:textSize="20dp"
         android:text="Sign In"
+        android:layout_gravity="center"
         android:textAllCaps="false"
-        android:textColor="#cdd8f1" />
+        android:textColor="@color/colorPrimary" />
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/quote"
+        android:paddingTop="50dp"
 
-</RelativeLayout>
+        android:textColor="@color/colorPrimary"
+        android:textSize="10dp" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/c_name"
+        android:textColor="@color/colorPrimary"
+        android:textSize="10dp" />
+
+
+</LinearLayout>
 

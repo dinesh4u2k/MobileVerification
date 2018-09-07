@@ -81,6 +81,15 @@ public class VerifyPhoneActivity extends AppCompatActivity {
         phnnumber.setText(phonenumber);
 
         sendverificationcode(phonenumber);
+        findViewById(R.id.resend).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String number = phnnumber.getText().toString().trim();
+                resendVerificationCode(number);
+
+            }
+        });
 
         findViewById(R.id.buttonSignIn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +110,7 @@ public class VerifyPhoneActivity extends AppCompatActivity {
         });
     }
 
+
     private void verifycode(String code){
 
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
@@ -120,7 +130,7 @@ public class VerifyPhoneActivity extends AppCompatActivity {
 
                             String username = getIntent().getStringExtra("username");
 
-                            Intent intent = new Intent(VerifyPhoneActivity.this,NavActivity.class);
+                            Intent intent = new Intent(VerifyPhoneActivity.this,Username.class);
 
                             intent.putExtra("phonenumber1", phonenumber1);
                             intent.putExtra("username", username);
@@ -137,7 +147,6 @@ public class VerifyPhoneActivity extends AppCompatActivity {
 
     }
 
-
     private void sendverificationcode(String number){
 
         progressBar.setVisibility(View.VISIBLE);
@@ -151,6 +160,15 @@ public class VerifyPhoneActivity extends AppCompatActivity {
                 mcallBack
         );
 
+    }
+    private void resendVerificationCode(String number) {
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                number,        // Phone number to verify
+                60,                 // Timeout duration
+                TimeUnit.SECONDS,   // Unit of timeout
+                this,               // Activity (for callback binding)
+                mcallBack         // OnVerificationStateChangedCallbacks
+        );             // ForceResendingToken from callbacks
     }
 
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks

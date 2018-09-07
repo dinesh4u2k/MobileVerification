@@ -5,18 +5,15 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.os.Build;
-import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -39,7 +36,6 @@ import okhttp3.OkHttpClient;
 
 public class Login extends AppCompatActivity {
 
-    private static final int ACCESSIBILITY_ENABLED = 1;
     Spinner spinner;
 
     EditText editText;
@@ -47,6 +43,7 @@ public class Login extends AppCompatActivity {
     TextView username;
 
     String Phonenumber1;
+    CheckBox terms;
 
     String un;
 
@@ -55,11 +52,7 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        isAccessibilitySettingsOn(this);
 
-        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
 
         if (ContextCompat.checkSelfPermission(Login.this,
                 android.Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
@@ -96,11 +89,12 @@ public class Login extends AppCompatActivity {
         }
 
 
-
-
-        username = findViewById(R.id.username);
+        //username = findViewById(R.id.username);
         spinner = (Spinner) findViewById(R.id.spinnercountries);
         editText = (EditText) findViewById(R.id.no);
+        terms = (CheckBox) findViewById(R.id.checkbox);
+
+
 
         spinner.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item, CountryData.countryareacodes));
 
@@ -114,13 +108,19 @@ public class Login extends AppCompatActivity {
 
                 String number = editText.getText().toString().trim();
 
-                 un = username.getText().toString().trim();
+                //un = username.getText().toString().trim();
 
                 if (number.isEmpty() || number.length() <10){
                     editText .setError("Valid Number is Required");
                     editText.requestFocus();
                     return;
                 }
+                if (!terms.isChecked()){
+                    terms .setError("Agree to the Terms");
+                    terms.requestFocus();
+                    return;
+                }
+
 
                 String Phonenumber =  code + number;
                 Phonenumber1 =  number;
@@ -145,39 +145,6 @@ public class Login extends AppCompatActivity {
         });
     }
 
-
-    public static boolean isAccessibilitySettingsOn(Context context) {
-        int accessibilityEnabled = 0;
-        final String service = context.getPackageName() + "/" + MyAccessibilityService.class.getCanonicalName();
-        try {
-            accessibilityEnabled = Settings.Secure.getInt(
-                    context.getApplicationContext().getContentResolver(),
-                    android.provider.Settings.Secure.ACCESSIBILITY_ENABLED);
-        } catch (Settings.SettingNotFoundException e) {
-            Log.e("AU", "Error finding setting, default accessibility to not found: "
-                    + e.getMessage());
-        }
-        TextUtils.SimpleStringSplitter mStringColonSplitter = new TextUtils.SimpleStringSplitter(':');
-
-        if (accessibilityEnabled == ACCESSIBILITY_ENABLED) {
-            String settingValue = Settings.Secure.getString(
-                    context.getApplicationContext().getContentResolver(),
-                    Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
-            if (settingValue != null) {
-                mStringColonSplitter.setString(settingValue);
-                while (mStringColonSplitter.hasNext()) {
-                    String accessibilityService = mStringColonSplitter.next();
-
-                    if (accessibilityService.equalsIgnoreCase(service)) {
-                        return true;
-                    }
-                }
-            }
-        }
-
-        return false;
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
@@ -200,7 +167,7 @@ public class Login extends AppCompatActivity {
         super.onStart();
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null){
-;
+            ;
 
             Intent intent = new Intent(this,NavActivity.class);
 

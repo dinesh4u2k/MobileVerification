@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#40C4FF</color>
-    <color name="colorPrimaryDark">#40C4FF</color>
-    <color name="colorAccent">#40C4FF</color>
-    <color name="basic_blue">#0091EA</color>
-    <color name="bg_blue">#00E5FF</color>
-    <color name="bg">#FF9100</color>
-    <color name="bt_nv_color">#000000</color>
+    <color name="colorPrimary">#006064</color>
+    <color name="colorAccent">#00838F</color>
+    <color name="bg">#E0F7FA</color>
+    <color name="bt_nv_color">#006064</color>
+    <color name="colorPrimaryDark">#006064</color>
+    <color name="basic_blue">#006064</color>
+
 
 </resources>
