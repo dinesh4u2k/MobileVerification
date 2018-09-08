@@ -11,45 +11,58 @@ import android.widget.Toast;
 
 public class PhoneStateReceiver extends BroadcastReceiver {
 
+    public boolean ring = false;
+
     @SuppressLint("UnsafeProtectedBroadcastReceiver")
     @Override
     public void onReceive(final Context context, Intent intent) {
 
+
+
         Log.d("flag1 ", "flag1");
-        try {
-            String state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
+
+        if (intent.getAction().equals("android.intent.action.NEW_OUTGOING_CALL")) {
+
+            Log.d("out","outgoingggggg");
+
+        }else {
+            try {
+                String state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
 
 //        Log.e("flag2",state);
-            if (state !=null) {
-                if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
+                if (state != null) {
+                    if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
 
-                    Log.d("Ringing", "Phone is ringing");
+                        Log.d("Ringing", "Phone is ringing");
 
-                    Toast.makeText(context, "I m Ringinggggg", Toast.LENGTH_SHORT).show();
+                        ring = true;
 
-                    final Intent i = new Intent(context, CustomPhoneStateListener.class);
-                    i.putExtras(intent);
-                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    i.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+                       // Toast.makeText(context, "I m Ringinggggg", Toast.LENGTH_SHORT).show();
 
+                       // Toast.makeText(context, String.valueOf(ring), Toast.LENGTH_LONG).show();
 
-
-                    new android.os.Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            context.startActivity(i);
-                        }
-                    }, 1000);
+                        final Intent i = new Intent(context, CustomPhoneStateListener.class);
+                        i.putExtras(intent);
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        i.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 
 
+                        new android.os.Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                context.startActivity(i);
+                            }
+                        }, 1000);
 
-                }
 
-                if (!intent.getAction().equals("android.intent.action.NEW_OUTGOING_CALL")) {
+                    }
 
+//                if (!intent.getAction().equals("android.intent.action.NEW_OUTGOING_CALL")) {
+
+//                if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
                     if (state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
                         Log.d("attend", "basjdnasjfasjfhasfjlasfklafklajfklajfklajfklasjf");
 
@@ -62,14 +75,15 @@ public class PhoneStateReceiver extends BroadcastReceiver {
 
                     }
 
-
                 }
-                }
+                //}
+                // }
 
 
+            } catch (NullPointerException e) {
+                Log.e("null", Log.getStackTraceString(e));
+            }
 
-        } catch (NullPointerException e) {
-            Log.e("null", Log.getStackTraceString(e));
         }
 
     }

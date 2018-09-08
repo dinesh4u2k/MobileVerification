@@ -71,7 +71,7 @@ public class CustomPhoneStateListener extends Activity {
                 R.drawable.im3,
                 R.drawable.im4,
                 R.drawable.im5,
-                R.drawable.banner1
+//                R.drawable.banner1
 
 
         };

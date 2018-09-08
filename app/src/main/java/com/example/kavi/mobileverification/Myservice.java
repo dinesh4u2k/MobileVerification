@@ -30,7 +30,7 @@ import okhttp3.OkHttpClient;
 public class Myservice extends Service {
 
     static final String CONNECTIVITY_CHANGE_ACTION = "android.net.conn.CONNECTIVITY_CHANGE";
-    NotificationManager manager ;
+    public BroadcastReceiver receiver;
 
     public String mobileno;
 
@@ -67,10 +67,10 @@ public class Myservice extends Service {
         @Override
         public int onStartCommand(Intent intent, int flags, int startId) {
 
-            Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
             IntentFilter filter = new IntentFilter();
             filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-            BroadcastReceiver receiver = new BroadcastReceiver() {
+            receiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
                     String action = intent.getAction();
@@ -110,6 +110,8 @@ public class Myservice extends Service {
             };
             registerReceiver(receiver,filter);
 
+//            unregisterReceiver(receiver);
+
 
 //            onTaskRemoved(intent);
             // Create the Handler object
@@ -120,7 +122,7 @@ public class Myservice extends Service {
 
 //    @Override
 //    public void onTaskRemoved(Intent rootIntent) {
-//
+
 //        Intent ms = new Intent(getApplicationContext(),this.getClass());
 //        ms.setPackage(getPackageName());
 //        startService(ms);
@@ -219,8 +221,9 @@ public class Myservice extends Service {
 
     @Override
     public void onDestroy() {
+            unregisterReceiver(receiver);
         super.onDestroy();
-        Toast.makeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
     }
 
 
