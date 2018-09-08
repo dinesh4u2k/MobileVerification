@@ -10,9 +10,12 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -37,6 +40,9 @@ public class CustomPhoneStateListener extends Activity {
 
 
     public String mobileno;
+    private ViewGroup rootlayout;
+    private int xdelta;
+    private int ydelta;
 
 
     @Override
@@ -64,19 +70,26 @@ public class CustomPhoneStateListener extends Activity {
                 R.drawable.im2,
                 R.drawable.im3,
                 R.drawable.im4,
-                R.drawable.im5
+                R.drawable.im5,
+                R.drawable.banner1
 
 
         };
 
         Random rand = new Random();
-        int n = rand.nextInt(5);
+        int n = rand.nextInt(6);
 
 
         super.onCreate(savedInstanceState);
 
 
         setContentView(R.layout.popup);
+        rootlayout = (ViewGroup) findViewById(R.id.view_root);
+        banner = findViewById(R.id.banner);
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(1070,10000);
+        //rootlayout.getHeight();
+        rootlayout.setLayoutParams(layoutParams);
+        //rootlayout.setOnTouchListener(new ChoiceTouchListener());
 
 
 
@@ -89,13 +102,13 @@ public class CustomPhoneStateListener extends Activity {
                 .into(banner);
 
         final DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        getWindow().getWindowManager().getDefaultDisplay().getMetrics(dm);
 
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
 
-        getWindow().setLayout((int) (width * .9), (int) (height * .4));
+        getWindow().setLayout((int) (width * 0.99), (int) (height));
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
                 WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
@@ -124,6 +137,48 @@ public class CustomPhoneStateListener extends Activity {
 
 
 
+    }
+
+    private final class ChoiceTouchListener implements View.OnTouchListener{
+
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            final int X = (int) motionEvent.getRawX();
+            final int Y = (int) motionEvent.getRawY();
+            switch (motionEvent.getAction() & MotionEvent.ACTION_MASK){
+                case MotionEvent.ACTION_DOWN:
+
+                    FrameLayout.LayoutParams lParams = (FrameLayout.LayoutParams) view.getLayoutParams();
+                    xdelta = X - lParams.leftMargin;
+                    ydelta = Y - lParams.topMargin;
+                    break;
+
+                case MotionEvent.ACTION_UP:
+                    break;
+
+
+                case MotionEvent.ACTION_POINTER_DOWN:
+                    break;
+
+                case MotionEvent.ACTION_POINTER_UP:
+                    break;
+
+                case MotionEvent.ACTION_MOVE:
+                    FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) view.getLayoutParams();
+
+
+                    //layoutParams.leftMargin = X - xdelta;
+                    layoutParams.topMargin = Y - ydelta;
+
+                    //layoutParams.rightMargin = -250;
+                    layoutParams.bottomMargin = -250;
+                    view.setLayoutParams(layoutParams);
+                    break;
+            }
+
+            rootlayout.invalidate();
+            return true;
+        }
     }
 
 
