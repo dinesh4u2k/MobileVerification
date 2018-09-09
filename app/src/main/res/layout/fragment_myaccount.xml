@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
-    tools:context="com.example.vignesh.adkoin4.Myaccount">
+    >
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -72,68 +72,77 @@
                 />
 
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/history"
             android:layout_width="fill_parent"
             android:layout_height="60dp"
             android:layout_marginTop="10dp"
             android:background="#ffffff"
             android:orientation="horizontal">
+
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="15dp"
-                android:src="@drawable/ic_history"/>
+                android:src="@drawable/ic_history" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:layout_marginLeft="10dp"
-                android:textSize="15sp"
+                android:layout_marginTop="20dp"
                 android:text="Reward History"
-                />
+                android:textSize="15sp" />
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/share"
             android:layout_width="fill_parent"
             android:layout_height="60dp"
             android:layout_marginTop="10dp"
             android:background="#ffffff"
             android:orientation="horizontal">
+
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="15dp"
-                android:src="@drawable/ic_share"/>
+                android:src="@drawable/ic_share" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:layout_marginLeft="10dp"
-                android:textSize="15sp"
+                android:layout_marginTop="20dp"
                 android:text="Share with Friends"
-                />
+                android:textSize="15sp" />
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/logout"
             android:layout_width="fill_parent"
             android:layout_height="60dp"
             android:layout_marginTop="10dp"
             android:background="#ffffff"
             android:orientation="horizontal">
+
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="15dp"
-                android:src="@drawable/ic_logout"/>
+                android:src="@drawable/ic_logout" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:layout_marginLeft="10dp"
-                android:textSize="15sp"
+                android:layout_marginTop="20dp"
                 android:text="Logout"
-                />
+                android:textSize="15sp" />
         </LinearLayout>
 
         <!-- <TextView

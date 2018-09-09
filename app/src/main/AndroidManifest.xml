@@ -80,8 +80,8 @@
 
 
         <activity android:name=".VerifyPhoneActivity" />
-        <activity android:name=".NavActivity"/>
-        <activity android:name=".Username"/>
+        <activity android:name=".MainActivity"/>
+        <!--<activity android:name=".Username"/>-->
     </application>
 
 </manifest>

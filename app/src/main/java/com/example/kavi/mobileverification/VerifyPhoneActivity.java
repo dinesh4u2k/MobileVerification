@@ -128,9 +128,9 @@ public class VerifyPhoneActivity extends AppCompatActivity {
 
                             String phonenumber1 = getIntent().getStringExtra("phonenumber1");
 
-                            String username = getIntent().getStringExtra("username");
+                           String username = getIntent().getStringExtra("username");
 
-                            Intent intent = new Intent(VerifyPhoneActivity.this,Username.class);
+                            Intent intent = new Intent(VerifyPhoneActivity.this,MainActivity.class);
 
                             intent.putExtra("phonenumber1", phonenumber1);
                             intent.putExtra("username", username);

@@ -1,6 +1,8 @@
 package com.example.kavi.mobileverification;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,21 +12,59 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.apollographql.apollo.ApolloCall;
+import com.apollographql.apollo.ApolloClient;
+import com.apollographql.apollo.api.Response;
+import com.apollographql.apollo.api.cache.http.HttpCachePolicy;
+import com.apollographql.apollo.cache.http.ApolloHttpCache;
+import com.apollographql.apollo.cache.http.DiskLruHttpCacheStore;
+import com.apollographql.apollo.exception.ApolloException;
+
+import java.io.File;
+import java.nio.charset.IllegalCharsetNameException;
 import java.util.ArrayList;
+
+import javax.annotation.Nonnull;
+
+import okhttp3.OkHttpClient;
 
 import static android.content.ContentValues.TAG;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link Home.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link Home#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class Home1 extends Fragment {
+    int images[]={
+            R.drawable.im1,
+    R.drawable.im2,
+    R.drawable.im3,
+    R.drawable.im4,
+    R.drawable.im5,
+
+};
+    private TextView amount;
+
+    public ApolloClient apolloClient;
+
+    public String pwallet;
+
+    public TextView callcount;
+
+    public Integer callc;
+    public String dd;
+
+    LayoutInflater inflater1;
+
+    ImageView imageView;
+    ImageView imageView1;
+    ImageView imageView2;
+    ImageView imageView3;
+    ImageView imageView4;
+
+
+    LinearLayout gallery;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -51,8 +91,8 @@ public class Home1 extends Fragment {
      * @return A new instance of fragment Home.
      */
     // TODO: Rename and change types and number of parameters
-    public static Home newInstance(String param1, String param2) {
-        Home fragment = new Home();
+    public static Home1 newInstance(String param1, String param2) {
+        Home1 fragment = new Home1();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -76,20 +116,117 @@ public class Home1 extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
+        getContext().startService(new Intent(getContext(),BroadcastService.class));
+        SharedPreferences sp = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
 
-        return inflater.inflate(R.layout.fragment_home1, container, false);
+        String mobile = sp.getString("mobile",null);
+
+        View rootView=inflater.inflate(R.layout.fragment_home1, container, false);
+        callcount=rootView.findViewById(R.id.call);
+        amount = rootView.findViewById(R.id.cash_amo);
+         gallery=rootView.findViewById(R.id.gallery);
+        inflater1 = LayoutInflater.from(getActivity());
+
+        SharedPreferences spbroad = getActivity().getSharedPreferences("cc", Context.MODE_PRIVATE);
+
+        callc = spbroad.getInt("count",0);
+
+        dd = callc + "/30";
+
+        callcount.setText(dd);
+
+        View view = inflater1.inflate(R.layout.banner,gallery,false);
+        imageView= view.findViewById(R.id.im1);
+        imageView.setImageResource(images[0]);
+        imageView1= view.findViewById(R.id.im2);
+        imageView1.setImageResource(images[1]);
+        imageView2= view.findViewById(R.id.im3);
+        imageView2.setImageResource(images[2]);
+        imageView3= view.findViewById(R.id.im4);
+        imageView3.setImageResource(images[3]);
+        imageView4= view.findViewById(R.id.im5);
+        imageView4.setImageResource(images[4]);
+        gallery.addView(view);
+
+
+        File file = new File(getActivity().getCacheDir().toURI());
+        //Size in bytes of the cache
+        int size = 1024*1024;
+
+        //Create the http response cache store
+        DiskLruHttpCacheStore cacheStore = new DiskLruHttpCacheStore(file, size);
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .build();
+
+        apolloClient = ApolloClient.builder()
+                .serverUrl("https://digicashserver.herokuapp.com/graphql")
+                .httpCache(new ApolloHttpCache(cacheStore))
+                .okHttpClient(okHttpClient)
+                .build();
+
+
+        apolloClient
+                .query(PersondetailsQuery.builder().mobileno(mobile).build())
+                .httpCachePolicy(HttpCachePolicy.NETWORK_FIRST)
+                .enqueue(new ApolloCall.Callback<PersondetailsQuery.Data>() {
+                    @Override
+                    public void onResponse(@Nonnull Response<PersondetailsQuery.Data> response) {
+
+
+                        PersondetailsQuery.Data data = response.data();
+
+                        if(data!=null){
+                            Log.d("msg","cash out");
+                        }
+
+
+                        if (data.person != null && (data != null ? data.person.get(0).wallet : null) != null) {
+                            pwallet = data.person.get(0).wallet.toString();
+                        }
+
+                        Log.d("datas",pwallet);
+                        amount.post(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                getActivity().runOnUiThread(new Runnable(){
+                                    @Override
+                                    public void run(){
+
+                                        amount.setText(pwallet);
+
+                                    }
+                                });
+
+                            }
+                        });
+
+                    }
+
+
+                    @Override
+                    public void onFailure(@Nonnull ApolloException e) {
+
+                        Log.e("Fail", "onFailure: ",e );
+
+                    }
+                });
+
+
+        return rootView;
 
 
     }
-    private void initRecyclerView() {
+   /* private void initRecyclerView() {
         Log.d(TAG, "initRecyclerView: init recyclerview");
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = getActivity().findViewById(R.id.my_recycler_view);
         recyclerView.setLayoutManager(layoutManager);
        BannerAdapter adapter = new BannerAdapter(getContext(), mNames, mImageUrls);
         recyclerView.setAdapter(adapter);
-    }
-    private void getImages(){
+    }*/
+   /* private void getImages(){
         Log.d(TAG, "initImageBitmaps: preparing bitmaps.");
 
         mImageUrls.add("http://demo.ajax-cart.com/photos/product/4/176/4.jpg");
@@ -105,7 +242,7 @@ public class Home1 extends Fragment {
 
         initRecyclerView();
 
-    }
+    }*/
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

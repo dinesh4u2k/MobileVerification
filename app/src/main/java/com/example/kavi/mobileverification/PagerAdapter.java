@@ -25,7 +25,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
         {
 
             case 0:
-              Home home = new Home();
+              Home1 home = new Home1();
                 return home;
             case 1:
                 Myaccount myaccount = new Myaccount();

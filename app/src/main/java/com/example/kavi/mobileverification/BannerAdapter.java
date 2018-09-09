@@ -20,9 +20,8 @@ import java.util.ArrayList;
  * Created by User on 2/12/2018.
  */
 
-public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.ViewHolder> {
-
-    private static final String TAG = "DetailAdapter";
+public class BannerAdapter {
+   /* private static final String TAG = "DetailAdapter";
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
     private Context mContext;
@@ -65,5 +64,5 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.ViewHolder
             image = itemView.findViewById(R.id.bannerimg);
 
         }
-    }
+    }*/
 }

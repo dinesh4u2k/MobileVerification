@@ -77,7 +77,7 @@ public class CustomPhoneStateListener extends Activity {
         };
 
         Random rand = new Random();
-        int n = rand.nextInt(6);
+        int n = rand.nextInt(5);
 
 
         super.onCreate(savedInstanceState);

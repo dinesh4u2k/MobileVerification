@@ -1,12 +1,32 @@
 package com.example.kavi.mobileverification;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.apollographql.apollo.ApolloCall;
+import com.apollographql.apollo.ApolloClient;
+import com.apollographql.apollo.api.Response;
+import com.apollographql.apollo.api.cache.http.HttpCachePolicy;
+import com.apollographql.apollo.cache.http.ApolloHttpCache;
+import com.apollographql.apollo.cache.http.DiskLruHttpCacheStore;
+import com.apollographql.apollo.exception.ApolloException;
+import com.google.firebase.auth.FirebaseAuth;
+
+import java.io.File;
+
+import javax.annotation.Nonnull;
+
+import okhttp3.OkHttpClient;
 
 
 /**
@@ -17,7 +37,22 @@ import android.view.ViewGroup;
  * Use the {@link Myaccount#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Myaccount extends Fragment {
+public class Myaccount extends Fragment implements Refer.OnFragmentInteractionListener, History.OnFragmentInteractionListener {
+
+    private TextView amount;
+
+    private LinearLayout his;
+
+    private LinearLayout shar;
+
+    private LinearLayout log;
+
+    private Refer refer;
+    private History history1;
+
+    public ApolloClient apolloClient;
+
+    public String pwallet;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -64,7 +99,118 @@ public class Myaccount extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_myaccount, container, false);
+
+        SharedPreferences sp = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
+
+        String mobile = sp.getString("mobile",null);
+
+        View rootView=inflater.inflate(R.layout.fragment_myaccount, container, false);
+
+        amount = rootView.findViewById(R.id.cash);
+
+        his = rootView.findViewById(R.id.history);
+        shar = rootView.findViewById(R.id.share);
+        log = rootView.findViewById(R.id.logout);
+
+
+
+        File file = new File(getActivity().getCacheDir().toURI());
+        //Size in bytes of the cache
+        int size = 1024*1024;
+
+        //Create the http response cache store
+        DiskLruHttpCacheStore cacheStore = new DiskLruHttpCacheStore(file, size);
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .build();
+
+        apolloClient = ApolloClient.builder()
+                .serverUrl("https://digicashserver.herokuapp.com/graphql")
+                .httpCache(new ApolloHttpCache(cacheStore))
+                .okHttpClient(okHttpClient)
+                .build();
+
+
+        apolloClient
+                .query(PersondetailsQuery.builder().mobileno(mobile).build())
+                .httpCachePolicy(HttpCachePolicy.NETWORK_FIRST)
+                .enqueue(new ApolloCall.Callback<PersondetailsQuery.Data>() {
+                    @Override
+                    public void onResponse(@Nonnull Response<PersondetailsQuery.Data> response) {
+
+
+                        PersondetailsQuery.Data data = response.data();
+
+                        if(data!=null){
+                            Log.d("msg","cash out");
+                        }
+
+
+                        if (data.person != null && (data != null ? data.person.get(0).wallet : null) != null) {
+                            pwallet = data.person.get(0).wallet.toString();
+                        }
+
+                        Log.d("datas",pwallet);
+                        amount.post(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                getActivity().runOnUiThread(new Runnable(){
+                                    @Override
+                                    public void run(){
+
+                                        amount.setText(pwallet);
+
+                                    }
+                                });
+
+                            }
+                        });
+
+                    }
+
+
+                    @Override
+                    public void onFailure(@Nonnull ApolloException e) {
+
+                        Log.e("Fail", "onFailure: ",e );
+
+                    }
+                });
+
+        log.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+
+                Intent intent = new Intent(getContext(),Login.class);
+
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                startActivity(intent);
+            }
+        });
+
+        refer = new Refer();
+        history1 = new History();
+
+        shar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                String shareBody = "Here is the share content body";
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                startActivity(Intent.createChooser(sharingIntent, "Share via"));
+
+
+            }
+        });
+
+
+
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -72,6 +218,10 @@ public class Myaccount extends Fragment {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
+    }
+
+    public OnFragmentInteractionListener getmListener() {
+        return mListener;
     }
 
     @Override
@@ -89,6 +239,11 @@ public class Myaccount extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 
     /**

@@ -40,7 +40,7 @@ public class Login extends AppCompatActivity {
 
     EditText editText;
 
-    TextView username;
+    EditText username;
 
     String Phonenumber1;
     CheckBox terms;
@@ -93,6 +93,7 @@ public class Login extends AppCompatActivity {
         spinner = (Spinner) findViewById(R.id.spinnercountries);
         editText = (EditText) findViewById(R.id.no);
         terms = (CheckBox) findViewById(R.id.checkbox);
+        username = findViewById(R.id.username);
 
 
 
@@ -108,7 +109,7 @@ public class Login extends AppCompatActivity {
 
                 String number = editText.getText().toString().trim();
 
-                //un = username.getText().toString().trim();
+                un = username.getText().toString().trim();
 
                 if (number.isEmpty() || number.length() <10){
                     editText .setError("Valid Number is Required");
@@ -119,6 +120,10 @@ public class Login extends AppCompatActivity {
                     terms .setError("Agree to the Terms");
                     terms.requestFocus();
                     return;
+                }
+                if (un.isEmpty()){
+                    editText .setError("Valid Name is Required");
+                    editText.requestFocus();
                 }
 
 
@@ -169,7 +174,7 @@ public class Login extends AppCompatActivity {
         if (FirebaseAuth.getInstance().getCurrentUser() != null){
             ;
 
-            Intent intent = new Intent(this,NavActivity.class);
+            Intent intent = new Intent(this,MainActivity.class);
 
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
