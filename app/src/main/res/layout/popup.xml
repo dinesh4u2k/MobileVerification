@@ -1,63 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:orientation="horizontal">
 
+    <TextView
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="106dp"
+        android:text="Adcoin"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:typeface="sans" />
 
 
-
-
-    <FrameLayout
+    <RelativeLayout
         android:id="@+id/view_root"
         android:layout_width="fill_parent"
-        android:layout_height="568dp"
-        android:layout_gravity="center">
+        android:layout_height="298dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="142dp"
+        android:background="@drawable/rectangle">
 
-        <TextView
-            android:layout_marginTop="120dp"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:text="Adcoin"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@android:color/white"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:typeface="sans" />
-
-
-
-
-        <ImageView
-            android:id="@+id/banner"
-            android:layout_width="match_parent"
-            android:layout_height="227dp"
-            android:layout_marginTop="150dp"
-            android:background="@drawable/popupbackground" />
 
         <Button
             android:id="@+id/close"
             android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="150dp"
-            android:layout_marginLeft="1dp"
+            android:layout_height="32dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
             android:background="@drawable/closebutton"
             android:src="@drawable/close"
             android:text="X"
             android:textStyle="bold" />
-        <!--android:layout_marginTop="150dp"-->
 
-        <View
-            android:id="@+id/myRectangleView"
-            android:layout_width="fill_parent"
-            android:layout_height="75dp"
-            android:layout_marginTop="378dp"
-            android:background="@drawable/rectangle" />
+        <RelativeLayout
+            android:layout_width="354dp"
+            android:layout_height="208dp"
+            android:layout_below="@+id/close"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/rectangle">
 
-    </FrameLayout>
+            <ImageView
+                android:id="@+id/banner"
+                android:layout_width="360dp"
+                android:layout_height="204dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="0dp"
+                android:background="@drawable/popupbackground" />
 
-</FrameLayout>
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="390dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="97dp"
+        android:background="@drawable/rectangle"
+        android:orientation="vertical">
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="center"
+            android:text="@string/c_name"
+            android:textColor="#006064"
+            android:textStyle="bold"
+            android:textSize="15sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/quote"
+            android:textColor="#006064"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+
+
+    <!--
+
+
+
+
+    <View
+        android:id="@+id/myRectangleView"
+        android:layout_width="fill_parent"
+        android:layout_height="51dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/banner"
+        android:layout_marginTop="-136dp"
+        android:background="@drawable/rectangle" />-->
+
+
+</RelativeLayout>

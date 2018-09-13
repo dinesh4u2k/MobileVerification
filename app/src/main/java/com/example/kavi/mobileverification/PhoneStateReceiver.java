@@ -35,19 +35,22 @@ public class PhoneStateReceiver extends BroadcastReceiver {
 
         Log.d("flag1 ", "flag1");
 
-//        Calendar calendar = Calendar.getInstance();
-//        SimpleDateFormat mdformat = new SimpleDateFormat("HH:mm");
-//        String strDate = mdformat.format(calendar.getTime());
-//
-//        int a = calendar.get(Calendar.AM_PM);
-//        if(a == Calendar.PM) {
-//            if (strDate == "03:10") {
-//                SharedPreferences spbroad = context.getSharedPreferences("cc", Context.MODE_PRIVATE);
-//                final SharedPreferences.Editor editor = spbroad.edit();
-//                editor.clear();
-//                editor.apply();
-//            }
-//        }
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat mdformat = new SimpleDateFormat("HH:mm");
+        String strDate = mdformat.format(calendar.getTime());
+System.out.println(strDate);
+        int a = calendar.get(Calendar.AM_PM);
+        System.out.println(a);
+        System.out.println(Calendar.PM);
+
+        if(a == Calendar.PM) {
+            if (strDate == "15:25") {
+                SharedPreferences spbroad = context.getSharedPreferences("cc", Context.MODE_PRIVATE);
+                final SharedPreferences.Editor editor = spbroad.edit();
+                editor.clear();
+                editor.apply();
+            }
+        }
 
         if (intent.getAction().equals("android.intent.action.NEW_OUTGOING_CALL")) {
 
@@ -69,21 +72,7 @@ public class PhoneStateReceiver extends BroadcastReceiver {
 
                        // Toast.makeText(context, String.valueOf(ring), Toast.LENGTH_LONG).show();
 
-                        final Intent i = new Intent(context, CustomPhoneStateListener.class);
-                        i.putExtras(intent);
-                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        i.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 
-
-                        new android.os.Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                context.startActivity(i);
-                            }
-                        }, 1000);
 
 
                     }
@@ -124,6 +113,22 @@ public class PhoneStateReceiver extends BroadcastReceiver {
                     if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
 
                         context.stopService(new Intent(context, Myservice.class));
+
+                        final Intent i = new Intent(context, CustomPhoneStateListener.class);
+                        i.putExtras(intent);
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        i.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+
+
+                        new android.os.Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                context.startActivity(i);
+                            }
+                        }, 1000);
 
                     }
 

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -127,15 +128,24 @@ public class Home1 extends Fragment {
          gallery=rootView.findViewById(R.id.gallery);
         inflater1 = LayoutInflater.from(getActivity());
 
-        SharedPreferences spbroad = getActivity().getSharedPreferences("cc", Context.MODE_PRIVATE);
+//       new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
 
-        callc = spbroad.getInt("count",0);
+                SharedPreferences spbroad = getActivity().getSharedPreferences("cc", Context.MODE_PRIVATE);
 
-        dd = callc + "/30";
+                callc = spbroad.getInt("count",0);
 
-        callcount.setText(dd);
+                dd = callc + "/30";
 
-        View view = inflater1.inflate(R.layout.banner,gallery,false);
+                callcount.setText(dd);
+
+//            }
+//        }, 0);
+
+
+
+       /* View view = inflater1.inflate(R.layout.banner,gallery,false);
         imageView= view.findViewById(R.id.im1);
         imageView.setImageResource(images[0]);
         imageView1= view.findViewById(R.id.im2);
@@ -146,7 +156,7 @@ public class Home1 extends Fragment {
         imageView3.setImageResource(images[3]);
         imageView4= view.findViewById(R.id.im5);
         imageView4.setImageResource(images[4]);
-        gallery.addView(view);
+        gallery.addView(view);*/
 
 
         File file = new File(getActivity().getCacheDir().toURI());

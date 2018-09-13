@@ -10,8 +10,12 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.apollographql.apollo.ApolloCall;
@@ -30,7 +34,13 @@ import okhttp3.OkHttpClient;
 
 
 public class MainActivity extends AppCompatActivity implements Home1.OnFragmentInteractionListener, Myaccount.OnFragmentInteractionListener {
-
+    int images[]={
+            R.drawable.ad1,
+            R.drawable.ad2,
+            R.drawable.ad3,
+            R.drawable.ad4,
+            R.drawable.ad5,
+    };
 
     public ApolloClient apolloClient;
 
@@ -47,6 +57,22 @@ public class MainActivity extends AppCompatActivity implements Home1.OnFragmentI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        LinearLayout gallery =findViewById(R.id.gallery);
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.banner,gallery,false);
+        ImageView imageView = view.findViewById(R.id.imageview);
+        imageView.setImageResource(R.drawable.ad3);
+        ImageView imageView1 = view.findViewById(R.id.imageview1);
+        imageView1.setImageResource(R.drawable.ad2);
+        ImageView imageView2 = view.findViewById(R.id.imageview2);
+        imageView2.setImageResource(R.drawable.ad5);
+        ImageView imageView3 = view.findViewById(R.id.imageview3);
+        imageView3.setImageResource(R.drawable.ad4);
+        ImageView imageView4 = view.findViewById(R.id.imageview4);
+        imageView4.setImageResource(R.drawable.ad1);
+
+        gallery.addView(view);
 
         SharedPreferences sp = getSharedPreferences("Login", Context.MODE_PRIVATE);
 

@@ -2,14 +2,14 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.apollographql.android'
 
 android {
-//    signingConfigs {
-//        config {
-//            keyAlias 'Adcoin'
-//            keyPassword 'Adcoin'
-//            storeFile file('/home/sisroc25/old_files/SampleApps/MobileVerification/adcoin.jks')
-//            storePassword 'Adcoin'
-//        }
-//    }
+    signingConfigs {
+        config {
+            keyAlias 'adcoin'
+            keyPassword 'adcoin'
+            storeFile file('/home/batman/AndroidStudioProjects/MobileVerification/adcoin.jks')
+            storePassword 'adcoin'
+        }
+    }
     compileSdkVersion 27
     configurations.all {
         resolutionStrategy.force 'com.android.support:support-annotations:23.1.0'
@@ -21,11 +21,11 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-//        signingConfig signingConfigs.config
+        signingConfig signingConfigs.config
     }
     buildTypes {
         release {
-//            signingConfig signingConfigs.config
+            signingConfig signingConfigs.config
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 //            postprocessing {
@@ -36,9 +36,9 @@ android {
 //                proguardFile 'proguard-rules.pro'
 //            }
         }
-//        debug {
-//            signingConfig signingConfigs.config
-//        }
+        debug {
+            signingConfig signingConfigs.config
+        }
     }
     productFlavors {
     }

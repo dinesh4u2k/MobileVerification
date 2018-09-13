@@ -40,9 +40,9 @@ public class CustomPhoneStateListener extends Activity {
 
 
     public String mobileno;
-    private ViewGroup rootlayout;
-    private int xdelta;
-    private int ydelta;
+   // private ViewGroup rootlayout;
+   // private int xdelta;
+    //private int ydelta;
 
 
     @Override
@@ -84,11 +84,12 @@ public class CustomPhoneStateListener extends Activity {
 
 
         setContentView(R.layout.popup);
-        rootlayout = (ViewGroup) findViewById(R.id.view_root);
         banner = findViewById(R.id.banner);
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(1070,10000);
+
+        //rootlayout = (ViewGroup) findViewById(R.id.view_root);
+        //FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(1070,10000);
         //rootlayout.getHeight();
-        rootlayout.setLayoutParams(layoutParams);
+        //rootlayout.setLayoutParams(layoutParams);
         //rootlayout.setOnTouchListener(new ChoiceTouchListener());
 
 
@@ -139,7 +140,7 @@ public class CustomPhoneStateListener extends Activity {
 
     }
 
-    private final class ChoiceTouchListener implements View.OnTouchListener{
+   /* private final class ChoiceTouchListener implements View.OnTouchListener{
 
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -179,7 +180,7 @@ public class CustomPhoneStateListener extends Activity {
             rootlayout.invalidate();
             return true;
         }
-    }
+    }*/
 
 
 

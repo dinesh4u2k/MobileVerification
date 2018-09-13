@@ -2,41 +2,26 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="wrap_content"
+
     >
 
     <!-- TODO: Update blank fragment layout -->
 
     <LinearLayout
+
         android:id="@+id/r1"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"
         android:padding="10dp"
-        android:background="#DEDEDE"
+
         >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Welcome "
 
-                android:textSize="20sp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/username"
-                android:hint="Ramya"
-                android:textSize="20sp"/>
-
-        </LinearLayout>
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="100dp"
-            android:layout_marginTop="30dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
             android:background="#ffffff"
             android:orientation="horizontal"
             android:gravity="center"
@@ -68,81 +53,76 @@
                 android:text="Check Out"
                 android:layout_marginLeft="30dp"
                 android:textAllCaps="false"
+                android:background="@drawable/shape"
 
                 />
 
         </LinearLayout>
-
         <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="10dp"
             android:id="@+id/history"
-            android:layout_width="fill_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="10dp"
             android:background="#ffffff"
             android:orientation="horizontal">
-
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="15dp"
-                android:src="@drawable/ic_history" />
-
+                android:layout_marginTop="0dp"
+                android:src="@drawable/ic_history"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
+                android:textSize="15sp"
                 android:text="Reward History"
-                android:textSize="15sp" />
+                />
         </LinearLayout>
-
         <LinearLayout
-            android:id="@+id/share"
             android:layout_width="fill_parent"
-            android:layout_height="60dp"
+            android:layout_height="35dp"
             android:layout_marginTop="10dp"
+            android:id="@+id/share"
             android:background="#ffffff"
             android:orientation="horizontal">
-
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="15dp"
-                android:src="@drawable/ic_share" />
-
+                android:layout_marginTop="0dp"
+                android:src="@drawable/ic_share"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
+                android:textSize="15sp"
                 android:text="Share with Friends"
-                android:textSize="15sp" />
+                />
         </LinearLayout>
-
         <LinearLayout
             android:id="@+id/logout"
             android:layout_width="fill_parent"
-            android:layout_height="60dp"
+            android:layout_height="35dp"
             android:layout_marginTop="10dp"
             android:background="#ffffff"
             android:orientation="horizontal">
-
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="15dp"
-                android:src="@drawable/ic_logout" />
-
+                android:layout_marginTop="0dp"
+                android:src="@drawable/ic_logout"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
+                android:textSize="15sp"
                 android:text="Logout"
-                android:textSize="15sp" />
+                />
         </LinearLayout>
 
         <!-- <TextView
@@ -164,6 +144,7 @@
              android:text="₹"
              android:textSize="25dp"
              android:layout_marginLeft="25dp"/>-->
+
 
     </LinearLayout>
 
