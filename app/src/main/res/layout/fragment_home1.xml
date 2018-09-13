@@ -39,7 +39,7 @@
                 android:id="@+id/cash_amo"
                 android:textSize="18sp"
                 android:padding="5dp"
-                android:hint="20"
+                android:hint="0"
 
                 />
 
@@ -72,7 +72,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="10dp"
                 android:textSize="15sp"
-                android:hint="20"
+                android:hint="0"
 
                 />
         </LinearLayout>

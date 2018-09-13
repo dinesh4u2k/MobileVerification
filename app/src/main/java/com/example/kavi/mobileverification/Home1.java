@@ -117,7 +117,7 @@ public class Home1 extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        getContext().startService(new Intent(getContext(),BroadcastService.class));
+
         SharedPreferences sp = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
 
         String mobile = sp.getString("mobile",null);

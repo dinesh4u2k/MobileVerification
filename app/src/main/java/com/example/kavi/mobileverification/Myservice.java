@@ -120,14 +120,6 @@ public class Myservice extends Service {
             return START_STICKY;
         }
 
-//    @Override
-//    public void onTaskRemoved(Intent rootIntent) {
-
-//        Intent ms = new Intent(getApplicationContext(),this.getClass());
-//        ms.setPackage(getPackageName());
-//        startService(ms);
-//        super.onTaskRemoved(rootIntent);
-//    }
 
         private synchronized void syncData() {
             // call your rest service here
@@ -223,7 +215,7 @@ public class Myservice extends Service {
     public void onDestroy() {
             unregisterReceiver(receiver);
         super.onDestroy();
-        //Toast.makeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
+
     }
 
 

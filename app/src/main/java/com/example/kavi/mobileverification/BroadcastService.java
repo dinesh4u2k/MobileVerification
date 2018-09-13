@@ -29,6 +29,7 @@ public class BroadcastService extends Service {
             @Override
             public void onFinish() {
 
+                start();
             }
         }.start();
         return START_STICKY;

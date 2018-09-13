@@ -7,24 +7,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.widget.Toast;
-
-import java.net.URL;
-
-import java.net.InetAddress;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import org.apache.commons.net.ntp.NTPUDPClient;
-import org.apache.commons.net.ntp.TimeInfo;
 
-import java.net.InetAddress;
-import java.util.Date;
 
 
 public class PhoneStateReceiver extends BroadcastReceiver {
 
-    public boolean ring = false;
+
    public Integer callcount;
 
     @SuppressLint("UnsafeProtectedBroadcastReceiver")
@@ -66,20 +56,9 @@ System.out.println(strDate);
 
                         Log.d("Ringing", "Phone is ringing");
 
-                        ring = true;
-
-                       // Toast.makeText(context, "I m Ringinggggg", Toast.LENGTH_SHORT).show();
-
-                       // Toast.makeText(context, String.valueOf(ring), Toast.LENGTH_LONG).show();
-
-
-
 
                     }
 
-//                if (!intent.getAction().equals("android.intent.action.NEW_OUTGOING_CALL")) {
-
-//                if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
                     if (state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
                         Log.d("attend", "basjdnasjfasjfhasfjlasfklafklajfklajfklajfklasjf");
 
@@ -108,6 +87,21 @@ System.out.println(strDate);
 
 
                         context.startService(new Intent(context, Myservice.class));
+                        final Intent i = new Intent(context, CustomPhoneStateListener.class);
+                        i.putExtras(intent);
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        i.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+
+
+                        new android.os.Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                context.startActivity(i);
+                            }
+                        }, 1000);
                     }
 
                     if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
