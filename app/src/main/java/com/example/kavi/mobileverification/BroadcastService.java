@@ -1,5 +1,6 @@
 package com.example.kavi.mobileverification;
 
+import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
 import android.os.CountDownTimer;
@@ -18,7 +19,7 @@ public class BroadcastService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 //        onTaskRemoved(intent);
-        new CountDownTimer(100000,4000)
+        new CountDownTimer(100000,2000)
         {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -28,7 +29,6 @@ public class BroadcastService extends Service {
 
             @Override
             public void onFinish() {
-
                 start();
             }
         }.start();

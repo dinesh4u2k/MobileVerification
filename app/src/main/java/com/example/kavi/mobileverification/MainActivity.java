@@ -1,9 +1,11 @@
 package com.example.kavi.mobileverification;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.BottomNavigationView;
@@ -59,7 +61,10 @@ public class MainActivity extends AppCompatActivity implements Home1.OnFragmentI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        startService(new Intent(this,BroadcastService.class));
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            startForegroundService(new Intent(this,BroadcastService.class));
+        }else
+        {startService(new Intent(this,BroadcastService.class));}
 
 //      //  LinearLayout gallery =findViewById(R.id.gallery);
 //        LayoutInflater inflater = LayoutInflater.from(this);

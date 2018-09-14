@@ -81,6 +81,7 @@
 
         <activity android:name=".VerifyPhoneActivity" />
         <activity android:name=".MainActivity"/>
+
         <!--<activity android:name=".Username"/>-->
     </application>
 

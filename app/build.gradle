@@ -6,7 +6,7 @@ android {
         config {
             keyAlias 'adcoin'
             keyPassword 'adcoin'
-            //storeFile file('/home/batman/AndroidStudioProjects/MobileVerification/adcoin.jks')
+            storeFile file('/home/batman/AndroidStudioProjects/MobileVerification/adcoin.jks')
             storePassword 'adcoin'
         }
     }
@@ -21,11 +21,11 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        //signingConfig signingConfigs.config
+        signingConfig signingConfigs.config
     }
     buildTypes {
         release {
-           // signingConfig signingConfigs.config
+            signingConfig signingConfigs.config
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 //            postprocessing {
@@ -37,7 +37,7 @@ android {
 //            }
         }
         debug {
-            //signingConfig signingConfigs.config
+            signingConfig signingConfigs.config
         }
     }
     productFlavors {

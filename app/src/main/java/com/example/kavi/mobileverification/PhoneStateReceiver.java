@@ -34,7 +34,7 @@ System.out.println(strDate);
         System.out.println(Calendar.PM);
 
         if(a == Calendar.PM) {
-            if (strDate == "15:25") {
+            if (strDate == "24:00") {
                 SharedPreferences spbroad = context.getSharedPreferences("cc", Context.MODE_PRIVATE);
                 final SharedPreferences.Editor editor = spbroad.edit();
                 editor.clear();
@@ -42,7 +42,32 @@ System.out.println(strDate);
             }
         }
 
+
+
         if (intent.getAction().equals("android.intent.action.NEW_OUTGOING_CALL")) {
+
+            String state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
+
+            if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
+
+                final Intent i = new Intent(context, CustomPhoneStateListener.class);
+                i.putExtras(intent);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                i.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+
+
+                new android.os.Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        context.startActivity(i);
+                    }
+                }, 1000);
+
+            }
+
 
             Log.d("out","outgoingggggg");
 
@@ -66,9 +91,19 @@ System.out.println(strDate);
                         i.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 
 
+                        new android.os.Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                context.startActivity(i);
+                            }
+                        }, 1000);
+
+
                     }
 
                     if (state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
+
+                        context.startService(new Intent(context, Myservice.class));
                         Log.d("attend", "basjdnasjfasjfhasfjlasfklafklajfklajfklajfklasjf");
 
                         SharedPreferences spbroad = context.getSharedPreferences("cc", Context.MODE_PRIVATE);
@@ -92,7 +127,7 @@ System.out.println(strDate);
 
                         }
 
-                        context.startService(new Intent(context, Myservice.class));
+
 
                     }
 
