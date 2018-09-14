@@ -57,6 +57,15 @@ System.out.println(strDate);
                         Log.d("Ringing", "Phone is ringing");
 
 
+                        final Intent i = new Intent(context, CustomPhoneStateListener.class);
+                        i.putExtras(intent);
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        i.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+
+
                     }
 
                     if (state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
@@ -83,25 +92,8 @@ System.out.println(strDate);
 
                         }
 
-
-
-
                         context.startService(new Intent(context, Myservice.class));
-                        final Intent i = new Intent(context, CustomPhoneStateListener.class);
-                        i.putExtras(intent);
-                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        i.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 
-
-                        new android.os.Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                context.startActivity(i);
-                            }
-                        }, 1000);
                     }
 
                     if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
