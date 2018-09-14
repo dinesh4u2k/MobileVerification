@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -24,10 +25,13 @@ import com.apollographql.apollo.api.cache.http.HttpCachePolicy;
 import com.apollographql.apollo.cache.http.ApolloHttpCache;
 import com.apollographql.apollo.cache.http.DiskLruHttpCacheStore;
 import com.apollographql.apollo.exception.ApolloException;
+import com.viewpagerindicator.CirclePageIndicator;
 
 import java.io.File;
 import java.nio.charset.IllegalCharsetNameException;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.annotation.Nonnull;
 
@@ -45,6 +49,8 @@ public class Home1 extends Fragment {
     R.drawable.im5,
 
 };
+
+    private  ViewPager mPager;
     private TextView amount;
 
     public ApolloClient apolloClient;
@@ -78,6 +84,15 @@ public class Home1 extends Fragment {
     private ArrayList<String> mImageUrls = new ArrayList<>();
 
     private OnFragmentInteractionListener mListener;
+
+
+    private static int currentPage = 0;
+    private static int NUM_PAGES = 0;
+    private ArrayList<ImageModel> imageModelArrayList;
+
+    private int[] myImageList = new int[]{R.drawable.ad1, R.drawable.ad2,
+            R.drawable.ad3,R.drawable.ad4
+            ,R.drawable.ad5,R.drawable.ic_launcher_background};
 
     public Home1() {
         // Required empty public constructor
@@ -115,7 +130,12 @@ public class Home1 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        //oncreate
         // Inflate the layout for this fragment
+
+
+
 
 
         SharedPreferences sp = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
@@ -125,12 +145,18 @@ public class Home1 extends Fragment {
         View rootView=inflater.inflate(R.layout.fragment_home1, container, false);
         callcount=rootView.findViewById(R.id.call);
         amount = rootView.findViewById(R.id.cash_amo);
-         gallery=rootView.findViewById(R.id.gallery);
-        inflater1 = LayoutInflater.from(getActivity());
+        // gallery=rootView.findViewById(R.id.gallery);
+        //inflater1 = LayoutInflater.from(getActivity());
 
 //       new Handler().postDelayed(new Runnable() {
 //            @Override
 //            public void run() {
+
+            //image slider code
+        imageModelArrayList = new ArrayList<>();
+        imageModelArrayList = populateList();
+
+        init();
 
                 SharedPreferences spbroad = getActivity().getSharedPreferences("cc", Context.MODE_PRIVATE);
 
@@ -145,18 +171,6 @@ public class Home1 extends Fragment {
 
 
 
-       /* View view = inflater1.inflate(R.layout.banner,gallery,false);
-        imageView= view.findViewById(R.id.im1);
-        imageView.setImageResource(images[0]);
-        imageView1= view.findViewById(R.id.im2);
-        imageView1.setImageResource(images[1]);
-        imageView2= view.findViewById(R.id.im3);
-        imageView2.setImageResource(images[2]);
-        imageView3= view.findViewById(R.id.im4);
-        imageView3.setImageResource(images[3]);
-        imageView4= view.findViewById(R.id.im5);
-        imageView4.setImageResource(images[4]);
-        gallery.addView(view);*/
 
 
         File file = new File(getActivity().getCacheDir().toURI());
@@ -223,36 +237,87 @@ public class Home1 extends Fragment {
                     }
                 });
 
+        mPager =  rootView.findViewById(R.id.pager1);
+        mPager.setAdapter(new SlidingImage_Adapter(getContext(),imageModelArrayList));
+
+        CirclePageIndicator indicator = (CirclePageIndicator)
+                rootView.findViewById(R.id.indicator);
+
+        indicator.setViewPager(mPager);
+
+        final float density = getResources().getDisplayMetrics().density;
+
+//Set circle indicator radius
+        indicator.setRadius(5 * density);
+
+        NUM_PAGES =imageModelArrayList.size();
+
+        // Auto start of viewpager
+        final Handler handler = new Handler();
+        final Runnable Update = new Runnable() {
+            public void run() {
+                if (currentPage == NUM_PAGES) {
+                    currentPage = 0;
+                }
+                mPager.setCurrentItem(currentPage++, true);
+            }
+        };
+        Timer swipeTimer = new Timer();
+        swipeTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(Update);
+            }
+        }, 3000, 3000);
+
+        // Pager listener over indicator
+        indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            @Override
+            public void onPageSelected(int position) {
+                currentPage = position;
+
+            }
+
+            @Override
+            public void onPageScrolled(int pos, float arg1, int arg2) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int pos) {
+
+            }
+        });
+
 
         return rootView;
 
 
     }
-   /* private void initRecyclerView() {
-        Log.d(TAG, "initRecyclerView: init recyclerview");
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        RecyclerView recyclerView = getActivity().findViewById(R.id.my_recycler_view);
-        recyclerView.setLayoutManager(layoutManager);
-       BannerAdapter adapter = new BannerAdapter(getContext(), mNames, mImageUrls);
-        recyclerView.setAdapter(adapter);
-    }*/
-   /* private void getImages(){
-        Log.d(TAG, "initImageBitmaps: preparing bitmaps.");
 
-        mImageUrls.add("http://demo.ajax-cart.com/photos/product/4/176/4.jpg");
-        mNames.add("beats");
-        mImageUrls.add("https://www.argos-support.co.uk/cache/square/assets/img/categories/product-shots/wearable-technology.png");
-        mNames.add("watch");
 
-        mImageUrls.add("https://pbs.twimg.com/media/Cq21NK7XgAEVQdG.jpg");
-        mNames.add("Portugal");
 
-        mImageUrls.add("http://www.pepsico.com/images/album/what-we-believe-redesign/products/products-progress-7up.jpg?sfvrsn=3576d841_0");
-        mNames.add("drinks");
 
-        initRecyclerView();
+    private ArrayList<ImageModel> populateList(){
 
-    }*/
+        ArrayList<ImageModel> list = new ArrayList<>();
+
+        for(int i = 0; i < 6; i++){
+            ImageModel imageModel = new ImageModel();
+            imageModel.setImage_drawable(myImageList[i]);
+            list.add(imageModel);
+        }
+
+        return list;
+    }
+
+    private void init() {
+
+
+
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

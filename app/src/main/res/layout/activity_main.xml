@@ -37,63 +37,41 @@
     </android.support.design.widget.TabLayout>
 
 
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        tools:context="com.example.ramya.scrollview.MainActivity">
+    <!--&lt;!&ndash;<android.support.constraint.ConstraintLayout&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="200dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;tools:context="com.example.ramya.scrollview.MainActivity">&ndash;&gt;-->
 
-        <HorizontalScrollView
-            android:id="@+id/horizontalScrollView"
-            android:layout_width="0dp"
-            android:layout_height="200dp"
-            android:scrollbars="none">
+        <!--&lt;!&ndash;<HorizontalScrollView&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/horizontalScrollView"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="0dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="200dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:scrollbars="none">&ndash;&gt;-->
 
-            <LinearLayout
-                android:id="@+id/gallery"
-                android:layout_width="wrap_content"
-                android:layout_height="200dp"
-                android:orientation="horizontal">
+            <!--&lt;!&ndash;<LinearLayout&ndash;&gt;-->
+                <!--&lt;!&ndash;android:id="@+id/gallery"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_height="200dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:orientation="horizontal">&ndash;&gt;-->
 
-            </LinearLayout>
+            <!--&lt;!&ndash;</LinearLayout>&ndash;&gt;-->
 
-        </HorizontalScrollView>
+        <!--&lt;!&ndash;</HorizontalScrollView>&ndash;&gt;-->
 
 
-    </android.support.constraint.ConstraintLayout>
+    <!--</android.support.constraint.ConstraintLayout>-->
 
     <android.support.v4.view.ViewPager
 
         android:id="@+id/pager"
-        android:layout_width="wrap_content"
-        android:layout_height="230dp"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         >
 
     </android.support.v4.view.ViewPager>
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="@string/quote"
-            android:gravity="center"
-            android:textColor="@color/colorPrimary"
-            android:textSize="10dp" />
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:text="@string/c_name"
-            android:textColor="@color/colorPrimary"
-            android:textSize="10dp" />
-
-    </LinearLayout>
 
 
 </LinearLayout>
