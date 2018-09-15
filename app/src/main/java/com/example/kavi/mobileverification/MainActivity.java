@@ -61,10 +61,9 @@ public class MainActivity extends AppCompatActivity implements Home1.OnFragmentI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            startForegroundService(new Intent(this,BroadcastService.class));
-        }else
-        {startService(new Intent(this,BroadcastService.class));}
+
+
+        startService(new Intent(this,BroadcastService.class));
 
 //      //  LinearLayout gallery =findViewById(R.id.gallery);
 //        LayoutInflater inflater = LayoutInflater.from(this);

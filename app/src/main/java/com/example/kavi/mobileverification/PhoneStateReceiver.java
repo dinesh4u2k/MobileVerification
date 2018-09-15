@@ -71,7 +71,7 @@ System.out.println(strDate);
 
             Log.d("out","outgoingggggg");
 
-        }else {
+        }else if (!intent.getAction().equals("android.intent.action.NEW_OUTGOING_CALL")){
             try {
                 String state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
 
