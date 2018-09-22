@@ -1,9 +1,11 @@
 package com.example.kavi.mobileverification;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -46,6 +48,8 @@ public class Myaccount extends Fragment implements Refer.OnFragmentInteractionLi
     private LinearLayout shar;
 
     private LinearLayout log;
+
+    public String mobile;
 
     private Refer refer;
     private History history1;
@@ -100,9 +104,6 @@ public class Myaccount extends Fragment implements Refer.OnFragmentInteractionLi
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        SharedPreferences sp = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
-
-        String mobile = sp.getString("mobile",null);
 
         View rootView=inflater.inflate(R.layout.fragment_myaccount, container, false);
 
@@ -112,71 +113,9 @@ public class Myaccount extends Fragment implements Refer.OnFragmentInteractionLi
         shar = rootView.findViewById(R.id.share);
         log = rootView.findViewById(R.id.logout);
 
+        new AccountAsync().execute();
 
 
-        File file = new File(getActivity().getCacheDir().toURI());
-        //Size in bytes of the cache
-        int size = 1024*1024;
-
-        //Create the http response cache store
-        DiskLruHttpCacheStore cacheStore = new DiskLruHttpCacheStore(file, size);
-
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .build();
-
-        apolloClient = ApolloClient.builder()
-                .serverUrl("https://digicashserver.herokuapp.com/graphql")
-                .httpCache(new ApolloHttpCache(cacheStore))
-                .okHttpClient(okHttpClient)
-                .build();
-
-
-        apolloClient
-                .query(PersondetailsQuery.builder().mobileno(mobile).build())
-                .httpCachePolicy(HttpCachePolicy.NETWORK_FIRST)
-                .enqueue(new ApolloCall.Callback<PersondetailsQuery.Data>() {
-                    @Override
-                    public void onResponse(@Nonnull Response<PersondetailsQuery.Data> response) {
-
-
-                        PersondetailsQuery.Data data = response.data();
-
-                        if(data!=null){
-                            Log.d("msg","cash out");
-                        }
-
-
-                        if (data.person != null && (data != null ? data.person.get(0).wallet : null) != null) {
-                            pwallet = data.person.get(0).wallet.toString();
-                        }
-
-                        Log.d("datas",pwallet);
-                        amount.post(new Runnable() {
-                            @Override
-                            public void run() {
-
-                                getActivity().runOnUiThread(new Runnable(){
-                                    @Override
-                                    public void run(){
-
-                                        amount.setText(pwallet);
-
-                                    }
-                                });
-
-                            }
-                        });
-
-                    }
-
-
-                    @Override
-                    public void onFailure(@Nonnull ApolloException e) {
-
-                        Log.e("Fail", "onFailure: ",e );
-
-                    }
-                });
 
         log.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -211,6 +150,111 @@ public class Myaccount extends Fragment implements Refer.OnFragmentInteractionLi
 
 
         return rootView;
+    }
+
+    private class AccountAsync extends AsyncTask<String,Integer,String>{
+
+        private ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(getActivity(), ProgressDialog.THEME_HOLO_LIGHT);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            this.progressDialog.setTitle("Processing");
+            this.progressDialog.show();
+
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+
+            SharedPreferences sp = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
+
+            mobile = sp.getString("mobile",null);
+
+            File file = new File(getActivity().getCacheDir().toURI());
+            //Size in bytes of the cache
+            int size = 1024*1024;
+
+            //Create the http response cache store
+            DiskLruHttpCacheStore cacheStore = new DiskLruHttpCacheStore(file, size);
+
+            OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                    .build();
+
+            apolloClient = ApolloClient.builder()
+                    .serverUrl("https://digicashserver.herokuapp.com/graphql")
+                    .httpCache(new ApolloHttpCache(cacheStore))
+                    .okHttpClient(okHttpClient)
+                    .build();
+
+
+            apolloClient
+                    .query(PersondetailsQuery.builder().mobileno(mobile).build())
+                    .httpCachePolicy(HttpCachePolicy.NETWORK_FIRST)
+                    .enqueue(new ApolloCall.Callback<PersondetailsQuery.Data>() {
+                        @Override
+                        public void onResponse(@Nonnull Response<PersondetailsQuery.Data> response) {
+                            try {
+
+
+                                PersondetailsQuery.Data data = response.data();
+//
+//                        if(data!=null){
+//                            Log.d("msg","cash out");
+//                        }
+
+//                                if (data == null) {
+//                                    pwallet = "0";
+//                                } else {
+
+
+//                        if (data.person != null) {
+                                    pwallet = data.person.get(0).wallet.toString();
+//                        }
+//                                }
+
+                                Log.d("datas", pwallet);
+                                amount.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        getActivity().runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+
+                                                amount.setText(pwallet);
+
+                                            }
+                                        });
+
+                                    }
+                                });
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+
+                        @Override
+                        public void onFailure(@Nonnull ApolloException e) {
+
+                            Log.e("Fail", "onFailure: ",e );
+
+                        }
+                    });
+            return null;
+        }
+
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            progressDialog.dismiss();
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

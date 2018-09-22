@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -61,39 +62,8 @@ public class MainActivity extends AppCompatActivity implements Home1.OnFragmentI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        new Mytask().execute();
 
-
-        startService(new Intent(this,BroadcastService.class));
-
-//      //  LinearLayout gallery =findViewById(R.id.gallery);
-//        LayoutInflater inflater = LayoutInflater.from(this);
-//      //  View view = inflater.inflate(R.layout.banner,gallery,false);
-//        ImageView imageView = view.findViewById(R.id.imageview);
-//        imageView.setImageResource(R.drawable.ad3);
-//        ImageView imageView1 = view.findViewById(R.id.imageview1);
-//        imageView1.setImageResource(R.drawable.ad2);
-//        ImageView imageView2 = view.findViewById(R.id.imageview2);
-//        imageView2.setImageResource(R.drawable.ad5);
-//        ImageView imageView3 = view.findViewById(R.id.imageview3);
-//        imageView3.setImageResource(R.drawable.ad4);
-//        ImageView imageView4 = view.findViewById(R.id.imageview4);
-//        imageView4.setImageResource(R.drawable.ad1);
-//
-//        gallery.addView(view);
-
-        SharedPreferences sp = getSharedPreferences("Login", Context.MODE_PRIVATE);
-
-
-
-        final String phonenumber1 = sp.getString("mobile",null);
-
-        final String username = sp.getString("username",null);
-
-
-
-
-
-        callQuery(phonenumber1,username);
 
 
         TabLayout tabLayout = findViewById(R.id.tablayout);
@@ -130,6 +100,36 @@ public class MainActivity extends AppCompatActivity implements Home1.OnFragmentI
 
 
 
+    }
+
+
+    private class Mytask extends AsyncTask<String,Integer,String>{
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                getApplicationContext().startForegroundService(new Intent(getApplicationContext(), BroadcastService.class));
+            } else {
+                startService(new Intent(getApplicationContext(), BroadcastService.class));
+            }
+            SharedPreferences sp = getSharedPreferences("Login", Context.MODE_PRIVATE);
+
+
+
+            final String phonenumber1 = sp.getString("mobile",null);
+
+            final String username = sp.getString("username",null);
+
+
+
+
+
+            callQuery(phonenumber1,username);
+
+
+            return null;
+        }
     }
 
     void callQuery(final String mobno,final String user) {
