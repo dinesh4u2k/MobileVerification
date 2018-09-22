@@ -36,13 +36,17 @@ import javax.annotation.Nonnull;
 import okhttp3.OkHttpClient;
 
 
-public class CustomPhoneStateListener extends Activity {
+public class CustomPhoneStateListener extends Activity implements View.OnTouchListener
+{
 
 
     public String mobileno;
-   // private ViewGroup rootlayout;
-   // private int xdelta;
+    // private ViewGroup rootlayout;
+    // private int xdelta;
     //private int ydelta;
+    float dX;
+    float dY;
+    int lastAction;
 
 
     @Override
@@ -93,7 +97,6 @@ public class CustomPhoneStateListener extends Activity {
         //rootlayout.setOnTouchListener(new ChoiceTouchListener());
 
 
-
         banner = findViewById(R.id.banner);
 
         Picasso.with(this)
@@ -128,7 +131,7 @@ public class CustomPhoneStateListener extends Activity {
             public void onClick(View v) {
 
                 CustomPhoneStateListener.this.finish();
-               // startService(new Intent(getApplication(), Myservice.class));
+                // startService(new Intent(getApplication(), Myservice.class));
 
 //                finishAffinity();
 
@@ -136,9 +139,42 @@ public class CustomPhoneStateListener extends Activity {
             }
         });
 
+        final View dragView = findViewById(R.id.root);
+        dragView.setOnTouchListener((View.OnTouchListener) this);
 
 
     }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent event) {
+        switch (event.getActionMasked()) {
+            case MotionEvent.ACTION_DOWN:
+                dX = view.getX() - event.getRawX();
+                dY = view.getY() - event.getRawY();
+                lastAction = MotionEvent.ACTION_DOWN;
+                break;
+
+            case MotionEvent.ACTION_MOVE:
+                view.setY(event.getRawY() + dY);
+                view.setX(event.getRawX() + dX);
+                lastAction = MotionEvent.ACTION_MOVE;
+                break;
+
+            case MotionEvent.ACTION_UP:
+                if (lastAction == MotionEvent.ACTION_DOWN)
+                    Toast.makeText(CustomPhoneStateListener.this, "Clicked!", Toast.LENGTH_SHORT).show();
+                break;
+
+            default:
+                return false;
+        }
+        return true;
+    }
+
+
+
+
+
 
    /* private final class ChoiceTouchListener implements View.OnTouchListener{
 
@@ -181,6 +217,7 @@ public class CustomPhoneStateListener extends Activity {
             return true;
         }
     }*/
+
 
 
 
