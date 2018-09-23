@@ -169,14 +169,16 @@ public class Myaccount extends Fragment implements Refer.OnFragmentInteractionLi
         @Override
         protected String doInBackground(String... strings) {
 
+            try {
+
 
             SharedPreferences sp = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
 
-            mobile = sp.getString("mobile",null);
+            mobile = sp.getString("mobile", null);
 
             File file = new File(getActivity().getCacheDir().toURI());
             //Size in bytes of the cache
-            int size = 1024*1024;
+            int size = 1024 * 1024;
 
             //Create the http response cache store
             DiskLruHttpCacheStore cacheStore = new DiskLruHttpCacheStore(file, size);
@@ -201,20 +203,12 @@ public class Myaccount extends Fragment implements Refer.OnFragmentInteractionLi
 
 
                                 PersondetailsQuery.Data data = response.data();
-//
-//                        if(data!=null){
-//                            Log.d("msg","cash out");
-//                        }
-
-//                                if (data == null) {
-//                                    pwallet = "0";
-//                                } else {
 
 
-//                        if (data.person != null) {
+                                if (data.person != null) {
                                     pwallet = data.person.get(0).wallet.toString();
-//                        }
-//                                }
+                                }
+
 
                                 Log.d("datas", pwallet);
                                 amount.post(new Runnable() {
@@ -242,10 +236,14 @@ public class Myaccount extends Fragment implements Refer.OnFragmentInteractionLi
                         @Override
                         public void onFailure(@Nonnull ApolloException e) {
 
-                            Log.e("Fail", "onFailure: ",e );
+                            Log.e("Fail", "onFailure: ", e);
 
                         }
                     });
+
+        }catch (Exception e){
+                e.printStackTrace();
+            }
             return null;
         }
 

@@ -1,5 +1,6 @@
 package com.example.kavi.mobileverification;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -63,8 +64,14 @@ public class Myservice extends Service {
 //                mHandler.postDelayed(runnableService, DEFAULT_SYNC_INTERVAL);
             }
         };
+//
+//    @Override
+//    public void onCreate() {
+//        super.onCreate();
+//        startForeground(3,new Notification());
+//    }
 
-        @Override
+    @Override
         public int onStartCommand(Intent intent, int flags, int startId) {
 
             //Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
@@ -215,6 +222,8 @@ public class Myservice extends Service {
     public void onDestroy() {
             unregisterReceiver(receiver);
         super.onDestroy();
+//        stopForeground(true);
+//        stopSelf();
 
     }
 

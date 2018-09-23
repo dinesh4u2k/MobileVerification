@@ -113,9 +113,8 @@ public class MainActivity extends AppCompatActivity implements Home1.OnFragmentI
             } else {
                 startService(new Intent(getApplicationContext(), BroadcastService.class));
             }
+
             SharedPreferences sp = getSharedPreferences("Login", Context.MODE_PRIVATE);
-
-
 
             final String phonenumber1 = sp.getString("mobile",null);
 

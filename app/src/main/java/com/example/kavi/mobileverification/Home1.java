@@ -242,44 +242,43 @@ public class Home1 extends Fragment {
         @Override
         protected String doInBackground(String... strings) {
 
+            try {
+
+            SharedPreferences sp = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
+
+            mobile = sp.getString("mobile", null);
 
 
+            File file = new File(getActivity().getCacheDir().toURI());
+            //Size in bytes of the cache
+            final int size = 1024 * 1024;
 
-    SharedPreferences sp = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
+            //Create the http response cache store
+            DiskLruHttpCacheStore cacheStore = new DiskLruHttpCacheStore(file, size);
 
-    mobile = sp.getString("mobile", null);
+            OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                    .build();
 
-
-    File file = new File(getActivity().getCacheDir().toURI());
-    //Size in bytes of the cache
-    final int size = 1024 * 1024;
-
-    //Create the http response cache store
-    DiskLruHttpCacheStore cacheStore = new DiskLruHttpCacheStore(file, size);
-
-    OkHttpClient okHttpClient = new OkHttpClient.Builder()
-            .build();
-
-    apolloClient = ApolloClient.builder()
-            .serverUrl("https://digicashserver.herokuapp.com/graphql")
-            .httpCache(new ApolloHttpCache(cacheStore))
-            .okHttpClient(okHttpClient)
-            .build();
+            apolloClient = ApolloClient.builder()
+                    .serverUrl("https://digicashserver.herokuapp.com/graphql")
+                    .httpCache(new ApolloHttpCache(cacheStore))
+                    .okHttpClient(okHttpClient)
+                    .build();
 
 
-    apolloClient
-            .query(PersondetailsQuery.builder().mobileno(mobile).build())
-            .httpCachePolicy(HttpCachePolicy.NETWORK_FIRST)
-            .enqueue(new ApolloCall.Callback<PersondetailsQuery.Data>() {
-                @Override
-                public void onResponse(@Nonnull Response<PersondetailsQuery.Data> response) {
+            apolloClient
+                    .query(PersondetailsQuery.builder().mobileno(mobile).build())
+                    .httpCachePolicy(HttpCachePolicy.NETWORK_FIRST)
+                    .enqueue(new ApolloCall.Callback<PersondetailsQuery.Data>() {
+                        @Override
+                        public void onResponse(@Nonnull Response<PersondetailsQuery.Data> response) {
 
-                    try {
+                            try {
 
 
-                        PersondetailsQuery.Data data = response.data();
+                                PersondetailsQuery.Data data = response.data();
 
-                        Log.d("v", String.valueOf(data));
+                                Log.d("v", String.valueOf(data));
 
 //                        if(data!=null){
 //                            Log.d("msg","cash out");
@@ -289,62 +288,60 @@ public class Home1 extends Fragment {
 //                            pwallet = "0";
 //                        } else {
 //
-//                            if (data.person != null) {
-                                pwallet = data.person.get(0).wallet.toString();
-//                            } else {
+                                if (data.person != null) {
+                                    pwallet = data.person.get(0).wallet.toString();
+                                }
+
 //                                pwallet = "0";
 //                            }
 
 //                        pwallet ="0";
 
 
-
-                        Log.d("datas", pwallet);
-                        amount.post(new Runnable() {
-                            @Override
-                            public void run() {
-
-                                getActivity().runOnUiThread(new Runnable() {
+                                Log.d("datas", pwallet);
+                                amount.post(new Runnable() {
                                     @Override
                                     public void run() {
 
-                                        amount.setText(pwallet);
+                                        getActivity().runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+
+                                                amount.setText(pwallet);
+
+                                            }
+                                        });
 
                                     }
                                 });
 
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-                        });
-
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                }
+                        }
 
 
-                @Override
-                public void onFailure(@Nonnull ApolloException e) {
+                        @Override
+                        public void onFailure(@Nonnull ApolloException e) {
 
-                    Log.e("Fail", "onFailure: ", e);
+                            Log.e("Fail", "onFailure: ", e);
 
-                }
-            });
+                        }
+                    });
 
-    SharedPreferences spbroad = getActivity().getSharedPreferences("cc", Context.MODE_PRIVATE);
+            SharedPreferences spbroad = getActivity().getSharedPreferences("cc", Context.MODE_PRIVATE);
 
-    callc = spbroad.getInt("count", 0);
+            callc = spbroad.getInt("count", 0);
 
-    dd = callc + "/30";
+            dd = callc + "/30";
 
-    callcount.setText(dd);
+            callcount.setText(dd);
 
 
 
-
-
-
-
-
+        }catch (Exception e){
+                e.printStackTrace();
+            }
 
             return null;
     }
