@@ -21,20 +21,11 @@ import android.support.v4.app.NotificationCompat;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
-import static android.app.NotificationManager.IMPORTANCE_HIGH;
-import static android.support.constraint.Constraints.TAG;
-import static android.support.v4.app.NotificationCompat.PRIORITY_MIN;
 
 
 public class BroadcastService extends Service {
 
-    private static final int ID_SERVICE = 101;
-
-    static BroadcastService instance;
-
+    public Notification notification;
 
     @Nullable
     @Override
@@ -47,10 +38,10 @@ public class BroadcastService extends Service {
 
         super.onCreate();
 
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             startMyOwnForeground();
-        else
-            startForeground(1, new Notification());
+        else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O);
+//            startForeground(1, new Notification());
 
     }
 
@@ -74,25 +65,34 @@ public class BroadcastService extends Service {
     private void startMyOwnForeground(){
         String NOTIFICATION_CHANNEL_ID = "com.example.simpleapp";
         String channelName = "My Background Service";
-        NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_NONE);
+        NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_MIN);
         chan.setLightColor(Color.BLUE);
-        chan.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+        chan.setLockscreenVisibility(Notification.VISIBILITY_SECRET);
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         assert manager != null;
         manager.createNotificationChannel(chan);
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
-        Notification notification = notificationBuilder.setOngoing(true)
-                .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark_focused)
-                .setContentTitle("App is running in background")
-                .setPriority(NotificationManager.IMPORTANCE_MIN)
-                .setCategory(Notification.CATEGORY_SERVICE)
+        notification= notificationBuilder.setOngoing(false)
+                .setAutoCancel(true)
                 .build();
-        notification.flags |= Notification.FLAG_NO_CLEAR;
-        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+//                .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark_focused)
+//                .setContentTitle("App is running in background")
+//                .setPriority(NotificationManager.IMPORTANCE_UNSPECIFIED)
+//                .setCategory(Notification.CATEGORY_SERVICE)
+//                .build();
+//        notification.flags |= Notification.FLAG_NO_CLEAR;
+//        notification.flags |= Notification.FLAG_AUTO_CANCEL;
 
 
         startForeground(2, notification);
+        notistop();
+    }
+
+    public void notistop(){
+        startForeground(2, notification);
+
+        stopSelf();
     }
 
 

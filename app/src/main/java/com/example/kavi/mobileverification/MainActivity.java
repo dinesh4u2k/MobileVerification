@@ -1,9 +1,16 @@
 package com.example.kavi.mobileverification;
 
 import android.annotation.TargetApi;
+import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -29,8 +36,10 @@ import com.apollographql.apollo.api.cache.http.HttpCachePolicy;
 import com.apollographql.apollo.cache.http.ApolloHttpCache;
 import com.apollographql.apollo.cache.http.DiskLruHttpCacheStore;
 import com.apollographql.apollo.exception.ApolloException;
+import com.google.android.gms.common.logging.Logger;
 
 import java.io.File;
+import java.util.List;
 
 import javax.annotation.Nonnull;
 
@@ -63,8 +72,6 @@ public class MainActivity extends AppCompatActivity implements Home1.OnFragmentI
         setContentView(R.layout.activity_main);
 
         new Mytask().execute();
-
-
 
         TabLayout tabLayout = findViewById(R.id.tablayout);
         tabLayout.addTab(tabLayout.newTab().setText("Home"));

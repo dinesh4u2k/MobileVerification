@@ -2,10 +2,12 @@ package com.example.kavi.mobileverification;
 
 import android.*;
 import android.Manifest;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +31,7 @@ import com.apollographql.apollo.exception.ApolloException;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.File;
+import java.util.List;
 
 import javax.annotation.Nonnull;
 
@@ -52,7 +55,7 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
+        addAutoStartup();
 
         if (ContextCompat.checkSelfPermission(Login.this,
                 android.Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
@@ -67,8 +70,6 @@ public class Login extends AppCompatActivity {
                         android.Manifest.permission.READ_PHONE_STATE}, 1);
 
             }
-        } else {
-
         }
 
         if (ContextCompat.checkSelfPermission(Login.this,
@@ -84,8 +85,6 @@ public class Login extends AppCompatActivity {
                         Manifest.permission.WAKE_LOCK}, 1);
 
             }
-        } else {
-
         }
 
 
@@ -150,6 +149,34 @@ public class Login extends AppCompatActivity {
         });
     }
 
+    public void addAutoStartup() {
+
+        try {
+            Intent intent = new Intent();
+            String manufacturer = android.os.Build.MANUFACTURER;
+            if ("xiaomi".equalsIgnoreCase(manufacturer)) {
+                intent.setComponent(new ComponentName("com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity"));
+            } else if ("oppo".equalsIgnoreCase(manufacturer)) {
+                intent.setComponent(new ComponentName("com.coloros.safecenter", "com.coloros.safecenter.permission.startup.StartupAppListActivity"));
+            } else if ("vivo".equalsIgnoreCase(manufacturer)) {
+                intent.setComponent(new ComponentName("com.vivo.permissionmanager", "com.vivo.permissionmanager.activity.BgStartUpManagerActivity"));
+            } else if ("Letv".equalsIgnoreCase(manufacturer)) {
+                intent.setComponent(new ComponentName("com.letv.android.letvsafe", "com.letv.android.letvsafe.AutobootManageActivity"));
+            } else if ("Honor".equalsIgnoreCase(manufacturer)) {
+                intent.setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.optimize.process.ProtectActivity"));
+            }
+
+            List<ResolveInfo> list = getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+            if  (list.size() > 0) {
+                startActivity(intent);
+            }
+        } catch (Exception e) {
+            Log.e("exc" , String.valueOf(e));
+        }
+
+    }
+
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
@@ -172,7 +199,7 @@ public class Login extends AppCompatActivity {
         super.onStart();
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null){
-            ;
+
 
             Intent intent = new Intent(this,MainActivity.class);
 
