@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<RelativeLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
+    android:background="#CC000000"
     android:orientation="horizontal">
 
 
     <RelativeLayout
         android:id="@+id/root"
         android:layout_width="match_parent"
-        android:layout_height="390dp"
+        android:layout_height="398dp"
         android:layout_marginTop="100dp"
+        android:paddingRight="9dp"
+        android:paddingLeft="9dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:orientation="horizontal">
@@ -36,7 +39,7 @@
         <RelativeLayout
             android:id="@+id/view_root"
             android:layout_width="fill_parent"
-            android:layout_height="298dp"
+            android:layout_height="280dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_gravity="center"
@@ -48,6 +51,7 @@
                 android:id="@+id/close"
                 android:layout_width="40dp"
                 android:layout_height="32dp"
+                android:backgroundTint="#E53935"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
                 android:background="@drawable/closebutton"
@@ -81,7 +85,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="340dp"
+            android:layout_marginTop="320dp"
             android:background="@drawable/rectangle"
             android:orientation="vertical">
 
@@ -122,5 +126,5 @@
         android:background="@drawable/rectangle" />-->
 
     </RelativeLayout>
-</RelativeLayout>
+</FrameLayout>
 
