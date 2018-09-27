@@ -21,6 +21,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Adkoin"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
             android:textSize="20dp"/>
 
 
@@ -38,25 +40,25 @@
 
 
     <!--&lt;!&ndash;<android.support.constraint.ConstraintLayout&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_height="200dp"&ndash;&gt;-->
-        <!--&lt;!&ndash;tools:context="com.example.ramya.scrollview.MainActivity">&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_height="200dp"&ndash;&gt;-->
+    <!--&lt;!&ndash;tools:context="com.example.ramya.scrollview.MainActivity">&ndash;&gt;-->
 
-        <!--&lt;!&ndash;<HorizontalScrollView&ndash;&gt;-->
-            <!--&lt;!&ndash;android:id="@+id/horizontalScrollView"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_width="0dp"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_height="200dp"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:scrollbars="none">&ndash;&gt;-->
+    <!--&lt;!&ndash;<HorizontalScrollView&ndash;&gt;-->
+    <!--&lt;!&ndash;android:id="@+id/horizontalScrollView"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_width="0dp"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_height="200dp"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:scrollbars="none">&ndash;&gt;-->
 
-            <!--&lt;!&ndash;<LinearLayout&ndash;&gt;-->
-                <!--&lt;!&ndash;android:id="@+id/gallery"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_height="200dp"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:orientation="horizontal">&ndash;&gt;-->
+    <!--&lt;!&ndash;<LinearLayout&ndash;&gt;-->
+    <!--&lt;!&ndash;android:id="@+id/gallery"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_height="200dp"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:orientation="horizontal">&ndash;&gt;-->
 
-            <!--&lt;!&ndash;</LinearLayout>&ndash;&gt;-->
+    <!--&lt;!&ndash;</LinearLayout>&ndash;&gt;-->
 
-        <!--&lt;!&ndash;</HorizontalScrollView>&ndash;&gt;-->
+    <!--&lt;!&ndash;</HorizontalScrollView>&ndash;&gt;-->
 
 
     <!--</android.support.constraint.ConstraintLayout>-->

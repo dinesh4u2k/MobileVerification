@@ -98,7 +98,7 @@ public class Home1 extends Fragment {
 
     private int[] myImageList = new int[]{R.drawable.ad1, R.drawable.ad2,
             R.drawable.ad3, R.drawable.ad4
-            , R.drawable.ad5, R.drawable.ic_launcher_background};
+            , R.drawable.ad5, R.drawable.ad6};
 
     public Home1() {
         // Required empty public constructor
