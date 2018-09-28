@@ -23,7 +23,7 @@ public class PhoneStateReceiver extends BroadcastReceiver {
     private static String savedNumber;
 
 
-   public Integer callcount;
+
 
     @SuppressLint("UnsafeProtectedBroadcastReceiver")
     @Override
@@ -252,26 +252,6 @@ public class PhoneStateReceiver extends BroadcastReceiver {
 //                    } else {
                         context.startService(new Intent(context, Myservice.class));
 //                    }
-                    SharedPreferences spbroad = context.getSharedPreferences("cc", Context.MODE_PRIVATE);
-                        final SharedPreferences.Editor editor = spbroad.edit();
-
-                        callcount = spbroad.getInt("count",0);
-
-                        if (callcount == 0){
-                            callcount =1;
-                            editor.putInt("count",callcount);
-                            editor.apply();
-
-                        }else if(callcount==30) {
-
-                            Log.d("cc","level reached");
-                        }else {
-
-                            callcount=callcount+1;
-                            editor.putInt("count",callcount);
-                            editor.apply();
-
-                        }
 
                 }
 

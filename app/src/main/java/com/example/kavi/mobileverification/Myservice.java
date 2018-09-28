@@ -30,6 +30,8 @@ import okhttp3.OkHttpClient;
 
 public class Myservice extends Service {
 
+    public Integer callcount;
+
     static final String CONNECTIVITY_CHANGE_ACTION = "android.net.conn.CONNECTIVITY_CHANGE";
     public BroadcastReceiver receiver;
 
@@ -165,6 +167,27 @@ public class Myservice extends Service {
                         }
 
                         try {
+                            SharedPreferences spbroad = getSharedPreferences("cc", Context.MODE_PRIVATE);
+                            final SharedPreferences.Editor editor = spbroad.edit();
+
+                            callcount = spbroad.getInt("count",0);
+
+                            if (callcount == 0){
+                                callcount =1;
+                                editor.putInt("count",callcount);
+                                editor.apply();
+
+                            }else if(callcount==30) {
+
+                                Log.d("cc","level reached");
+                            }else {
+
+                                callcount=callcount+1;
+                                editor.putInt("count",callcount);
+                                editor.apply();
+
+                            }
+
                             moneyp = Integer.parseInt(data.person().get(0).wallet.toString());
 
                             Log.d("datas", Integer.toString(moneyp));
