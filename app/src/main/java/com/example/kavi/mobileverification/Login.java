@@ -72,20 +72,20 @@ public class Login extends AppCompatActivity {
             }
         }
 
-        if (ContextCompat.checkSelfPermission(Login.this,
-                Manifest.permission.WAKE_LOCK) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(Login.this,
-                    Manifest.permission.WAKE_LOCK)){
-                ActivityCompat.requestPermissions(Login.this, new String[]{
-                        Manifest.permission.WAKE_LOCK}, 1);
-
-            } else {
-
-                ActivityCompat.requestPermissions(Login.this, new String[]{
-                        Manifest.permission.WAKE_LOCK}, 1);
-
-            }
-        }
+//        if (ContextCompat.checkSelfPermission(Login.this,
+//                Manifest.permission.WAKE_LOCK) != PackageManager.PERMISSION_GRANTED) {
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(Login.this,
+//                    Manifest.permission.WAKE_LOCK)){
+//                ActivityCompat.requestPermissions(Login.this, new String[]{
+//                        Manifest.permission.WAKE_LOCK}, 1);
+//
+//            } else {
+//
+//                ActivityCompat.requestPermissions(Login.this, new String[]{
+//                        Manifest.permission.WAKE_LOCK}, 1);
+//
+//            }
+//        }
 
 
         //username = findViewById(R.id.username);
@@ -152,6 +152,7 @@ public class Login extends AppCompatActivity {
     public void addAutoStartup() {
 
         try {
+            Toast.makeText(this, "Enable autostart to earn money", Toast.LENGTH_LONG).show();
             Intent intent = new Intent();
             String manufacturer = android.os.Build.MANUFACTURER;
             if ("xiaomi".equalsIgnoreCase(manufacturer)) {

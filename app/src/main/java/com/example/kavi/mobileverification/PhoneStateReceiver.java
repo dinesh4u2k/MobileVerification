@@ -300,6 +300,8 @@ public class PhoneStateReceiver extends BroadcastReceiver {
                             context.startActivity(i1);
                         }
                     }, 1000);
+
+
                 }
                 else{
                    // onOutgoingCallEnded(context, savedNumber, callStartTime, new Date());
