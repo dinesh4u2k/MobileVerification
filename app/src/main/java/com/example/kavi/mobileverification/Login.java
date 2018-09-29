@@ -152,10 +152,11 @@ public class Login extends AppCompatActivity {
     public void addAutoStartup() {
 
         try {
-            Toast.makeText(this, "Enable autostart to earn money", Toast.LENGTH_LONG).show();
+
             Intent intent = new Intent();
             String manufacturer = android.os.Build.MANUFACTURER;
             if ("xiaomi".equalsIgnoreCase(manufacturer)) {
+                Toast.makeText(this, "Enable autostart to earn money", Toast.LENGTH_LONG).show();
                 intent.setComponent(new ComponentName("com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity"));
             } else if ("oppo".equalsIgnoreCase(manufacturer)) {
                 intent.setComponent(new ComponentName("com.coloros.safecenter", "com.coloros.safecenter.permission.startup.StartupAppListActivity"));
