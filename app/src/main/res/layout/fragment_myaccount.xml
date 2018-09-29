@@ -19,9 +19,9 @@
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="50dp"
+            android:layout_height="80dp"
             android:layout_marginTop="10dp"
-            android:background="#ffffff"
+            android:background="@drawable/shape1"
             android:orientation="horizontal"
             android:gravity="center"
             >
@@ -59,21 +59,22 @@
         </LinearLayout>
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="35dp"
+            android:layout_height="50dp"
             android:layout_marginTop="10dp"
             android:id="@+id/history"
-            android:background="#ffffff"
+            android:background="@drawable/shape1"
+
             android:orientation="horizontal">
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="0dp"
+                android:layout_marginTop="10dp"
                 android:src="@drawable/ic_history"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginLeft="10dp"
                 android:textSize="15sp"
                 android:text="Reward History"
@@ -81,21 +82,22 @@
         </LinearLayout>
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="35dp"
+            android:layout_height="50dp"
             android:layout_marginTop="10dp"
             android:id="@+id/share"
-            android:background="#ffffff"
+            android:background="@drawable/shape1"
+
             android:orientation="horizontal">
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="0dp"
+                android:layout_marginTop="10dp"
                 android:src="@drawable/ic_share"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginLeft="10dp"
                 android:textSize="15sp"
                 android:text="Share with Friends"
@@ -104,25 +106,43 @@
         <LinearLayout
             android:id="@+id/logout"
             android:layout_width="fill_parent"
-            android:layout_height="35dp"
+            android:layout_height="50dp"
+            android:background="@drawable/shape1"
+
             android:layout_marginTop="10dp"
-            android:background="#ffffff"
             android:orientation="horizontal">
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="0dp"
+                android:layout_marginTop="10dp"
                 android:src="@drawable/ic_logout"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginLeft="10dp"
                 android:textSize="15sp"
                 android:text="Logout"
                 />
         </LinearLayout>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/quote"
+            android:layout_marginTop="210dp"
+            android:gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="10dp" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+
+            android:text="@string/c_name"
+            android:textColor="@color/colorPrimary"
+            android:textSize="10dp" />
 
         <!-- <TextView
              android:id="@+id/balance"

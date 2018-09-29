@@ -94,7 +94,7 @@
             android:id="@+id/resend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="130dp"
+            android:layout_marginLeft="100dp"
             android:text="Resend OTP"
             android:textColor="@color/colorPrimary"
             android:textSize="15dp" />
@@ -117,7 +117,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/quote"
-        android:paddingTop="50dp"
+        android:layout_marginTop="160dp"
 
         android:textColor="@color/colorPrimary"
         android:textSize="10dp" />
@@ -132,4 +132,3 @@
 
 
 </LinearLayout>
-

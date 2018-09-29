@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="bottom"
                 app:centered="true"
-                app:fillColor="#df0623"
+                app:fillColor="#006064"
                 app:pageColor="#fff"
                 app:snap="false" />
 
@@ -51,7 +51,7 @@
             android:layout_width="fill_parent"
             android:layout_height="100dp"
             android:layout_marginTop="30dp"
-            android:background="#ffffff"
+            android:background="@drawable/shape1"
             android:orientation="horizontal"
             android:gravity="center"
             >
@@ -82,7 +82,7 @@
             android:layout_width="fill_parent"
             android:layout_height="60dp"
             android:layout_marginTop="10dp"
-            android:background="#ffffff"
+            android:background="@drawable/shape1"
             android:orientation="horizontal">
             <ImageView
                 android:layout_width="30dp"
@@ -109,6 +109,23 @@
 
                 />
         </LinearLayout>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/quote"
+            android:layout_marginTop="80dp"
+            android:gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="10dp" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+
+            android:text="@string/c_name"
+            android:textColor="@color/colorPrimary"
+            android:textSize="10dp" />
 
     </LinearLayout>
 
