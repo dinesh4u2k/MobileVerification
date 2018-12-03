@@ -42,14 +42,14 @@ import static android.content.ContentValues.TAG;
 
 
 public class Home1 extends Fragment {
-    int images[]={
-            R.drawable.im1,
-    R.drawable.im2,
-    R.drawable.im3,
-    R.drawable.im4,
-    R.drawable.im5,
-
-};
+//    int images[]={
+//            R.drawable.im1,
+//    R.drawable.im2,
+//    R.drawable.im3,
+//    R.drawable.im4,
+//    R.drawable.im5,
+//
+//};
 
     private int Listsize=0;
 
@@ -149,16 +149,10 @@ public class Home1 extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_home1, container, false);
         callcount = rootView.findViewById(R.id.call);
         amount = rootView.findViewById(R.id.cash_amo);
-        // gallery=rootView.findViewById(R.id.gallery);
-        //inflater1 = LayoutInflater.from(getActivity());
-
-//       new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
 
         //image slider code
-        imageModelArrayList = new ArrayList<>();
-        imageModelArrayList = populateList();
+//        imageModelArrayList = new ArrayList<>();
+//        imageModelArrayList = populateList();
 
         init();
 
@@ -285,9 +279,6 @@ public class Home1 extends Fragment {
                         for (int i = 0; i < Listsize; i++) {
 
                           //  iurl = data.banner.get(0).imageurl.toString();
-
-
-                            //then do a loop over you urls and
                             imagesFromURL.add(data.banner.get(i).imageurl.toString());
                           //  Log.d("datas", iurl);
 
@@ -306,7 +297,7 @@ public class Home1 extends Fragment {
                                 indicator.setViewPager(mPager);
                                 final float density = getResources().getDisplayMetrics().density;
 
-//Set circle indicator radius
+                                //Set circle indicator radius
                                 indicator.setRadius(5 * density);
 
                                 NUM_PAGES =imageModelArrayList.size();
@@ -348,7 +339,7 @@ public class Home1 extends Fragment {
 
                                     }
                                 });
-                              //  indicator.setViewPager(mPager);
+
 
                             }
                         });
@@ -368,18 +359,18 @@ public class Home1 extends Fragment {
 
 
 
-    private ArrayList<ImageModel> populateList(){
-
-        ArrayList<ImageModel> list = new ArrayList<>();
-
-        for(int i = 0; i < 6; i++){
-            ImageModel imageModel = new ImageModel();
-            imageModel.setImage_drawable(myImageList[i]);
-            list.add(imageModel);
-        }
-
-        return list;
-    }
+//    private ArrayList<ImageModel> populateList(){
+//
+//        ArrayList<ImageModel> list = new ArrayList<>();
+//
+//        for(int i = 0; i < 6; i++){
+//            ImageModel imageModel = new ImageModel();
+//            imageModel.setImage_drawable(myImageList[i]);
+//            list.add(imageModel);
+//        }
+//
+//        return list;
+//    }
 
     private void init() {
 
