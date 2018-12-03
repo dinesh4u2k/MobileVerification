@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,12 +51,18 @@ public class Home1 extends Fragment {
 
 };
 
+    private int Listsize=0;
+
     private  ViewPager mPager;
+
+    private CirclePageIndicator indicator;
+
     private TextView amount;
 
     public ApolloClient apolloClient;
 
     public String pwallet;
+    public String  iurl;
 
     public TextView callcount;
 
@@ -90,9 +97,7 @@ public class Home1 extends Fragment {
     private static int NUM_PAGES = 0;
     private ArrayList<ImageModel> imageModelArrayList;
 
-    private int[] myImageList = new int[]{R.drawable.ad1, R.drawable.ad2,
-            R.drawable.ad3,R.drawable.ad4
-            ,R.drawable.ad5,R.drawable.ic_launcher_background};
+    private int[] myImageList = new int[70];
 
     public Home1() {
         // Required empty public constructor
@@ -124,6 +129,8 @@ public class Home1 extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+
+
     }
 
 
@@ -135,15 +142,12 @@ public class Home1 extends Fragment {
         // Inflate the layout for this fragment
 
 
-
-
-
         SharedPreferences sp = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
 
-        String mobile = sp.getString("mobile",null);
+        String mobile = sp.getString("mobile", null);
 
-        View rootView=inflater.inflate(R.layout.fragment_home1, container, false);
-        callcount=rootView.findViewById(R.id.call);
+        View rootView = inflater.inflate(R.layout.fragment_home1, container, false);
+        callcount = rootView.findViewById(R.id.call);
         amount = rootView.findViewById(R.id.cash_amo);
         // gallery=rootView.findViewById(R.id.gallery);
         //inflater1 = LayoutInflater.from(getActivity());
@@ -152,30 +156,36 @@ public class Home1 extends Fragment {
 //            @Override
 //            public void run() {
 
-            //image slider code
+        //image slider code
         imageModelArrayList = new ArrayList<>();
         imageModelArrayList = populateList();
 
         init();
 
-                SharedPreferences spbroad = getActivity().getSharedPreferences("cc", Context.MODE_PRIVATE);
+        SharedPreferences spbroad = getActivity().getSharedPreferences("cc", Context.MODE_PRIVATE);
 
-                callc = spbroad.getInt("count",0);
+        callc = spbroad.getInt("count", 0);
 
-                dd = callc + "/30";
+        dd = callc + "/30";
 
-                callcount.setText(dd);
+        callcount.setText(dd);
 
-//            }
-//        }, 0);
-
-
-
+        callQuery1();
+        callQuery();
+        return rootView;
 
 
+    }
+
+
+    void callQuery1()
+    {
+
+        SharedPreferences sp = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
+        String mobile = sp.getString("mobile", null);
         File file = new File(getActivity().getCacheDir().toURI());
         //Size in bytes of the cache
-        int size = 1024*1024;
+        int size = 1024 * 1024;
 
         //Create the http response cache store
         DiskLruHttpCacheStore cacheStore = new DiskLruHttpCacheStore(file, size);
@@ -200,8 +210,8 @@ public class Home1 extends Fragment {
 
                         PersondetailsQuery.Data data = response.data();
 
-                        if(data!=null){
-                            Log.d("msg","cash out");
+                        if (data != null) {
+                            Log.d("msg", "cash out");
                         }
 
 
@@ -209,14 +219,14 @@ public class Home1 extends Fragment {
                             pwallet = data.person.get(0).wallet.toString();
                         }
 
-                        Log.d("datas",pwallet);
+                        Log.d("datas", pwallet);
                         amount.post(new Runnable() {
                             @Override
                             public void run() {
 
-                                getActivity().runOnUiThread(new Runnable(){
+                                getActivity().runOnUiThread(new Runnable() {
                                     @Override
-                                    public void run(){
+                                    public void run() {
 
                                         amount.setText(pwallet);
 
@@ -232,70 +242,129 @@ public class Home1 extends Fragment {
                     @Override
                     public void onFailure(@Nonnull ApolloException e) {
 
-                        Log.e("Fail", "onFailure: ",e );
+                        Log.e("Fail", "onFailure: ", e);
 
                     }
                 });
 
-        mPager =  rootView.findViewById(R.id.pager1);
-        mPager.setAdapter(new SlidingImage_Adapter(getContext(),imageModelArrayList));
-
-        CirclePageIndicator indicator = (CirclePageIndicator)
-                rootView.findViewById(R.id.indicator);
-
-        indicator.setViewPager(mPager);
-
-        final float density = getResources().getDisplayMetrics().density;
-
-//Set circle indicator radius
-        indicator.setRadius(5 * density);
-
-        NUM_PAGES =imageModelArrayList.size();
-
-        // Auto start of viewpager
-        final Handler handler = new Handler();
-        final Runnable Update = new Runnable() {
-            public void run() {
-                if (currentPage == NUM_PAGES) {
-                    currentPage = 0;
-                }
-                mPager.setCurrentItem(currentPage++, true);
-            }
-        };
-        Timer swipeTimer = new Timer();
-        swipeTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                handler.post(Update);
-            }
-        }, 3000, 3000);
-
-        // Pager listener over indicator
-        indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-            @Override
-            public void onPageSelected(int position) {
-                currentPage = position;
-
-            }
-
-            @Override
-            public void onPageScrolled(int pos, float arg1, int arg2) {
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int pos) {
-
-            }
-        });
-
-
-        return rootView;
-
-
     }
 
+
+    void callQuery()
+    {
+
+
+        File file = new File(getActivity().getCacheDir().toURI());
+        //Size in bytes of the cache
+        int size = 1024 * 1024;
+
+        //Create the http response cache store
+        DiskLruHttpCacheStore cacheStore = new DiskLruHttpCacheStore(file, size);
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .build();
+
+        apolloClient = ApolloClient.builder()
+                .serverUrl("https://digicashserver.herokuapp.com/graphql")
+                .httpCache(new ApolloHttpCache(cacheStore))
+                .okHttpClient(okHttpClient)
+                .build();
+
+
+        apolloClient
+                .query(ImgurlQuery.builder().build())
+                .httpCachePolicy(HttpCachePolicy.NETWORK_FIRST)
+                .enqueue(new ApolloCall.Callback<ImgurlQuery.Data>() {
+                    @Override
+                    public void onResponse(@Nonnull Response<ImgurlQuery.Data> response) {
+                        final ArrayList<String> imagesFromURL = new ArrayList<String>();
+
+
+                        ImgurlQuery.Data data = response.data();
+                        Listsize = response.data().banner().size();
+                        for (int i = 0; i < Listsize; i++) {
+
+                          //  iurl = data.banner.get(0).imageurl.toString();
+
+
+                            //then do a loop over you urls and
+                            imagesFromURL.add(data.banner.get(i).imageurl.toString());
+                          //  Log.d("datas", iurl);
+
+                        }
+
+                        Home1.this.getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+
+                                //mPager = new ViewPager(getActivity(), (AttributeSet) imagesFromURL);
+                                mPager =  getActivity().findViewById(R.id.pager1);
+                                mPager.setAdapter(new SlidingImage_Adapter(getActivity(),imagesFromURL));
+                                //      mPager.setAdapter(new SlidingImage_Adapter(getContext(),imageModelArrayList));
+                                indicator = getActivity().findViewById(R.id.indicator);
+                                indicator.setViewPager(mPager);
+                                final float density = getResources().getDisplayMetrics().density;
+
+//Set circle indicator radius
+                                indicator.setRadius(5 * density);
+
+                                NUM_PAGES =imageModelArrayList.size();
+
+                                // Auto start of viewpager
+                                final Handler handler = new Handler();
+                                final Runnable Update = new Runnable() {
+                                    public void run() {
+                                        if (currentPage == NUM_PAGES) {
+                                            currentPage = 0;
+                                        }
+                                        mPager.setCurrentItem(currentPage++, true);
+                                    }
+                                };
+                                Timer swipeTimer = new Timer();
+                                swipeTimer.schedule(new TimerTask() {
+                                    @Override
+                                    public void run() {
+                                        handler.post(Update);
+                                    }
+                                }, 3000, 3000);
+
+                                // Pager listener over indicator
+                                indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                                    //
+                                    @Override
+                                    public void onPageSelected(int position) {
+                                        currentPage = position;
+
+                                    }
+
+                                    @Override
+                                    public void onPageScrolled(int pos, float arg1, int arg2) {
+
+                                    }
+
+                                    @Override
+                                    public void onPageScrollStateChanged(int pos) {
+
+                                    }
+                                });
+                              //  indicator.setViewPager(mPager);
+
+                            }
+                        });
+
+
+                    }
+
+
+                    @Override
+                    public void onFailure(@Nonnull ApolloException e) {
+
+                        Log.e("Fail", "onFailure: ", e);
+
+                    }
+                });
+    }
 
 
 

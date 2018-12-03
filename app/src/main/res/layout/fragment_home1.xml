@@ -39,6 +39,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="bottom"
                 app:centered="true"
+                android:layout_marginBottom="10dp"
                 app:fillColor="#df0623"
                 app:pageColor="#fff"
                 app:snap="false" />
@@ -50,7 +51,7 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="100dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:background="#ffffff"
             android:orientation="horizontal"
             android:gravity="center"
