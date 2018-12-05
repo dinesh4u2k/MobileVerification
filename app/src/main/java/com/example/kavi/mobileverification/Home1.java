@@ -1,25 +1,24 @@
 package com.example.kavi.mobileverification;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.apollographql.apollo.ApolloCall;
 import com.apollographql.apollo.ApolloClient;
@@ -33,6 +32,7 @@ import com.viewpagerindicator.CirclePageIndicator;
 import java.io.File;
 import java.nio.charset.IllegalCharsetNameException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -44,29 +44,32 @@ import static android.content.ContentValues.TAG;
 
 
 public class Home1 extends Fragment {
-    int images[] = {
-            R.drawable.im1,
-            R.drawable.im2,
-            R.drawable.im3,
-            R.drawable.im4,
-            R.drawable.im5,
+//    int images[]={
+//            R.drawable.im1,
+//    R.drawable.im2,
+//    R.drawable.im3,
+//    R.drawable.im4,
+//    R.drawable.im5,
+//
+//};
 
-    };
+    private int Listsize=0;
 
-    private ViewPager mPager;
+    private  ViewPager mPager;
+
+    private CirclePageIndicator indicator;
+
     private TextView amount;
 
     public ApolloClient apolloClient;
 
     public String pwallet;
+    public String[]  iurl;
 
     public TextView callcount;
 
     public Integer callc;
     public String dd;
-
-    public String mobile;
-
 
     LayoutInflater inflater1;
 
@@ -96,9 +99,7 @@ public class Home1 extends Fragment {
     private static int NUM_PAGES = 0;
     private ArrayList<ImageModel> imageModelArrayList;
 
-    private int[] myImageList = new int[]{R.drawable.ad1, R.drawable.ad2,
-            R.drawable.ad3, R.drawable.ad4
-            , R.drawable.ad5, R.drawable.ad6};
+    private int[] myImageList = new int[70];
 
     public Home1() {
         // Required empty public constructor
@@ -130,6 +131,8 @@ public class Home1 extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+
+
     }
 
 
@@ -141,234 +144,277 @@ public class Home1 extends Fragment {
         // Inflate the layout for this fragment
 
 
+        SharedPreferences sp = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
+
+        String mobile = sp.getString("mobile", null);
+
         View rootView = inflater.inflate(R.layout.fragment_home1, container, false);
         callcount = rootView.findViewById(R.id.call);
         amount = rootView.findViewById(R.id.cash_amo);
 
-
-        new HomeAsync().execute();
-        // gallery=rootView.findViewById(R.id.gallery);
-        //inflater1 = LayoutInflater.from(getActivity());
-
-//       new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-
         //image slider code
-        imageModelArrayList = new ArrayList<>();
-        imageModelArrayList = populateList();
+//        imageModelArrayList = new ArrayList<>();
+//        imageModelArrayList = populateList();
 
         init();
 
+        SharedPreferences spbroad = getActivity().getSharedPreferences("cc", Context.MODE_PRIVATE);
 
-//            }
-//        }, 0);
+        callc = spbroad.getInt("count", 0);
 
+        dd = callc + "/30";
 
-        mPager = rootView.findViewById(R.id.pager1);
-        mPager.setAdapter(new SlidingImage_Adapter(getContext(), imageModelArrayList));
+        callcount.setText(dd);
 
-        CirclePageIndicator indicator = (CirclePageIndicator)
-                rootView.findViewById(R.id.indicator);
-
-        indicator.setViewPager(mPager);
-
-        final float density = getResources().getDisplayMetrics().density;
-
-//Set circle indicator radius
-        indicator.setRadius(5 * density);
-
-        NUM_PAGES = imageModelArrayList.size();
-
-        // Auto start of viewpager
-        final Handler handler = new Handler();
-        final Runnable Update = new Runnable() {
-            public void run() {
-                if (currentPage == NUM_PAGES) {
-                    currentPage = 0;
-                }
-                mPager.setCurrentItem(currentPage++, true);
-            }
-        };
-        Timer swipeTimer = new Timer();
-        swipeTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                handler.post(Update);
-            }
-        }, 3000, 3000);
-
-        // Pager listener over indicator
-        indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-            @Override
-            public void onPageSelected(int position) {
-                currentPage = position;
-
-            }
-
-            @Override
-            public void onPageScrolled(int pos, float arg1, int arg2) {
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int pos) {
-
-            }
-        });
-
-
+        callQuery1();
+        callQuery();
         return rootView;
 
 
     }
 
 
-    private class HomeAsync extends AsyncTask<String, Integer, String> {
+    void callQuery1()
+    {
 
-        private ProgressDialog progressDialog;
+        SharedPreferences sp = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
+        String mobile = sp.getString("mobile", null);
+        File file = new File(getActivity().getCacheDir().toURI());
+        //Size in bytes of the cache
+        int size = 1024 * 1024;
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog = new ProgressDialog(getActivity(), ProgressDialog.THEME_DEVICE_DEFAULT_DARK);
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            this.progressDialog.setTitle("Processing");
-            this.progressDialog.show();
+        //Create the http response cache store
+        DiskLruHttpCacheStore cacheStore = new DiskLruHttpCacheStore(file, size);
 
-        }
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .build();
 
-        @Override
-        protected String doInBackground(String... strings) {
-
-            try {
-
-            SharedPreferences sp = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
-
-            mobile = sp.getString("mobile", null);
+        apolloClient = ApolloClient.builder()
+                .serverUrl("https://digicashserver.herokuapp.com/graphql")
+                .httpCache(new ApolloHttpCache(cacheStore))
+                .okHttpClient(okHttpClient)
+                .build();
 
 
-            File file = new File(getActivity().getCacheDir().toURI());
-            //Size in bytes of the cache
-            final int size = 1024 * 1024;
-
-            //Create the http response cache store
-            DiskLruHttpCacheStore cacheStore = new DiskLruHttpCacheStore(file, size);
-
-            OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                    .build();
-
-            apolloClient = ApolloClient.builder()
-                    .serverUrl("https://digicashserver.herokuapp.com/graphql")
-                    .httpCache(new ApolloHttpCache(cacheStore))
-                    .okHttpClient(okHttpClient)
-                    .build();
+        apolloClient
+                .query(PersondetailsQuery.builder().mobileno(mobile).build())
+                .httpCachePolicy(HttpCachePolicy.NETWORK_FIRST)
+                .enqueue(new ApolloCall.Callback<PersondetailsQuery.Data>() {
+                    @Override
+                    public void onResponse(@Nonnull Response<PersondetailsQuery.Data> response) {
 
 
-            apolloClient
-                    .query(PersondetailsQuery.builder().mobileno(mobile).build())
-                    .httpCachePolicy(HttpCachePolicy.NETWORK_FIRST)
-                    .enqueue(new ApolloCall.Callback<PersondetailsQuery.Data>() {
-                        @Override
-                        public void onResponse(@Nonnull Response<PersondetailsQuery.Data> response) {
+                        PersondetailsQuery.Data data = response.data();
 
-                            try {
+                        if (data != null) {
+                            Log.d("msg", "cash out");
+                        }
 
 
-                                PersondetailsQuery.Data data = response.data();
+                        if (data.person != null && (data != null ? data.person.get(0).wallet : null) != null) {
+                            pwallet = data.person.get(0).wallet.toString();
+                        }
 
-                                Log.d("v", String.valueOf(data));
+                        Log.d("datas", pwallet);
+                        amount.post(new Runnable() {
+                            @Override
+                            public void run() {
 
-//                        if(data!=null){
-//                            Log.d("msg","cash out");
-//                        }
-
-//                        if (data == null) {
-//                            pwallet = "0";
-//                        } else {
-//
-                                if (data.person != null) {
-                                    pwallet = data.person.get(0).wallet.toString();
-                                }
-
-//                                pwallet = "0";
-//                            }
-
-//                        pwallet ="0";
-
-
-                                Log.d("datas", pwallet);
-                                amount.post(new Runnable() {
+                                getActivity().runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
 
-                                        getActivity().runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-
-                                                amount.setText(pwallet);
-
-                                            }
-                                        });
+                                        amount.setText(pwallet);
 
                                     }
                                 });
 
-                            } catch (Exception e) {
-                                e.printStackTrace();
                             }
+                        });
+
+                    }
+
+
+                    @Override
+                    public void onFailure(@Nonnull ApolloException e) {
+
+                        Log.e("Fail", "onFailure: ", e);
+
+                    }
+                });
+
+    }
+
+
+    void callQuery()
+    {
+
+
+        File file = new File(getActivity().getCacheDir().toURI());
+        //Size in bytes of the cache
+        int size = 1024 * 1024;
+
+        //Create the http response cache store
+        DiskLruHttpCacheStore cacheStore = new DiskLruHttpCacheStore(file, size);
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .build();
+
+        apolloClient = ApolloClient.builder()
+                .serverUrl("https://digicashserver.herokuapp.com/graphql")
+                .httpCache(new ApolloHttpCache(cacheStore))
+                .okHttpClient(okHttpClient)
+                .build();
+
+
+        apolloClient
+                .query(ImgurlQuery.builder().build())
+                .httpCachePolicy(HttpCachePolicy.NETWORK_FIRST)
+                .enqueue(new ApolloCall.Callback<ImgurlQuery.Data>() {
+                    @Override
+                    public void onResponse(@Nonnull Response<ImgurlQuery.Data> response) {
+                        final ArrayList<String> imagesFromURL = new ArrayList<String>();
+
+//                        final String[] urll;
+
+//                        SharedPreferences imgtopopup = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
+//
+//                        final SharedPreferences.Editor editorpop = imgtopopup.edit();
+                        SharedPreferences imgtopopup = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
+
+                        final SharedPreferences.Editor editorpop = imgtopopup.edit();
+
+                        ImgurlQuery.Data data = response.data();
+                        Listsize = response.data().banner().size();
+                        editorpop.putInt("listsize",Listsize);
+
+                        for (int i = 0; i < Listsize; i++) {
+//                            String var = String.valueOf(i);
+//                            editorpop.putString(var,data.banner.get(i).imageurl.toString());
+//                            urlll[i] = data.banner.get(i).imageurl.toString();
+                            imagesFromURL.add(data.banner.get(i).imageurl.toString());
+                            editorpop.putString("s"+i,imagesFromURL.get(i));
+                            editorpop.apply();
+                            Log.d("datas111", imagesFromURL.toString());
+
                         }
 
+                        Log.d("4444444444", imagesFromURL.get(3));
 
-                        @Override
-                        public void onFailure(@Nonnull ApolloException e) {
-
-                            Log.e("Fail", "onFailure: ", e);
-
-                        }
-                    });
-
-            SharedPreferences spbroad = getActivity().getSharedPreferences("cc", Context.MODE_PRIVATE);
-
-            callc = spbroad.getInt("count", 0);
-
-            dd = callc + "/30";
-
-            callcount.setText(dd);
+//                        Random rand = new Random();
+//                        int n = rand.nextInt(Listsize);
 
 
 
-        }catch (Exception e){
-                e.printStackTrace();
-            }
+//                        editorpop.putString("url",imagesFromURL.get(n));
 
-            return null;
+
+
+//
+//                        final String send = iurl[n];
+//
+//                        Log.i("url",send);
+//
+//                        System.out.println(send);
+
+//
+// editorpop.apply();
+
+                        Home1.this.getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                try {
+
+//                                    Toast.makeText(getContext(), send, Toast.LENGTH_LONG).show();
+
+                                    //mPager = new ViewPager(getActivity(), (AttributeSet) imagesFromURL);
+                                    mPager = getActivity().findViewById(R.id.pager1);
+                                    mPager.setAdapter(new SlidingImage_Adapter(getActivity(), imagesFromURL));
+                                    //      mPager.setAdapter(new SlidingImage_Adapter(getContext(),imageModelArrayList));
+                                    indicator = getActivity().findViewById(R.id.indicator);
+                                    indicator.setViewPager(mPager);
+                                    final float density = getResources().getDisplayMetrics().density;
+
+                                    //Set circle indicator radius
+                                    indicator.setRadius(5 * density);
+
+                                    NUM_PAGES = imageModelArrayList.size();
+
+                                    // Auto start of viewpager
+                                    final Handler handler = new Handler();
+                                    final Runnable Update = new Runnable() {
+                                        public void run() {
+                                            if (currentPage == NUM_PAGES) {
+                                                currentPage = 0;
+                                            }
+                                            mPager.setCurrentItem(currentPage++, true);
+                                        }
+                                    };
+                                    Timer swipeTimer = new Timer();
+                                    swipeTimer.schedule(new TimerTask() {
+                                        @Override
+                                        public void run() {
+                                            handler.post(Update);
+                                        }
+                                    }, 3000, 3000);
+
+                                    // Pager listener over indicator
+                                    indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                                        //
+                                        @Override
+                                        public void onPageSelected(int position) {
+                                            currentPage = position;
+
+                                        }
+
+                                        @Override
+                                        public void onPageScrolled(int pos, float arg1, int arg2) {
+
+                                        }
+
+                                        @Override
+                                        public void onPageScrollStateChanged(int pos) {
+
+                                        }
+                                    });
+
+
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                        });
+
+
+                    }
+
+
+                    @Override
+                    public void onFailure(@Nonnull ApolloException e) {
+
+                        Log.e("Fail", "onFailure: ", e);
+
+                    }
+                });
     }
 
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            progressDialog.dismiss();
-        }
-    }
 
 
-
-
-
-    private ArrayList<ImageModel> populateList(){
-
-        ArrayList<ImageModel> list = new ArrayList<>();
-
-        for(int i = 0; i < 6; i++){
-            ImageModel imageModel = new ImageModel();
-            imageModel.setImage_drawable(myImageList[i]);
-            list.add(imageModel);
-        }
-
-        return list;
-    }
+//    private ArrayList<ImageModel> populateList(){
+//
+//        ArrayList<ImageModel> list = new ArrayList<>();
+//
+//        for(int i = 0; i < 6; i++){
+//            ImageModel imageModel = new ImageModel();
+//            imageModel.setImage_drawable(myImageList[i]);
+//            list.add(imageModel);
+//        }
+//
+//        return list;
+//    }
 
     private void init() {
 

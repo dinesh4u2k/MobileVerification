@@ -1,10 +1,14 @@
 package com.example.kavi.mobileverification;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -13,9 +17,24 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.apollographql.apollo.ApolloCall;
+import com.apollographql.apollo.ApolloClient;
+import com.apollographql.apollo.api.Response;
+import com.apollographql.apollo.api.cache.http.HttpCachePolicy;
+import com.apollographql.apollo.cache.http.ApolloHttpCache;
+import com.apollographql.apollo.cache.http.DiskLruHttpCacheStore;
+import com.apollographql.apollo.exception.ApolloException;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import javax.annotation.Nonnull;
+
+import okhttp3.OkHttpClient;
 
 
 public class CustomPhoneStateListener extends Activity implements View.OnTouchListener
@@ -23,6 +42,7 @@ public class CustomPhoneStateListener extends Activity implements View.OnTouchLi
 
 
     public String mobileno;
+    final ArrayList<String> imagesFromURL = new ArrayList<String>();
     // private ViewGroup rootlayout;
     // private int xdelta;
     //private int ydelta;
@@ -53,18 +73,19 @@ public class CustomPhoneStateListener extends Activity implements View.OnTouchLi
     private View mParent;
     private boolean isDragging;
     private boolean isInitialized = false;
-
+    private int Listsize=0;
     private int width;
     private float xWhenAttached;
     private float maxLeft;
     private float maxRight;
     private float dX;
-
+    public ApolloClient apolloClient;
     private int height;
     private float yWhenAttached;
     private float maxTop;
     private float maxBottom;
     private float dY;
+
 
     private OnDragActionListener mOnDragActionListener;
 
@@ -197,10 +218,95 @@ public class CustomPhoneStateListener extends Activity implements View.OnTouchLi
         isDragging = false;
     }
 
+    void callQuery()
+    {
+
+
+        File file = new File(getApplication().getCacheDir().toURI());
+        //Size in bytes of the cache
+        int size = 1024 * 1024;
+
+        //Create the http response cache store
+        DiskLruHttpCacheStore cacheStore = new DiskLruHttpCacheStore(file, size);
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .build();
+
+        apolloClient = ApolloClient.builder()
+                .serverUrl("https://digicashserver.herokuapp.com/graphql")
+                .httpCache(new ApolloHttpCache(cacheStore))
+                .okHttpClient(okHttpClient)
+                .build();
+
+
+        apolloClient
+                .query(ImgurlQuery.builder().build())
+                .httpCachePolicy(HttpCachePolicy.NETWORK_FIRST)
+                .enqueue(new ApolloCall.Callback<ImgurlQuery.Data>() {
+                    @Override
+                    public void onResponse(@Nonnull Response<ImgurlQuery.Data> response) {
+
+
+//                        final String[] urll;
+
+//                        SharedPreferences imgtopopup = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
+//
+//                        final SharedPreferences.Editor editorpop = imgtopopup.edit();
+
+
+                        ImgurlQuery.Data data = response.data();
+                        Listsize = response.data().banner().size();
+//                        editorpop.putInt("listsize",Listsize);
+
+                        for (int i = 0; i < Listsize; i++) {
+//                            String var = String.valueOf(i);
+//                            editorpop.putString(var,data.banner.get(i).imageurl.toString());
+//                            urlll[i] = data.banner.get(i).imageurl.toString();
+                            imagesFromURL.add(data.banner.get(i).imageurl.toString());
+                            Log.d("datas111", imagesFromURL.toString());
+
+                        }
+
+                        Log.d("4444444444", imagesFromURL.get(3));
+
+//                        Random rand = new Random();
+//                        int n = rand.nextInt(Listsize);
+//
+//                        final String send = iurl[n];
+//
+//                        Log.i("url",send);
+//
+//                        System.out.println(send);
+
+//
+// editorpop.apply();
+
+                        CustomPhoneStateListener.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                            }
+
+                        });
+
+
+                    }
+
+
+                    @Override
+                    public void onFailure(@Nonnull ApolloException e) {
+
+                        Log.e("Fail", "onFailure: ", e);
+
+                    }
+                });
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
+//        callQuery();
         Button close;
         ImageView banner;
 
@@ -239,8 +345,33 @@ public class CustomPhoneStateListener extends Activity implements View.OnTouchLi
 
         banner = findViewById(R.id.banner);
 
+        SharedPreferences sp = getApplicationContext().getSharedPreferences("Login", Context.MODE_PRIVATE);
+
+        Integer ls = sp.getInt("listsize", 0);
+
+        for (int i = 0; i < ls; i++) {
+
+            imagesFromURL.add(sp.getString("s"+i, null));
+
+
+        }
+
+
+
+       String final1 = imagesFromURL.get(n);
+
+
+
+//        String url= getIntent().getStringExtra("url");
+
+//        Toast.makeText(this, final1, Toast.LENGTH_LONG).show();
+
+//        String um = "https://pbs.twimg.com/profile_images/874661809139073025/X8yzIhNy_400x400.jpg";
+
+//        String url ="\""+um+"\"";
+
         Picasso.with(this)
-                .load(images[n])
+                .load(final1)
                 .fit()
                 //.resize(400,300)                       // optional
                 .into(banner);
@@ -258,8 +389,8 @@ public class CustomPhoneStateListener extends Activity implements View.OnTouchLi
 
         getWindow().addFlags(
                 WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
-                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+                        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
 
         close = findViewById(R.id.close);

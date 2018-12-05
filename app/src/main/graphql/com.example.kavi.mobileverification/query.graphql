@@ -3,3 +3,9 @@ query PersondetailsQuery($mobileno:String!){
     wallet
   }
 }
+
+query ImgurlQuery{
+    banner{
+        imageurl
+    }
+}

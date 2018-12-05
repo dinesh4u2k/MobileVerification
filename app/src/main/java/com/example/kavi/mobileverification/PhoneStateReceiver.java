@@ -9,9 +9,25 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+
+import com.apollographql.apollo.ApolloCall;
+import com.apollographql.apollo.ApolloClient;
+import com.apollographql.apollo.api.Response;
+import com.apollographql.apollo.api.cache.http.HttpCachePolicy;
+import com.apollographql.apollo.cache.http.ApolloHttpCache;
+import com.apollographql.apollo.cache.http.DiskLruHttpCacheStore;
+import com.apollographql.apollo.exception.ApolloException;
+
+import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
+
+import javax.annotation.Nonnull;
+
+import okhttp3.OkHttpClient;
 
 
 public class PhoneStateReceiver extends BroadcastReceiver {
@@ -21,7 +37,76 @@ public class PhoneStateReceiver extends BroadcastReceiver {
     private static Date callStartTime;
     private static boolean isIncoming;
     private static String savedNumber;
+    public ApolloClient apolloClient;
+    private int Listsize=0;
+    private String baaba="kkkkkkkkk";
+    final ArrayList<String> imagesFromURL = new ArrayList<String>();
 
+    void callQuery()
+    {
+
+//
+//        File file = new File(.getCacheDir().toURI());
+//        //Size in bytes of the cache
+//        int size = 1024 * 1024;
+//
+//        //Create the http response cache store
+//        DiskLruHttpCacheStore cacheStore = new DiskLruHttpCacheStore(file, size);
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .build();
+
+        apolloClient = ApolloClient.builder()
+                .serverUrl("https://digicashserver.herokuapp.com/graphql")
+                .okHttpClient(okHttpClient)
+                .build();
+
+
+        apolloClient
+                .query(ImgurlQuery.builder().build())
+                .httpCachePolicy(HttpCachePolicy.NETWORK_FIRST)
+                .enqueue(new ApolloCall.Callback<ImgurlQuery.Data>() {
+                    @Override
+                    public void onResponse(@Nonnull Response<ImgurlQuery.Data> response) {
+
+
+//                        final String[] urll;
+
+//                        SharedPreferences imgtopopup = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
+//
+//                        final SharedPreferences.Editor editorpop = imgtopopup.edit();
+
+
+                        ImgurlQuery.Data data = response.data();
+                        Listsize = response.data().banner().size();
+//                        editorpop.putInt("listsize",Listsize);
+
+                        for (int i = 0; i < Listsize; i++) {
+//                            String var = String.valueOf(i);
+//                            editorpop.putString(var,data.banner.get(i).imageurl.toString());
+//                            urlll[i] = data.banner.get(i).imageurl.toString();
+                            imagesFromURL.add(data.banner.get(i).imageurl.toString());
+                            Log.d("datas111", imagesFromURL.toString());
+
+                        }
+
+                        Log.d("4444444444", imagesFromURL.get(3));
+                        Random rand = new Random();
+                       int n = rand.nextInt(Listsize);
+
+                        baaba = imagesFromURL.get(n);
+
+                    }
+
+
+                    @Override
+                    public void onFailure(@Nonnull ApolloException e) {
+
+                        Log.e("Fail", "onFailure: ", e);
+
+                    }
+                });
+    }
 
 
 
@@ -51,124 +136,6 @@ public class PhoneStateReceiver extends BroadcastReceiver {
         }
 
 
-
-//        if (intent.getAction().equals("android.intent.action.NEW_OUTGOING_CALL")) {
-//
-//            String state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
-//
-//            if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
-//
-//                final Intent i = new Intent(context, CustomPhoneStateListener.class);
-//                i.putExtras(intent);
-//                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                i.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-//
-//
-//                new android.os.Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        context.startActivity(i);
-//                    }
-//                }, 1000);
-//
-//            }
-//
-//
-//            Log.d("out","outgoingggggg");
-//
-//        }else if (!intent.getAction().equals("android.intent.action.NEW_OUTGOING_CALL")){
-//            try {
-//                String state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
-//
-////        Log.e("flag2",state);
-//                if (state != null) {
-//                    if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
-//
-//                        Log.d("Ringing", "Phone is ringing");
-//
-//
-//                        final Intent i = new Intent(context, CustomPhoneStateListener.class);
-//                        i.putExtras(intent);
-//                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                        i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                        i.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-//
-//
-//                        new android.os.Handler().postDelayed(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                context.startActivity(i);
-//                            }
-//                        }, 1000);
-//
-//
-//                    }
-//
-//                    if (state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
-//
-//                        context.startService(new Intent(context, Myservice.class));
-//                        Log.d("attend", "basjdnasjfasjfhasfjlasfklafklajfklajfklajfklasjf");
-//
-//                        SharedPreferences spbroad = context.getSharedPreferences("cc", Context.MODE_PRIVATE);
-//                        final SharedPreferences.Editor editor = spbroad.edit();
-//
-//                        callcount = spbroad.getInt("count",0);
-//
-//                        if (callcount == 0){
-//                            callcount =1;
-//                            editor.putInt("count",callcount);
-//                            editor.apply();
-//
-//                        }else if(callcount==30) {
-//
-//                            Log.d("cc","level reached");
-//                        }else {
-//
-//                            callcount=callcount+1;
-//                            editor.putInt("count",callcount);
-//                            editor.apply();
-//
-//                        }
-//
-//
-//
-//                    }
-//
-//                    if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
-//
-//                        context.stopService(new Intent(context, Myservice.class));
-
-//                        final Intent i = new Intent(context, CustomPhoneStateListener.class);
-//                        i.putExtras(intent);
-//                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                        i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                        i.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-//
-//
-//                        new android.os.Handler().postDelayed(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                context.startActivity(i);
-//                            }
-//                        }, 1000);
-//
-//                    }
-//
-//                }
-//                //}
-//                // }
-//
-//
-//            } catch (NullPointerException e) {
-//                Log.e("null", Log.getStackTraceString(e));
-//            }
 
 
 
@@ -207,6 +174,7 @@ public class PhoneStateReceiver extends BroadcastReceiver {
 
 
 
+
     //Incoming call-  goes from IDLE to RINGING when it rings, to OFFHOOK when it's answered, to IDLE when its hung up
     //Outgoing call-  goes from IDLE to OFFHOOK when it dials out, to IDLE when hung up
     public void onCallStateChanged(final Context context, int state, String number) {
@@ -219,7 +187,11 @@ public class PhoneStateReceiver extends BroadcastReceiver {
                 isIncoming = true;
                 callStartTime = new Date();
                 savedNumber = number;
+//                callQuery();
                 final Intent i = new Intent(context, CustomPhoneStateListener.class);
+
+//                i.putExtra("url", baaba);
+
 //                        i.putExtras(intent);
                         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -261,7 +233,10 @@ public class PhoneStateReceiver extends BroadcastReceiver {
                 if(lastState == TelephonyManager.CALL_STATE_RINGING){
                     //Ring but no pickup-  a miss
                     Log.d("no","no answer");
+//                    callQuery();
                     final Intent i4 = new Intent(context, CustomPhoneStateListener.class);
+//                    i4.putExtra("url", baaba);
+
 //                        i1.putExtras(i1);
                     i4.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     i4.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -285,7 +260,9 @@ public class PhoneStateReceiver extends BroadcastReceiver {
 //                    } else {
                         context.stopService(new Intent(context, Myservice.class));
 //                    }
+//                    callQuery();
                     final Intent i1 = new Intent(context, CustomPhoneStateListener.class);
+//                    i1.putExtra("url", baaba);
 //                        i1.putExtras(i1);
                     i1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     i1.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -305,7 +282,10 @@ public class PhoneStateReceiver extends BroadcastReceiver {
                 }
                 else{
                    // onOutgoingCallEnded(context, savedNumber, callStartTime, new Date());
+//                    callQuery();
                     final Intent i2 = new Intent(context, CustomPhoneStateListener.class);
+//                    i2.putExtra("url", baaba);
+
 //                        i2.putExtras(i2);
                     i2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     i2.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
