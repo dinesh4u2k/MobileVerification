@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.kavi.mobileverification">
+    package="com.example.kavi.adkoin">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -24,7 +24,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <receiver android:name=".Restartservice"
+        <receiver android:name="com.example.kavi.adkoin.Restartservice"
             android:enabled="true"
             android:directBootAware="true"
             android:exported="true"
@@ -41,7 +41,7 @@
         </receiver>
 
 
-        <receiver android:name=".PhoneStateReceiver"
+        <receiver android:name="com.example.kavi.adkoin.PhoneStateReceiver"
 
             android:enabled="true"
             android:directBootAware="true"
@@ -58,7 +58,7 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".CustomPhoneStateListener"
+        <activity android:name="com.example.kavi.adkoin.CustomPhoneStateListener"
             android:theme="@style/Theme.AppCompat.Transparent.NoActionBar"
             android:showOnLockScreen="true"
            >
@@ -68,16 +68,16 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".BroadcastService"
+        <service android:name="com.example.kavi.adkoin.BroadcastService"
             android:enabled="true"
             android:exported="true"
             android:stopWithTask="false"
             tools:ignore="ExportedService" />
 
-        <service android:enabled="true" android:name=".Myservice" />
+        <service android:enabled="true" android:name="com.example.kavi.adkoin.Myservice" />
 
         <service
-            android:name=".MyAccessibilityService"
+            android:name="com.example.kavi.adkoin.MyAccessibilityService"
             android:label="@string/app_name"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
             <intent-filter>
@@ -90,7 +90,7 @@
         </service>
 
 
-        <activity android:name=".Login">
+        <activity android:name="com.example.kavi.adkoin.Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -99,8 +99,8 @@
         </activity>
 
 
-        <activity android:name=".VerifyPhoneActivity" />
-        <activity android:name=".MainActivity"/>
+        <activity android:name="com.example.kavi.adkoin.VerifyPhoneActivity" />
+        <activity android:name="com.example.kavi.adkoin.MainActivity"/>
 
     </application>
 

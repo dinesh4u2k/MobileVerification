@@ -1,12 +1,10 @@
-package com.example.kavi.mobileverification;
+package com.example.kavi.adkoin;
 
 import android.annotation.SuppressLint;
-import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -14,11 +12,8 @@ import com.apollographql.apollo.ApolloCall;
 import com.apollographql.apollo.ApolloClient;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.api.cache.http.HttpCachePolicy;
-import com.apollographql.apollo.cache.http.ApolloHttpCache;
-import com.apollographql.apollo.cache.http.DiskLruHttpCacheStore;
 import com.apollographql.apollo.exception.ApolloException;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;

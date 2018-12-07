@@ -15,7 +15,7 @@ android {
         resolutionStrategy.force 'com.android.support:support-annotations:23.1.0'
     }
     defaultConfig {
-        applicationId "com.example.kavi.mobileverification"
+        applicationId "com.example.kavi.adkoin"
         minSdkVersion 17
         targetSdkVersion 27
         versionCode 1
@@ -46,7 +46,7 @@ android {
 
 dependencies {
     //noinspection GradleCompatible
-    implementation 'com.google.firebase:firebase-core:16.0.3'
+    implementation 'com.google.firebase:firebase-core:16.0.1'
     implementation 'com.google.firebase:firebase-auth:16.0.3'
     implementation 'com.android.support:support-v4:27.1.1'
     //compile 'com.hbb20:ccp:1.7.2'

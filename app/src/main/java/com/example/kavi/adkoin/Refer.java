@@ -1,4 +1,4 @@
-package com.example.kavi.mobileverification;
+package com.example.kavi.adkoin;
 
 import android.content.Context;
 import android.net.Uri;

@@ -1,16 +1,12 @@
-package com.example.kavi.mobileverification;
+package com.example.kavi.adkoin;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.apollographql.apollo.ApolloCall;
 import com.apollographql.apollo.ApolloClient;
@@ -30,17 +25,13 @@ import com.apollographql.apollo.exception.ApolloException;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.io.File;
-import java.nio.charset.IllegalCharsetNameException;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.annotation.Nonnull;
 
 import okhttp3.OkHttpClient;
-
-import static android.content.ContentValues.TAG;
 
 
 public class Home1 extends Fragment {

@@ -1,31 +1,15 @@
-package com.example.kavi.mobileverification;
+package com.example.kavi.adkoin;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.apollographql.apollo.ApolloCall;
-import com.apollographql.apollo.ApolloClient;
-import com.apollographql.apollo.api.Response;
-import com.apollographql.apollo.api.cache.http.HttpCachePolicy;
-import com.apollographql.apollo.cache.http.ApolloHttpCache;
-import com.apollographql.apollo.cache.http.DiskLruHttpCacheStore;
-import com.apollographql.apollo.exception.ApolloException;
-
-import java.io.File;
-
-import javax.annotation.Nonnull;
-
-
-
-import okhttp3.OkHttpClient;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -36,7 +20,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 
-import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 
