@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements Home1.OnFragmentI
                 .build();
 
         apolloClient = ApolloClient.builder()
-                .serverUrl("https://digicashserver.herokuapp.com/graphql")
+                .serverUrl("https://adkoin-server.herokuapp.com/graphql")
                 .httpCache(new ApolloHttpCache(cacheStore))
                 .okHttpClient(okHttpClient)
                 .build();
@@ -250,7 +250,7 @@ public class MainActivity extends AppCompatActivity implements Home1.OnFragmentI
                 .build();
 
         apolloClient = ApolloClient.builder()
-                .serverUrl("https://digicashserver.herokuapp.com/graphql")
+                .serverUrl("https://adkoin-server.herokuapp.com/graphql")
                 .httpCache(new ApolloHttpCache(cacheStore))
                 .okHttpClient(okHttpClient)
                 .build();

@@ -189,7 +189,7 @@ public class Home1 extends Fragment {
                 .build();
 
         apolloClient = ApolloClient.builder()
-                .serverUrl("https://digicashserver.herokuapp.com/graphql")
+                .serverUrl("https://adkoin-server.herokuapp.com/graphql")
                 .httpCache(new ApolloHttpCache(cacheStore))
                 .okHttpClient(okHttpClient)
                 .build();
@@ -260,7 +260,7 @@ public class Home1 extends Fragment {
                 .build();
 
         apolloClient = ApolloClient.builder()
-                .serverUrl("https://digicashserver.herokuapp.com/graphql")
+                .serverUrl("https://adkoin-server.herokuapp.com/graphql")
                 .httpCache(new ApolloHttpCache(cacheStore))
                 .okHttpClient(okHttpClient)
                 .build();
@@ -297,6 +297,8 @@ public class Home1 extends Fragment {
                             Log.d("datas111", imagesFromURL.toString());
 
                         }
+
+
 
 //                        Log.d("4444444444", imagesFromURL.get(3));
 

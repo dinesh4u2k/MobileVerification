@@ -38,7 +38,7 @@ public class CustomPhoneStateListener extends Activity implements View.OnTouchLi
 
 
     public String mobileno;
-    final ArrayList<String> imagesFromURL = new ArrayList<String>();
+    final ArrayList<String> imagesFromURL = new ArrayList<>();
     // private ViewGroup rootlayout;
     // private int xdelta;
     //private int ydelta;
@@ -214,95 +214,11 @@ public class CustomPhoneStateListener extends Activity implements View.OnTouchLi
         isDragging = false;
     }
 
-    void callQuery()
-    {
-
-
-        File file = new File(getApplication().getCacheDir().toURI());
-        //Size in bytes of the cache
-        int size = 1024 * 1024;
-
-        //Create the http response cache store
-        DiskLruHttpCacheStore cacheStore = new DiskLruHttpCacheStore(file, size);
-
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .build();
-
-        apolloClient = ApolloClient.builder()
-                .serverUrl("https://adkoin-server.herokuapp.com/graphql")
-                .httpCache(new ApolloHttpCache(cacheStore))
-                .okHttpClient(okHttpClient)
-                .build();
-
-
-        apolloClient
-                .query(ImgurlQuery.builder().build())
-                .httpCachePolicy(HttpCachePolicy.NETWORK_FIRST)
-                .enqueue(new ApolloCall.Callback<ImgurlQuery.Data>() {
-                    @Override
-                    public void onResponse(@Nonnull Response<ImgurlQuery.Data> response) {
-
-
-//                        final String[] urll;
-
-//                        SharedPreferences imgtopopup = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
-//
-//                        final SharedPreferences.Editor editorpop = imgtopopup.edit();
-
-
-                        ImgurlQuery.Data data = response.data();
-                        Listsize = response.data().banner().size();
-//                        editorpop.putInt("listsize",Listsize);
-
-                        for (int i = 0; i < Listsize; i++) {
-//                            String var = String.valueOf(i);
-//                            editorpop.putString(var,data.banner.get(i).imageurl.toString());
-//                            urlll[i] = data.banner.get(i).imageurl.toString();
-                            imagesFromURL.add(data.banner.get(i).imageurl.toString());
-                            Log.d("datas111", imagesFromURL.toString());
-
-                        }
-
-                        Log.d("4444444444", imagesFromURL.get(3));
-
-//                        Random rand = new Random();
-//                        int n = rand.nextInt(Listsize);
-//
-//                        final String send = iurl[n];
-//
-//                        Log.i("url",send);
-//
-//                        System.out.println(send);
-
-//
-// editorpop.apply();
-
-                        CustomPhoneStateListener.this.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-
-                            }
-
-                        });
-
-
-                    }
-
-
-                    @Override
-                    public void onFailure(@Nonnull ApolloException e) {
-
-                        Log.e("Fail", "onFailure: ", e);
-
-                    }
-                });
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-//        callQuery();
+
         Button close;
         ImageView banner;
 
@@ -367,6 +283,8 @@ public class CustomPhoneStateListener extends Activity implements View.OnTouchLi
 //        String um = "https://pbs.twimg.com/profile_images/874661809139073025/X8yzIhNy_400x400.jpg";
 
 //        String url ="\""+um+"\"";
+
+        Log.d("view","1111111111111111111111111111111");
 
         Picasso.with(this)
                 .load(final1)

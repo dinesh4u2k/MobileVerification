@@ -187,7 +187,7 @@ public class Myaccount extends Fragment implements Refer.OnFragmentInteractionLi
                     .build();
 
             apolloClient = ApolloClient.builder()
-                    .serverUrl("https://digicashserver.herokuapp.com/graphql")
+                    .serverUrl("https://adkoin-server.herokuapp.com/graphql")
                     .httpCache(new ApolloHttpCache(cacheStore))
                     .okHttpClient(okHttpClient)
                     .build();
