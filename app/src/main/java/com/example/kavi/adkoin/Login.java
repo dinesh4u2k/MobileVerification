@@ -109,7 +109,7 @@ public class Login extends AppCompatActivity {
         //username = findViewById(R.id.username);
         spinner = (Spinner) findViewById(R.id.spinnercountries);
         editText = (EditText) findViewById(R.id.no);
-        terms = (CheckBox) findViewById(R.id.checkbox);
+        terms = (CheckBox) findViewById(R.id.checkBox);
         username = findViewById(R.id.username);
 
 

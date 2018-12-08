@@ -61,6 +61,7 @@
         <activity android:name="com.example.kavi.adkoin.CustomPhoneStateListener"
             android:theme="@style/Theme.AppCompat.Transparent.NoActionBar"
             android:showOnLockScreen="true"
+            android:screenOrientation="portrait"
            >
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -90,7 +91,8 @@
         </service>
 
 
-        <activity android:name="com.example.kavi.adkoin.Login">
+        <activity android:name="com.example.kavi.adkoin.Login"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -99,8 +101,10 @@
         </activity>
 
 
-        <activity android:name="com.example.kavi.adkoin.VerifyPhoneActivity" />
-        <activity android:name="com.example.kavi.adkoin.MainActivity"/>
+        <activity android:name="com.example.kavi.adkoin.VerifyPhoneActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name="com.example.kavi.adkoin.MainActivity"
+            android:screenOrientation="portrait"/>
 
     </application>
 

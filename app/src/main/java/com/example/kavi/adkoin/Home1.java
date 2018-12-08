@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -124,6 +125,8 @@ public class Home1 extends Fragment {
 
 
 
+
+
     }
 
 
@@ -142,6 +145,11 @@ public class Home1 extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_home1, container, false);
         callcount = rootView.findViewById(R.id.call);
         amount = rootView.findViewById(R.id.cash_amo);
+
+
+
+
+
 
         //image slider code
 //        imageModelArrayList = new ArrayList<>();
@@ -290,7 +298,7 @@ public class Home1 extends Fragment {
 
                         }
 
-                        Log.d("4444444444", imagesFromURL.get(3));
+//                        Log.d("4444444444", imagesFromURL.get(3));
 
 //                        Random rand = new Random();
 //                        int n = rand.nextInt(Listsize);

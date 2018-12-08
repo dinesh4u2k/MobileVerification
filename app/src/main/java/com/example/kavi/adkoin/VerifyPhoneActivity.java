@@ -31,7 +31,7 @@ public class VerifyPhoneActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private ProgressBar progressBar;
     private EditText editText;
-    private TextView phnnumber, changeno;
+    private TextView phnnumber, changeno,resendotp;
 
 
 
@@ -50,6 +50,8 @@ public class VerifyPhoneActivity extends AppCompatActivity {
         phnnumber = (TextView) findViewById(R.id.phnnumber);
 
         changeno = (TextView) findViewById(R.id.change_no);
+        resendotp = (TextView) findViewById(R.id.resend);
+
 
         changeno.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +90,19 @@ public class VerifyPhoneActivity extends AppCompatActivity {
                 }
 
                 verifycode(code);
+
+            }
+        });
+
+        resendotp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //String number = phnnumber.getText().toString().trim();
+                String phonenumber = getIntent().getStringExtra("phonenumber");
+
+                sendverificationcode(phonenumber);
+
 
             }
         });

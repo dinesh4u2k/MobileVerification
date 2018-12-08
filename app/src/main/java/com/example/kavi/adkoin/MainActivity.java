@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ import com.apollographql.apollo.api.cache.http.HttpCachePolicy;
 import com.apollographql.apollo.cache.http.ApolloHttpCache;
 import com.apollographql.apollo.cache.http.DiskLruHttpCacheStore;
 import com.apollographql.apollo.exception.ApolloException;
+import com.example.kavi.adkoin.PersondetailsQuery;
 
 import java.io.File;
 
@@ -54,7 +56,42 @@ public class MainActivity extends AppCompatActivity implements Home1.OnFragmentI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /*String phonenumber1 = getIntent().getStringExtra("phonenumber1");
+
+        String username = getIntent().getStringExtra("username");
+
+        Bundle bundle = new Bundle();
+        bundle.putString("phonenumber1", "FromActivity");
+        Home1 myobj = new Home1();
+        myobj.setArguments(bundle);*/
+
         new Mytask().execute();
+
+
+        SharedPreferences sp = getSharedPreferences("Login", Context.MODE_PRIVATE);
+
+        final String phonenumber1 = sp.getString("mobile",null);
+
+        final String username = sp.getString("username",null);
+        final SwipeRefreshLayout swipeView = (SwipeRefreshLayout) findViewById(R.id.swipe);
+
+        swipeView.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
+
+        swipeView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeView.setRefreshing(true);
+                Log.d("Swipe","Refreshing");
+                (new Handler()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeView.setRefreshing(false);
+                        callQuery(phonenumber1,username);
+
+                    }
+                },3000);
+            }
+        });
 
         TabLayout tabLayout = findViewById(R.id.tablayout);
         tabLayout.addTab(tabLayout.newTab().setText("Home"));
@@ -91,6 +128,8 @@ public class MainActivity extends AppCompatActivity implements Home1.OnFragmentI
 
 
     }
+
+
 
 
     private class Mytask extends AsyncTask<String,Integer,String>{

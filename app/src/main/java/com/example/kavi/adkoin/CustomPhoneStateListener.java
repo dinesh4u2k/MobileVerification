@@ -229,7 +229,7 @@ public class CustomPhoneStateListener extends Activity implements View.OnTouchLi
                 .build();
 
         apolloClient = ApolloClient.builder()
-                .serverUrl("https://digicashserver.herokuapp.com/graphql")
+                .serverUrl("https://adkoin-server.herokuapp.com/graphql")
                 .httpCache(new ApolloHttpCache(cacheStore))
                 .okHttpClient(okHttpClient)
                 .build();
@@ -322,8 +322,7 @@ public class CustomPhoneStateListener extends Activity implements View.OnTouchLi
 
         };
 
-        Random rand = new Random();
-        int n = rand.nextInt(5);
+
 
 
         super.onCreate(savedInstanceState);
@@ -352,9 +351,12 @@ public class CustomPhoneStateListener extends Activity implements View.OnTouchLi
 
         }
 
+        Random rand = new Random();
+        int n = rand.nextInt(ls);
 
 
-       String final1 = imagesFromURL.get(n);
+
+           String final1 = imagesFromURL.get(n);
 
 
 

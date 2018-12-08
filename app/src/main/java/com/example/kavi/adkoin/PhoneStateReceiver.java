@@ -52,7 +52,7 @@ public class PhoneStateReceiver extends BroadcastReceiver {
                 .build();
 
         apolloClient = ApolloClient.builder()
-                .serverUrl("https://digicashserver.herokuapp.com/graphql")
+                .serverUrl("https://adkoin-server.herokuapp.com/graphql")
                 .okHttpClient(okHttpClient)
                 .build();
 
