@@ -146,6 +146,25 @@ public class Home1 extends Fragment {
         callcount = rootView.findViewById(R.id.call);
         amount = rootView.findViewById(R.id.cash_amo);
 
+        final SwipeRefreshLayout swipeView = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe);
+        swipeView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeView.setRefreshing(true);
+                Log.d("Swipe","Refreshing");
+                (new Handler()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeView.setRefreshing(false);
+                        callQuery1();
+
+                    }
+                },3000);
+
+            }
+        });
+
+
 
 
 

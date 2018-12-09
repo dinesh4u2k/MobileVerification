@@ -68,30 +68,7 @@ public class MainActivity extends AppCompatActivity implements Home1.OnFragmentI
         new Mytask().execute();
 
 
-        SharedPreferences sp = getSharedPreferences("Login", Context.MODE_PRIVATE);
 
-        final String phonenumber1 = sp.getString("mobile",null);
-
-        final String username = sp.getString("username",null);
-        final SwipeRefreshLayout swipeView = (SwipeRefreshLayout) findViewById(R.id.swipe);
-
-        swipeView.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
-
-        swipeView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                swipeView.setRefreshing(true);
-                Log.d("Swipe","Refreshing");
-                (new Handler()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        swipeView.setRefreshing(false);
-                        callQuery(phonenumber1,username);
-
-                    }
-                },3000);
-            }
-        });
 
         TabLayout tabLayout = findViewById(R.id.tablayout);
         tabLayout.addTab(tabLayout.newTab().setText("Home"));

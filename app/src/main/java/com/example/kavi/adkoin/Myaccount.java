@@ -7,7 +7,9 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -147,9 +149,101 @@ public class Myaccount extends Fragment implements Refer.OnFragmentInteractionLi
             }
         });
 
+        final SwipeRefreshLayout swipeView = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe);
+        swipeView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeView.setRefreshing(true);
+                Log.d("Swipe","Refreshing");
+                (new Handler()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeView.setRefreshing(false);
+                        CallQuery();
+
+                    }
+                },3000);
+
+            }
+        });
+
 
 
         return rootView;
+    }
+
+    void CallQuery(){
+
+        SharedPreferences sp = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
+
+        mobile = sp.getString("mobile", null);
+
+        File file = new File(getActivity().getCacheDir().toURI());
+        //Size in bytes of the cache
+        int size = 1024 * 1024;
+
+        //Create the http response cache store
+        DiskLruHttpCacheStore cacheStore = new DiskLruHttpCacheStore(file, size);
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .build();
+
+        apolloClient = ApolloClient.builder()
+                .serverUrl("https://adkoin-server.herokuapp.com/graphql")
+                .httpCache(new ApolloHttpCache(cacheStore))
+                .okHttpClient(okHttpClient)
+                .build();
+
+
+        apolloClient
+                .query(PersondetailsQuery.builder().mobileno(mobile).build())
+                .httpCachePolicy(HttpCachePolicy.NETWORK_FIRST)
+                .enqueue(new ApolloCall.Callback<PersondetailsQuery.Data>() {
+                    @Override
+                    public void onResponse(@Nonnull Response<PersondetailsQuery.Data> response) {
+                        try {
+
+
+                            PersondetailsQuery.Data data = response.data();
+
+
+                            if (data.person != null) {
+                                pwallet = data.person.get(0).wallet.toString();
+                            }
+
+
+                            Log.d("datas", pwallet);
+                            amount.post(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+
+                                            amount.setText(pwallet);
+
+                                        }
+                                    });
+
+                                }
+                            });
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+
+                    @Override
+                    public void onFailure(@Nonnull ApolloException e) {
+
+                        Log.e("Fail", "onFailure: ", e);
+
+                    }
+                });
+
+
     }
 
     private class AccountAsync extends AsyncTask<String,Integer,String>{
@@ -170,76 +264,7 @@ public class Myaccount extends Fragment implements Refer.OnFragmentInteractionLi
         protected String doInBackground(String... strings) {
 
             try {
-
-
-            SharedPreferences sp = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
-
-            mobile = sp.getString("mobile", null);
-
-            File file = new File(getActivity().getCacheDir().toURI());
-            //Size in bytes of the cache
-            int size = 1024 * 1024;
-
-            //Create the http response cache store
-            DiskLruHttpCacheStore cacheStore = new DiskLruHttpCacheStore(file, size);
-
-            OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                    .build();
-
-            apolloClient = ApolloClient.builder()
-                    .serverUrl("https://adkoin-server.herokuapp.com/graphql")
-                    .httpCache(new ApolloHttpCache(cacheStore))
-                    .okHttpClient(okHttpClient)
-                    .build();
-
-
-            apolloClient
-                    .query(PersondetailsQuery.builder().mobileno(mobile).build())
-                    .httpCachePolicy(HttpCachePolicy.NETWORK_FIRST)
-                    .enqueue(new ApolloCall.Callback<PersondetailsQuery.Data>() {
-                        @Override
-                        public void onResponse(@Nonnull Response<PersondetailsQuery.Data> response) {
-                            try {
-
-
-                                PersondetailsQuery.Data data = response.data();
-
-
-                                if (data.person != null) {
-                                    pwallet = data.person.get(0).wallet.toString();
-                                }
-
-
-                                Log.d("datas", pwallet);
-                                amount.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-
-                                        getActivity().runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-
-                                                amount.setText(pwallet);
-
-                                            }
-                                        });
-
-                                    }
-                                });
-
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-
-                        @Override
-                        public void onFailure(@Nonnull ApolloException e) {
-
-                            Log.e("Fail", "onFailure: ", e);
-
-                        }
-                    });
+                CallQuery();
 
         }catch (Exception e){
                 e.printStackTrace();
