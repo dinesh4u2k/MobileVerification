@@ -7,9 +7,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -149,24 +147,6 @@ public class Myaccount extends Fragment implements Refer.OnFragmentInteractionLi
             }
         });
 
-        final SwipeRefreshLayout swipeView = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe);
-        swipeView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                swipeView.setRefreshing(true);
-                Log.d("Swipe","Refreshing");
-                (new Handler()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        swipeView.setRefreshing(false);
-                        CallQuery();
-
-                    }
-                },3000);
-
-            }
-        });
-
 
 
         return rootView;
@@ -243,7 +223,6 @@ public class Myaccount extends Fragment implements Refer.OnFragmentInteractionLi
                     }
                 });
 
-
     }
 
     private class AccountAsync extends AsyncTask<String,Integer,String>{
@@ -265,6 +244,7 @@ public class Myaccount extends Fragment implements Refer.OnFragmentInteractionLi
 
             try {
                 CallQuery();
+
 
         }catch (Exception e){
                 e.printStackTrace();
