@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements Home1.OnFragmentI
 
 
     final Integer wallet =0;
+    final Integer count =0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +74,9 @@ public class MainActivity extends AppCompatActivity implements Home1.OnFragmentI
         final String phonenumber1 = sp.getString("mobile",null);
 
         final String username = sp.getString("username",null);
+
+        Log.d("phonefrommain",phonenumber1);
+        Log.d("usernamefrommain",username);
         final SwipeRefreshLayout swipeView = (SwipeRefreshLayout) findViewById(R.id.swipe);
 
         swipeView.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
@@ -137,12 +141,6 @@ public class MainActivity extends AppCompatActivity implements Home1.OnFragmentI
         @Override
         protected String doInBackground(String... strings) {
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                getApplicationContext().startForegroundService(new Intent(getApplicationContext(), BroadcastService.class));
-            } else {
-                startService(new Intent(getApplicationContext(), BroadcastService.class));
-            }
-
             SharedPreferences sp = getSharedPreferences("Login", Context.MODE_PRIVATE);
 
             final String phonenumber1 = sp.getString("mobile",null);
@@ -152,9 +150,14 @@ public class MainActivity extends AppCompatActivity implements Home1.OnFragmentI
 
 
 
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                getApplicationContext().startForegroundService(new Intent(getApplicationContext(), BroadcastService.class));
+            } else {
+                startService(new Intent(getApplicationContext(), BroadcastService.class));
+            }
+
 
             callQuery(phonenumber1,username);
-
 
             return null;
         }
@@ -195,21 +198,23 @@ public class MainActivity extends AppCompatActivity implements Home1.OnFragmentI
                         }
 
                         try {
+
                             pwallet = Integer.parseInt(data.person().get(0).wallet.toString());
 
-                            Log.d("datas",Integer.toString(pwallet));
+                            if (pwallet != null) {
 
-                            SharedPreferences sp = getSharedPreferences("Login", Context.MODE_PRIVATE);
+                                Log.d("datas", Integer.toString(pwallet));
 
-                            final SharedPreferences.Editor editor = sp.edit();
+                                SharedPreferences sp = getSharedPreferences("Login", Context.MODE_PRIVATE);
 
-                            editor.putString("mobile",mobno);
-                            editor.apply();
+                                final SharedPreferences.Editor editor = sp.edit();
+
+                                editor.putString("mobile", mobno);
+                                editor.apply();
+                            }
 
 
                         }catch (Exception e){
-                            Log.d("catch", "errrrrrrrrrrrrrrrrrrrrrrrr");
-                            postMutation(wallet,mobno,user);
 
                             SharedPreferences sp = getSharedPreferences("Login", Context.MODE_PRIVATE);
 
@@ -217,6 +222,11 @@ public class MainActivity extends AppCompatActivity implements Home1.OnFragmentI
 
                             editor.putString("mobile",mobno);
                             editor.apply();
+
+                            Log.d("catch", "creating user.......");
+                            postMutation(wallet,mobno,user,count);
+
+
 
 
                         }
@@ -238,7 +248,7 @@ public class MainActivity extends AppCompatActivity implements Home1.OnFragmentI
     }
 
 
-    void postMutation(final int pwallet2, final String pmobileno2, final String pusername2){
+    void postMutation(final int pwallet2, final String pmobileno2, final String pusername2, final int pcount){
         File file = new File(this.getCacheDir().toURI());
         //Size in bytes of the cache
         int size = 1024*1024;
@@ -258,6 +268,7 @@ public class MainActivity extends AppCompatActivity implements Home1.OnFragmentI
                 .username(pusername2)
                 .mobileno(pmobileno2)
                 .wallet(pwallet2)
+                .count(pcount)
                 .build();
         ApolloCall<AddPersonMutation.Data> call = apolloClient.mutate(addPersonMutation);
         call.enqueue(new ApolloCall.Callback<AddPersonMutation.Data>() {
@@ -280,6 +291,7 @@ public class MainActivity extends AppCompatActivity implements Home1.OnFragmentI
             }
         });
     }
+
 
     @Override
     public void onFragmentInteraction(Uri uri) {

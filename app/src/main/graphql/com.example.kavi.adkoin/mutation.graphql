@@ -1,8 +1,9 @@
-mutation AddPersonMutation($username:String!,$mobileno:String!,$wallet:Int!){
-  addPerson(username:$username,mobileno:$mobileno,wallet:$wallet){
+mutation AddPersonMutation($username:String!,$mobileno:String!,$wallet:Int!,$count:Int!){
+  addPerson(username:$username,mobileno:$mobileno,wallet:$wallet,count:$count){
     username
     mobileno
     wallet
+    count
   }
 }
 
@@ -10,5 +11,13 @@ mutation AddPersonMutation($username:String!,$mobileno:String!,$wallet:Int!){
 mutation UpdateMutation($mobileno:String!,$wallet:Int!) {
   updatePersonsWallet(mobileno:$mobileno,wallet:$wallet){
     wallet
+  }
+}
+
+
+
+mutation UpdateCallMutation($mobileno:String!,$count:Int!) {
+  updatePersonsCallCount(mobileno:$mobileno,count:$count){
+    count
   }
 }

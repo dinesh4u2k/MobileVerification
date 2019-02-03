@@ -20,6 +20,8 @@ import com.apollographql.apollo.cache.http.DiskLruHttpCacheStore;
 import com.apollographql.apollo.exception.ApolloException;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import javax.annotation.Nonnull;
 
@@ -27,7 +29,9 @@ import okhttp3.OkHttpClient;
 
 public class Myservice extends Service {
 
-    public Integer callcount;
+    public String  callcount;
+    public int convert;
+    public int number;
 
     static final String CONNECTIVITY_CHANGE_ACTION = "android.net.conn.CONNECTIVITY_CHANGE";
     public BroadcastReceiver receiver;
@@ -46,21 +50,13 @@ public class Myservice extends Service {
     }
 
 
-   // First of all, create a service class that will run a handler after a given time interval,
-
-
-
         private Handler mHandler;
-        // default interval for syncing data
-//        public static final long DEFAULT_SYNC_INTERVAL = 30 * 1000;
 
-        // task to be run here
         private Runnable runnableService = new Runnable() {
             @Override
             public void run() {
                 syncData();
-                // Repeat this runnable code block again every ... min
-//                mHandler.postDelayed(runnableService, DEFAULT_SYNC_INTERVAL);
+
             }
         };
 //
@@ -127,7 +123,60 @@ public class Myservice extends Service {
         }
 
 
+        void getcountQuery(){
+
+            SharedPreferences sp = getApplication().getSharedPreferences("Login", Context.MODE_PRIVATE);
+            final String mobile = sp.getString("mobile", null);
+
+            File file = new File(getApplication().getCacheDir().toURI());
+            //Size in bytes of the cache
+            int size = 1024 * 1024;
+
+            //Create the http response cache store
+            DiskLruHttpCacheStore cacheStore = new DiskLruHttpCacheStore(file, size);
+
+            OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                    .build();
+
+            apolloClient = ApolloClient.builder()
+                    .serverUrl("https://adkoin-server.herokuapp.com/graphql")
+                    .httpCache(new ApolloHttpCache(cacheStore))
+                    .okHttpClient(okHttpClient)
+                    .build();
+
+
+            apolloClient
+                    .query(PersondetailsQuery.builder().mobileno(mobile).build())
+                    .httpCachePolicy(HttpCachePolicy.NETWORK_FIRST)
+                    .enqueue(new ApolloCall.Callback<PersondetailsQuery.Data>() {
+                        @Override
+                        public void onResponse(@Nonnull Response<PersondetailsQuery.Data> response) {
+
+
+                            PersondetailsQuery.Data data1 = response.data();
+                            callcount =data1.person.get(0).count.toString();
+                            convert = Integer.valueOf(callcount);
+
+
+                        }
+
+
+                        @Override
+                        public void onFailure(@Nonnull ApolloException e) {
+
+                            Log.e("Fail", "onFailure: ", e);
+
+                        }
+                    });
+
+
+        }
+
+
+
         private synchronized void syncData() {
+
+            getcountQuery();
             // call your rest service here
             SharedPreferences sp = getSharedPreferences("Login", Context.MODE_PRIVATE);
 
@@ -164,32 +213,108 @@ public class Myservice extends Service {
                         }
 
                         try {
-                            SharedPreferences spbroad = getSharedPreferences("cc", Context.MODE_PRIVATE);
-                            final SharedPreferences.Editor editor = spbroad.edit();
 
-                            callcount = spbroad.getInt("count",0);
 
-                            if (callcount == 0){
-                                callcount =1;
-                                editor.putInt("count",callcount);
-                                editor.apply();
 
-                            }else if(callcount==30) {
+                            if (convert == 0){
+                                convert =1;
+
+                                UpdateCallMutation updateCallMutation = UpdateCallMutation.builder()
+
+                                        .mobileno(mobileno)
+                                        .count(convert)
+                                        .build();
+                                ApolloCall<UpdateCallMutation.Data> call = apolloClient.mutate(updateCallMutation);
+                                call.enqueue(new ApolloCall.Callback<UpdateCallMutation.Data>() {
+                                    @Override
+                                    public void onResponse(@Nonnull Response<UpdateCallMutation.Data> response) {
+                                        UpdateCallMutation.Data res = response.data();
+                                        Log.d("done",String.valueOf(res));
+
+                                    }
+
+                                    @Override
+                                    public void onFailure(@Nonnull ApolloException e) {
+                                        Log.e("Fail", "onFailure: ", e);
+                                    }
+                                });
+
+
+
+
+
+                            }else if(convert==30) {
 
                                 Log.d("cc","level reached");
-                            }else {
-
-                                callcount=callcount+1;
-                                editor.putInt("count",callcount);
-                                editor.apply();
 
                             }
+//                            else {
+//                                Calendar calendar = Calendar.getInstance();
+//                                SimpleDateFormat mdformat = new SimpleDateFormat("HH:mm");
+//                                String strDate = mdformat.format(calendar.getTime());
+//                                System.out.println(strDate);
+//                                int a = calendar.get(Calendar.AM_PM);
+//                                System.out.println(a);
+//                                System.out.println(Calendar.PM);
+//
+//                                if(a == Calendar.PM) {
+//                                    if (strDate == "24:00") {
+//                                        System.out.println("12 midnight");
+//                                        convert = 0;
+//                                        UpdateCallMutation updateCallMutation = UpdateCallMutation.builder()
+//
+//                                                .mobileno(mobileno)
+//                                                .count(convert)
+//                                                .build();
+//                                        ApolloCall<UpdateCallMutation.Data> call = apolloClient.mutate(updateCallMutation);
+//                                        call.enqueue(new ApolloCall.Callback<UpdateCallMutation.Data>() {
+//                                            @Override
+//                                            public void onResponse(@Nonnull Response<UpdateCallMutation.Data> response) {
+//                                                UpdateCallMutation.Data res = response.data();
+//                                                Log.d("done", String.valueOf(res));
+//
+//                                            }
+//
+//                                            @Override
+//                                            public void onFailure(@Nonnull ApolloException e) {
+//                                                Log.e("Fail", "onFailure: ", e);
+//                                            }
+//                                        });
+//
+//                                    }
+//                                }else {
+
+
+//                                }
+
+//                            }
+
+                            number = convert + 1;
+                            UpdateCallMutation updateCallMutation = UpdateCallMutation.builder()
+
+                                    .mobileno(mobileno)
+                                    .count(number)
+                                    .build();
+                            ApolloCall<UpdateCallMutation.Data> call = apolloClient.mutate(updateCallMutation);
+                            call.enqueue(new ApolloCall.Callback<UpdateCallMutation.Data>() {
+                                @Override
+                                public void onResponse(@Nonnull Response<UpdateCallMutation.Data> response) {
+                                    UpdateCallMutation.Data res = response.data();
+                                    Log.d("done", String.valueOf(res));
+
+                                }
+
+                                @Override
+                                public void onFailure(@Nonnull ApolloException e) {
+                                    Log.e("Fail", "onFailure: ", e);
+                                }
+                            });
 
                             moneyp = Integer.parseInt(data.person().get(0).wallet.toString());
 
                             Log.d("datas", Integer.toString(moneyp));
 
-                            money=moneyp + 1;
+                            money = moneyp + 1;
 
                             Log.d("number", mobileno);
 
@@ -200,8 +325,8 @@ public class Myservice extends Service {
                                     .mobileno(mobileno)
                                     .wallet(money)
                                     .build();
-                            ApolloCall<UpdateMutation.Data> call = apolloClient.mutate(updateMutation);
-                            call.enqueue(new ApolloCall.Callback<UpdateMutation.Data>() {
+                            ApolloCall<UpdateMutation.Data> call1 = apolloClient.mutate(updateMutation);
+                            call1.enqueue(new ApolloCall.Callback<UpdateMutation.Data>() {
                                 @Override
                                 public void onResponse(@Nonnull Response<UpdateMutation.Data> response) {
                                     UpdateMutation.Data res = response.data();
@@ -237,6 +362,10 @@ public class Myservice extends Service {
 
 
         }
+
+
+
+
 
     @Override
     public void onDestroy() {

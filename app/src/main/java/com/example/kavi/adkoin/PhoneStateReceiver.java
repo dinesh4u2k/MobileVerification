@@ -12,8 +12,11 @@ import com.apollographql.apollo.ApolloCall;
 import com.apollographql.apollo.ApolloClient;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.api.cache.http.HttpCachePolicy;
+import com.apollographql.apollo.cache.http.ApolloHttpCache;
+import com.apollographql.apollo.cache.http.DiskLruHttpCacheStore;
 import com.apollographql.apollo.exception.ApolloException;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,71 +40,7 @@ public class PhoneStateReceiver extends BroadcastReceiver {
     private String baaba="kkkkkkkkk";
     final ArrayList<String> imagesFromURL = new ArrayList<String>();
 
-    void callQuery()
-    {
 
-//
-//        File file = new File(.getCacheDir().toURI());
-//        //Size in bytes of the cache
-//        int size = 1024 * 1024;
-//
-//        //Create the http response cache store
-//        DiskLruHttpCacheStore cacheStore = new DiskLruHttpCacheStore(file, size);
-
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .build();
-
-        apolloClient = ApolloClient.builder()
-                .serverUrl("https://adkoin-server.herokuapp.com/graphql")
-                .okHttpClient(okHttpClient)
-                .build();
-
-
-        apolloClient
-                .query(ImgurlQuery.builder().build())
-                .httpCachePolicy(HttpCachePolicy.NETWORK_FIRST)
-                .enqueue(new ApolloCall.Callback<ImgurlQuery.Data>() {
-                    @Override
-                    public void onResponse(@Nonnull Response<ImgurlQuery.Data> response) {
-
-
-//                        final String[] urll;
-
-//                        SharedPreferences imgtopopup = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
-//
-//                        final SharedPreferences.Editor editorpop = imgtopopup.edit();
-
-
-                        ImgurlQuery.Data data = response.data();
-                        Listsize = response.data().banner().size();
-//                        editorpop.putInt("listsize",Listsize);
-
-                        for (int i = 0; i < Listsize; i++) {
-//                            String var = String.valueOf(i);
-//                            editorpop.putString(var,data.banner.get(i).imageurl.toString());
-//                            urlll[i] = data.banner.get(i).imageurl.toString();
-                            imagesFromURL.add(data.banner.get(i).imageurl.toString());
-                            Log.d("datas111", imagesFromURL.toString());
-
-                        }
-
-                        Log.d("4444444444", imagesFromURL.get(3));
-                        Random rand = new Random();
-                       int n = rand.nextInt(Listsize);
-
-                        baaba = imagesFromURL.get(n);
-
-                    }
-
-
-                    @Override
-                    public void onFailure(@Nonnull ApolloException e) {
-
-                        Log.e("Fail", "onFailure: ", e);
-
-                    }
-                });
-    }
 
 
 
@@ -123,10 +62,12 @@ public class PhoneStateReceiver extends BroadcastReceiver {
 
         if(a == Calendar.PM) {
             if (strDate == "24:00") {
-                SharedPreferences spbroad = context.getSharedPreferences("cc", Context.MODE_PRIVATE);
-                final SharedPreferences.Editor editor = spbroad.edit();
-                editor.clear();
-                editor.apply();
+                System.out.println("12 midnight");
+//                SharedPreferences spbroad = context.getSharedPreferences("cc", Context.MODE_PRIVATE);
+//                final SharedPreferences.Editor editor = spbroad.edit();
+//                editor.clear();
+//                editor.apply();
+
             }
         }
 
@@ -140,24 +81,22 @@ public class PhoneStateReceiver extends BroadcastReceiver {
         }
         else {
             try {
-                String test = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
-                if (!test.equals(null)) {
-                    String stateStr = intent.getExtras().getString(TelephonyManager.EXTRA_STATE);
-                    String number = intent.getExtras().getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
-                    Log.d("State",stateStr);
-                    Log.d("INcoming number",number);
-                    int state = 0;
-                    if (stateStr.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
-                        state = TelephonyManager.CALL_STATE_IDLE;
-                    } else if (stateStr.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
-                        state = TelephonyManager.CALL_STATE_OFFHOOK;
-                    } else if (stateStr.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
-                        state = TelephonyManager.CALL_STATE_RINGING;
-                    }
-
-
-                    onCallStateChanged(context, state, number);
+               // String test = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
+                String stateStr = intent.getExtras().getString(TelephonyManager.EXTRA_STATE);
+                String number = intent.getExtras().getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
+                Log.d("State",stateStr);
+                Log.d("INcoming number",number);
+                int state = 0;
+                if (stateStr.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
+                    state = TelephonyManager.CALL_STATE_IDLE;
+                } else if (stateStr.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
+                    state = TelephonyManager.CALL_STATE_OFFHOOK;
+                } else if (stateStr.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
+                    state = TelephonyManager.CALL_STATE_RINGING;
                 }
+
+
+                onCallStateChanged(context, state, number);
 
             }catch (Exception e){
                 e.printStackTrace();
@@ -224,15 +163,12 @@ public class PhoneStateReceiver extends BroadcastReceiver {
 
                 break;
             case TelephonyManager.CALL_STATE_IDLE:
-                //Went to idle-  this is the end of a call.  What type depends on previous state(s)
                 if(lastState == TelephonyManager.CALL_STATE_RINGING){
-                    //Ring but no pickup-  a miss
-                    Log.d("no","no answer");
-//                    callQuery();
-                    final Intent i4 = new Intent(context, CustomPhoneStateListener.class);
-//                    i4.putExtra("url", baaba);
 
-//                        i1.putExtras(i1);
+                    Log.d("no","no answer");
+
+                    final Intent i4 = new Intent(context, CustomPhoneStateListener.class);
+
                     i4.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     i4.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     i4.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -248,17 +184,13 @@ public class PhoneStateReceiver extends BroadcastReceiver {
                     }, 1000);
                 }
                 else if(isIncoming){
-                    //onIncomingCallEnded(context, savedNumber, callStartTime, new Date());
+
                     Log.d("end","call ended");
-//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//                        context.stopService(new Intent(context, Myservice.class));
-//                    } else {
-                        context.stopService(new Intent(context, Myservice.class));
-//                    }
-//                    callQuery();
+
+                    context.stopService(new Intent(context, Myservice.class));
+
                     final Intent i1 = new Intent(context, CustomPhoneStateListener.class);
-//                    i1.putExtra("url", baaba);
-//                        i1.putExtras(i1);
+
                     i1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     i1.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     i1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

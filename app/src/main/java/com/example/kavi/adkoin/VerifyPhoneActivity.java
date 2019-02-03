@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -125,6 +126,10 @@ public class VerifyPhoneActivity extends AppCompatActivity {
                         if (task.isSuccessful()){
 
                             String phonenumber1 = getIntent().getStringExtra("phonenumber1");
+
+                            Toast.makeText(VerifyPhoneActivity.this, phonenumber1, Toast.LENGTH_SHORT).show();
+
+                            Log.d("phoneno",phonenumber1);
 
                            String username = getIntent().getStringExtra("username");
 

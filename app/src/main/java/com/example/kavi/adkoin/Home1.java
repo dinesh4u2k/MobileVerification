@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +23,7 @@ import com.apollographql.apollo.cache.http.ApolloHttpCache;
 import com.apollographql.apollo.cache.http.DiskLruHttpCacheStore;
 import com.apollographql.apollo.exception.ApolloException;
 import com.viewpagerindicator.CirclePageIndicator;
+
 
 import java.io.File;
 import java.util.ArrayList;
@@ -56,23 +56,14 @@ public class Home1 extends Fragment {
     public ApolloClient apolloClient;
 
     public String pwallet;
-    public String[]  iurl;
+    public String pcount;
 
     public TextView callcount;
 
     public Integer callc;
     public String dd;
 
-    LayoutInflater inflater1;
 
-    ImageView imageView;
-    ImageView imageView1;
-    ImageView imageView2;
-    ImageView imageView3;
-    ImageView imageView4;
-
-
-    LinearLayout gallery;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -89,6 +80,7 @@ public class Home1 extends Fragment {
 
     private static int currentPage = 0;
     private static int NUM_PAGES = 0;
+    public final int wallet=0;
     private ArrayList<ImageModel> imageModelArrayList;
 
     private int[] myImageList = new int[70];
@@ -157,15 +149,27 @@ public class Home1 extends Fragment {
 
         init();
 
-        SharedPreferences spbroad = getActivity().getSharedPreferences("cc", Context.MODE_PRIVATE);
+//        SharedPreferences spbroad = getActivity().getSharedPreferences("cc", Context.MODE_PRIVATE);
+//
+//        callc = spbroad.getInt("count", 0);
 
-        callc = spbroad.getInt("count", 0);
-
-        dd = callc + "/30";
+        dd = "0" + "/30";
 
         callcount.setText(dd);
 
-        callQuery1();
+        Handler mHandler = new Handler();
+        mHandler.postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                //start your activity here
+                callQuery1();
+            }
+
+        }, 3000);
+
+
+
         callQuery();
         return rootView;
 
@@ -173,11 +177,15 @@ public class Home1 extends Fragment {
     }
 
 
+
+
     void callQuery1()
     {
 
         SharedPreferences sp = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
-        String mobile = sp.getString("mobile", null);
+        final String mobile = sp.getString("mobile", null);
+
+        Log.d("testtt",mobile);
         File file = new File(getActivity().getCacheDir().toURI());
         //Size in bytes of the cache
         int size = 1024 * 1024;
@@ -207,11 +215,13 @@ public class Home1 extends Fragment {
 
                         if (data != null) {
                             Log.d("msg", "cash out");
+
                         }
 
 
-                        if (data.person != null && (data != null ? data.person.get(0).wallet : null) != null) {
+                        if (data.person != null && data.person.get(0).wallet != null) {
                             pwallet = data.person.get(0).wallet.toString();
+                            pcount = data.person.get(0).count.toString();
                         }
 
                         Log.d("datas", pwallet);
@@ -230,6 +240,24 @@ public class Home1 extends Fragment {
 
                             }
                         });
+
+                        callcount.post(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        callcount.setText(pcount);
+
+                                    }
+                                });
+
+                            }
+                        });
+
+
 
                     }
 
@@ -298,28 +326,6 @@ public class Home1 extends Fragment {
 
                         }
 
-
-
-//                        Log.d("4444444444", imagesFromURL.get(3));
-
-//                        Random rand = new Random();
-//                        int n = rand.nextInt(Listsize);
-
-
-
-//                        editorpop.putString("url",imagesFromURL.get(n));
-
-
-
-//
-//                        final String send = iurl[n];
-//
-//                        Log.i("url",send);
-//
-//                        System.out.println(send);
-
-//
-// editorpop.apply();
 
                         Home1.this.getActivity().runOnUiThread(new Runnable() {
                             @Override

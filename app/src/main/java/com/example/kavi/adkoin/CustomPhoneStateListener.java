@@ -39,11 +39,7 @@ public class CustomPhoneStateListener extends Activity implements View.OnTouchLi
 
     public String mobileno;
     final ArrayList<String> imagesFromURL = new ArrayList<>();
-    // private ViewGroup rootlayout;
-    // private int xdelta;
-    //private int ydelta;
-    // float dX;
-    // float dY;
+
     int lastAction;
     RelativeLayout root;
 
@@ -245,13 +241,6 @@ public class CustomPhoneStateListener extends Activity implements View.OnTouchLi
 
 
         setContentView(R.layout.popup);
-        banner = findViewById(R.id.banner);
-
-        //rootlayout = (ViewGroup) findViewById(R.id.view_root);
-        //FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(1070,10000);
-        //rootlayout.getHeight();
-        //rootlayout.setLayoutParams(layoutParams);
-        //rootlayout.setOnTouchListener(new ChoiceTouchListener());
 
 
         banner = findViewById(R.id.banner);

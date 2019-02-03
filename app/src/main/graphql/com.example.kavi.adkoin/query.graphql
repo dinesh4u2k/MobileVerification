@@ -1,6 +1,7 @@
 query PersondetailsQuery($mobileno:String!){
   person(mobileno:$mobileno){
     wallet
+    count
   }
 }
 
