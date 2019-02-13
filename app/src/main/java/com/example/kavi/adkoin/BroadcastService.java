@@ -31,9 +31,9 @@ public class BroadcastService extends Service {
 
         super.onCreate();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
             startMyOwnForeground();
-        else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O);
+        else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P);
 //            startForeground(1, new Notification());
 
     }
@@ -54,7 +54,7 @@ public class BroadcastService extends Service {
 
         return START_STICKY;
     }
-    @TargetApi(Build.VERSION_CODES.O)
+    @TargetApi(Build.VERSION_CODES.P)
     private void startMyOwnForeground(){
         String NOTIFICATION_CHANNEL_ID = "com.example.simpleapp";
         String channelName = "My Background Service";
@@ -99,7 +99,7 @@ public class BroadcastService extends Service {
     public void onTaskRemoved(Intent rootIntent) {
         super.onTaskRemoved(rootIntent);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             startForegroundService(new Intent(this, BroadcastService.class));
         } else {
             startService(new Intent(this, BroadcastService.class));
